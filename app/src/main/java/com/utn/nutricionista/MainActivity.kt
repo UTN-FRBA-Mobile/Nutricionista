@@ -16,4 +16,9 @@ class MainActivity : AppCompatActivity() {
         val intent = Intent(this, HomeActivity::class.java)
         startActivity(intent)
     }
+
+    fun redirectToDetalle(view: View) {
+        val intent = Intent(this, DetalleComidaActivity::class.java)
+        startActivity(intent)
+    }
 }

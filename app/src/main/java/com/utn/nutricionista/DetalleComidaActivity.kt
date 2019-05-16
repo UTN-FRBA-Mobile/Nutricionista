@@ -8,5 +8,18 @@ class DetalleComidaActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detalle_comida)
+        loadDietaPredefinida()
+        loadExtrasDeDieta()
+
+    }
+
+    fun loadDietaPredefinida(){
+
+
+
+    }
+
+    fun loadExtrasDeDieta(){
+
     }
 }
