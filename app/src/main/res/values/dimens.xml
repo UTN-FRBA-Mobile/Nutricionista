@@ -1,3 +1,8 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="text_margin">16dp</dimen>
+    <dimen name="minimo">16dp</dimen>
+    <dimen name="normal">32dp</dimen>
+    <dimen name="largo">64dp</dimen>
+    <dimen name="maximo">128dp</dimen>
 </resources>
