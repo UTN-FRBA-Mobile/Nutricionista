@@ -1,5 +1,6 @@
 package com.utn.nutricionista.DetalleComida
 
+import android.content.Intent
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -21,6 +22,8 @@ class DetalleComidaAdapter(
     private val mListener: OnListFragmentInteractionListener?
 ) : RecyclerView.Adapter<DetalleComidaAdapter.ViewHolder>() {
 
+    val DIETA_PREDEF = 1
+    val FUERA_DIETA_PREDEF = 2
 
     var itemsDieta : List<DetalleComida> = ArrayList()
 
@@ -36,14 +39,18 @@ class DetalleComidaAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-                //var itemPosition: Int = if(position>0) position -1 else position
                 holder.itemView.detalleItemTxt.text = itemsDieta[position].detalle
-                if(itemsDieta[position].enPreDef){
-                    holder.itemView.statusComidaIcon.setImageResource(R.drawable.icons8_marca_de_verificacion_64)
-                }else{
-                    holder.itemView.statusComidaIcon.setImageResource(R.drawable.icons8_eliminar_64)
+                when(itemsDieta[position].tipoItem){
+                    DIETA_PREDEF -> {
+                        holder.itemView.statusComidaIcon.setImageResource(R.drawable.icons8_marca_de_verificacion_64)
+                    }
+                    FUERA_DIETA_PREDEF -> {
+                        holder.itemView.statusComidaIcon.setImageResource(R.drawable.icons8_marca_de_verificacion_64_v2)
+                    }
+                    else -> {
+                        holder.itemView.statusComidaIcon.setImageResource(R.drawable.icons8_eliminar_64)
+                    }
                 }
-
     }
 
     override fun getItemCount(): Int = itemsDieta.size

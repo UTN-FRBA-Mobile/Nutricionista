@@ -14,13 +14,13 @@ class DetalleComidaActivity : AppCompatActivity(),
         supportFragmentManager.beginTransaction()
             .replace(
                 R.id.dietaPropuestaFragmentContainer,
-                DetalleComidaFragment.newInstance()
+                DetalleComidaFragment.newPreDefDietaInstance()
             )
             .commit()
         supportFragmentManager.beginTransaction()
             .replace(
                 R.id.dietaExtraFragmentContainer,
-                DetalleComidaFragment.newInstance()
+                DetalleComidaFragment.newExtraDietaInstance()
             )
             .commit()
 
