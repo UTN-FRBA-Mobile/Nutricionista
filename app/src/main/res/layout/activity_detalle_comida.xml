@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".DetalleComida.DetalleComidaActivity">
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" android:weightSum="2">
+        <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/comidaImage"
+                android:layout_weight="1" app:srcCompat="@drawable/ic_launcher_foreground"/>
+        <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+            <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+            >
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" android:id="@+id/dietaPropuestaTxt"
+                        android:textSize="20sp" tools:text="@string/dieta_propuesta_txt"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp" android:text="@string/dieta_propuesta_txt"/>
+
+                <FrameLayout android:id="@+id/dietaPropuestaFragmentContainer"
+                             android:layout_width="match_parent"
+                             android:layout_height="wrap_content"
+                />
+
+                <TextView
+                        android:text="@string/dieta_extra_txt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" android:id="@+id/dietaExtraTxt"
+                        android:textSize="20sp" android:paddingStart="10dp"
+                        android:paddingEnd="10dp"/>
+
+                <FrameLayout android:id="@+id/dietaExtraFragmentContainer"
+                             android:layout_width="match_parent"
+                             android:layout_height="wrap_content"
+                             android:layout_weight="1"/>
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import com.utn.nutricionista.DetalleComida.DetalleComidaActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -14,6 +15,16 @@ class MainActivity : AppCompatActivity() {
 
     fun buttonPressed(view: View) {
         val intent = Intent(this, HomeActivity::class.java)
+        startActivity(intent)
+    }
+
+    fun redirectToDetalle(view: View) {
+        val intent = Intent(this, DetalleComidaActivity::class.java)
+        startActivity(intent)
+    }
+
+    fun redirectToWeight(view: View) {
+        val intent = Intent(this, WeightActivity::class.java)
         startActivity(intent)
     }
 }
