@@ -132,7 +132,7 @@ class DetalleComidaFragment : Fragment() {
             val newFragment = DetalleComidaFragment()
             val args = Bundle()
             args.putInt("tipoDieta", 1)
-            newFragment.setArguments(args)
+            newFragment.arguments = args
             return newFragment
         }
     }

@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import com.utn.nutricionista.DetalleComida.DetalleComidaActivity
 
+
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,6 +20,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun redirectToDetalle(view: View) {
+        //val intent = Intent(this, DetalleComidaActivity::class.java)
         val intent = Intent(this, DetalleComidaActivity::class.java)
         startActivity(intent)
     }
