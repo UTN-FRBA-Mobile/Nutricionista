@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp">
+        <LinearLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="10dp">
+        <TextView
+                android:id="@+id/weight_date_header"
+                android:layout_weight = "2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="24sp"
+                android:textAlignment = "viewStart"
+                android:text = "Fecha"
+                android:textStyle="bold"/>
+
+        <TextView
+                android:id="@+id/weight_value_header"
+                android:layout_weight = "2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAlignment = "viewStart"
+                android:textSize="24sp"
+                android:text = "Peso"
+                android:textStyle="bold"/>
+        <TextView
+                android:layout_weight = "1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="24sp"
+                android:textAlignment = "center"
+                android:text = "↓ / ↑"
+                android:textStyle="bold"
+                android:id="@+id/weight_prev_compare_header"
+        />
+        </LinearLayout>
+</androidx.cardview.widget.CardView>
