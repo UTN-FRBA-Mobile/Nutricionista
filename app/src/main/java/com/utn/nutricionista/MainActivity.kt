@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import com.utn.nutricionista.DetalleComida.DetalleComidaActivity
+import com.utn.nutricionista.DetalleComida.SlideActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -19,6 +20,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun redirectToDetalle(view: View) {
+        //val intent = Intent(this, DetalleComidaActivity::class.java)
         val intent = Intent(this, DetalleComidaActivity::class.java)
         startActivity(intent)
     }
