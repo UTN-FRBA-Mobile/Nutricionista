@@ -23,12 +23,6 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-
-
-
-
-
-
 class DetalleComidaActivity : AppCompatActivity(),
     DetalleComidaFragment.OnListFragmentInteractionListener {
 
