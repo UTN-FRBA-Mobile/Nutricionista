@@ -9,25 +9,32 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
+        <activity
+                android:name=".WeightActivity"
+                android:label="@string/title_activity_weight"
+                android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity android:name=".DetalleComida.DetalleComidaActivity">
+        </activity>
         <activity android:name=".CalendarActivity">
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
-                    android:value=".DietActivity" />
+                    android:value=".DietActivity"/>
         </activity>
         <activity android:name=".MyProgressActivity">
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
-                    android:value=".CalendarActivity" />
+                    android:value=".CalendarActivity"/>
         </activity>
         <activity android:name=".DietActivity">
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
-                    android:value=".HomeActivity" />
+                    android:value=".HomeActivity"/>
         </activity>
         <activity android:name=".HomeActivity">
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
-                    android:value=".MainActivity" />
+                    android:value=".MainActivity"/>
         </activity>
         <activity android:name=".MainActivity">
             <intent-filter>
