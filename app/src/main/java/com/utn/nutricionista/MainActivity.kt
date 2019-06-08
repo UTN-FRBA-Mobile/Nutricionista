@@ -8,10 +8,16 @@ import com.utn.nutricionista.DetalleComida.DetalleComidaActivity
 import com.utn.nutricionista.DetalleComida.SlideActivity
 
 class MainActivity : AppCompatActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        if (SessionManager.currentUser == null) {
+            // Not signed in, launch the Sign In activity
+            startActivity(Intent(this, LoginActivity::class.java))
+            finish()
+            return
+        }
     }
 
     fun buttonPressed(view: View) {
