@@ -1,4 +1,4 @@
-const admin = require('firebase-admin');
+const { db: db } = require('../firebase')
 const _ = require('lodash');
 
 function User(doc) {
