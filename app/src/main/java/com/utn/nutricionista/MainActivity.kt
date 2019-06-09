@@ -1,9 +1,9 @@
 package com.utn.nutricionista
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import com.utn.nutricionista.DetalleComida.DetalleComidaActivity
 
 
@@ -18,6 +18,12 @@ class MainActivity : AppCompatActivity() {
             finish()
             return
         }
+
+
+        ApiClient.getUser { user ->
+            user;
+        }
+
     }
 
     fun buttonPressed(view: View) {
