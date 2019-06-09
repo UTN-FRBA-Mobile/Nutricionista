@@ -5,6 +5,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/colorPrimaryLight"
         tools:context=".DetalleComida.DetalleComidaActivity">
 
 
@@ -27,13 +28,17 @@
             <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="match_parent"
+                    android:background="@color/colorPrimary"
                     android:layout_height="wrap_content"
             >
                 <TextView
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" android:id="@+id/dietaPropuestaTxt"
+                        android:layout_height="40dp" android:id="@+id/dietaPropuestaTxt"
                         android:textSize="20sp" tools:text="@string/dieta_propuesta_txt"
                         android:paddingStart="10dp"
+                        android:textStyle="bold"
+                        android:background="@color/colorPrimaryDark"
+                        android:gravity="center_vertical"
                         android:paddingEnd="10dp" android:text="@string/dieta_propuesta_txt"/>
 
                 <FrameLayout android:id="@+id/dietaPropuestaFragmentContainer"
@@ -44,7 +49,10 @@
                 <TextView
                         android:text="@string/dieta_extra_txt"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" android:id="@+id/dietaExtraTxt"
+                        android:textStyle="bold"
+                        android:gravity="center_vertical"
+                        android:background="@color/colorPrimaryDark"
+                        android:layout_height="40dp" android:id="@+id/dietaExtraTxt"
                         android:textSize="20sp" android:paddingStart="10dp"
                         android:paddingEnd="10dp"/>
 
