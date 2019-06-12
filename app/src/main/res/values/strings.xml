@@ -3,6 +3,7 @@
     <string name="next_button_text">Next</string>
     <string name="dieta_propuesta_txt">Dieta Propuesta</string>
     <string name="dieta_extra_txt">Fuera de la dieta</string>
+    <string name="dieta_home">Dieta</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
