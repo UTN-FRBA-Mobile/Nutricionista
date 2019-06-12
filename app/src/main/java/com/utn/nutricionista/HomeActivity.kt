@@ -3,12 +3,16 @@ package com.utn.nutricionista
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.ExpandableListView
+import androidx.appcompat.widget.Toolbar
 import com.utn.nutricionista.DetalleComida.DetalleComida
 
 class HomeActivity : AppCompatActivity() {
 
+    var toolbar: Toolbar? = null
     lateinit private var expandableListView: ExpandableListView
     lateinit private var expandableListViewAdapter: HomeExpandibleListAdapter
     var dietaPreDefArr = HashMap<String,List<String>>()
@@ -19,6 +23,13 @@ class HomeActivity : AppCompatActivity() {
         setContentView(R.layout.activity_home)
 
         init()
+
+
+        toolbar = findViewById(R.id.toolbarHome)
+        toolbar?.setTitle(R.string.dieta_home)
+        setSupportActionBar(toolbar)
+
+
 
         expandableListView.setAdapter(expandableListViewAdapter)
         expandableListView.setOnGroupExpandListener { object : ExpandableListView.OnGroupExpandListener {
@@ -72,6 +83,22 @@ class HomeActivity : AppCompatActivity() {
 
         expandableListView = findViewById(R.id.home_expandable_list_view)
         expandableListViewAdapter = HomeExpandibleListAdapter(this, dietaPreDefArr, itemNameList)
+    }
+
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.manu_home, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId){
+            R.id.chat ->{
+                val intent = Intent(this, MyProgressActivity::class.java)
+                startActivity(intent)
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
 
