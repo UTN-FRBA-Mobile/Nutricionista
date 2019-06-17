@@ -1,4 +1,4 @@
-const { User: User } = require('../model');
+const { User: User }           = require('../model');
 const { admin: admin, db: db } = require('../firebase');
 
 const bodyParser = require('body-parser').json();
