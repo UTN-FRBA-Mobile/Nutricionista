@@ -1,7 +1,7 @@
+const Resource                   = require('./resource');
 const ResourceAlreadyExistsError = require('../errors/resourceAlreadyExistsError');
-const Resource = require('./resource');
-const { db: db } = require('../firebase');
-const _ = require('lodash');
+const { db: db }                 = require('../firebase');
+const _                          = require('lodash');
 
 class Diet extends Resource {
   static async create(data) {
