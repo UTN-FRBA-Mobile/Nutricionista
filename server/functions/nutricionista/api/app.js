@@ -1,5 +1,4 @@
-const app = require('express')();
-
+const app        = require('express')();
 const middleware = require('./middleware');
 
 app.use(middleware);
