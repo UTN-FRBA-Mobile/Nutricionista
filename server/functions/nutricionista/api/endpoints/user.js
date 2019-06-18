@@ -1,5 +1,5 @@
-const _                    = require('lodash');
-const { success: success } = require('../helpers/response');
+const _           = require('lodash');
+const { success } = require('../helpers/response');
 
 module.exports = (app) => {
   app.get('/user', async (req, res) => {
