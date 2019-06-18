@@ -1,29 +1,15 @@
-const Resource                   = require('./resource');
+const UserOwned                  = require('./userOwned');
 const ResourceAlreadyExistsError = require('../errors/resourceAlreadyExistsError');
-const { db: db }                 = require('../firebase');
 
-class Diet extends Resource {
-  static async create(data) {
-    await this.validate(data);
-    const ref = await db.collection(`usuarios/${data.uid}/dieta`).add(data);
-    return new Diet({ ref: ref, data: () => data });
-  }
-
+class Diet extends UserOwned {
   static async validate(data) {
-    const result = await db.collection(`usuarios/${data.uid}/dieta`).where('fecha', '==', data.fecha).get();
+    const result = await this.collectionRef(data.uid).where('fecha', '==', data.fecha).get();
 
     if(!result.empty) throw new ResourceAlreadyExistsError();
   }
 
-  static async get(uid) {
-    const dieta = [];
-    const results = await db.collection(`usuarios/${uid}/dieta`).get()
-
-    results.forEach(data => {
-      dieta.push(new Diet(data));
-    });
-
-    return dieta;
+  static get path() {
+    return 'dieta';
   }
 }
 
