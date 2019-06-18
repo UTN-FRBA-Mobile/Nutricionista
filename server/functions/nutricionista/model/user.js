@@ -1,5 +1,5 @@
-const Resource   = require('./resource')
-const { db: db } = require('../firebase')
+const Resource = require('./resource')
+const { db }   = require('../firebase')
 
 class User extends Resource {
   static async create(data) {
