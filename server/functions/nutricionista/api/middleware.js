@@ -18,7 +18,7 @@ const authenticate = async (req, res, next) => {
 
 const setCurrentUser = async (req, res, next) => {
   try {
-    snap = await db.collection('usuarios').where('uid', '==', req.decodedIdToken.uid).get();
+    const snap = await db.collection('usuarios').where('uid', '==', req.decodedIdToken.uid).get();
     const userData = snap.docs[0];
 
     if(!userData) return res.status(404).send('Usuario no encontrado');
