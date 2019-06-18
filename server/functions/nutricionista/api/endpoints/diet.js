@@ -1,6 +1,6 @@
-const Diet                 = require('../../model/diet');
-const ValidationError      = require('../../errors/validationError');
-const { success: success } = require('../helpers/response');
+const Diet            = require('../../model/diet');
+const ValidationError = require('../../errors/validationError');
+const { success }     = require('../helpers/response');
 
 module.exports = (app) => {
   app.get('/diet', async (req, res) => {
