@@ -16,8 +16,6 @@ module.exports = (app) => {
     try {
       await Diet.create(data);
     } catch (e) {
-      console.log(e);
-
       if (e instanceof ValidationError) return res.status(409).send(e.message);
       throw e;
     }
