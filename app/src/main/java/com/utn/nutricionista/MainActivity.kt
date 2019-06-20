@@ -27,30 +27,19 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-        ApiClient.getUser(object: ResponseHandler<User> {
-            override fun success(request: Request, response: Response, value: User) {
-                Log.d("GET /user", value.displayName)
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-            }
+        ApiClient.getUser().addOnSuccessListener { user ->
+            Log.d("SUCCESSFUL GET /user", user.displayName)
+        }.addOnFailureListener { e ->
+            Log.d("FAILED GET /user", e.localizedMessage)
+        }
 
-            override fun failure(request: Request, response: Response, error: FuelError) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        ApiClient.getDiets().addOnSuccessListener { diets ->
+            diets.forEach {
+                Log.d("SUCCESSFUL GET /diet", it.uid)
             }
-        })
-
-        ApiClient.getDietas(object: ResponseHandler<List<Diet>> {
-            override fun success(request: Request, response: Response, value: List<Diet>) {
-                value.forEach {
-                    Log.d("GET /diet", it.uid)
-                }
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-            }
-
-            override fun failure(request: Request, response: Response, error: FuelError) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-            }
-        })
-
+        }.addOnFailureListener { e ->
+            Log.d("FAILED GET /user", e.message)
+        }
 
     }
 
