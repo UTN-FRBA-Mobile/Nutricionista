@@ -9,9 +9,9 @@ import com.github.kittinunf.fuel.core.FuelError
 import com.github.kittinunf.fuel.core.Request
 import com.github.kittinunf.fuel.core.Response
 import com.github.kittinunf.fuel.core.ResponseHandler
-import com.utn.nutricionista.DetalleComida.DetalleComidaActivity
-import com.utn.nutricionista.Models.Diet
-import com.utn.nutricionista.Models.User
+import com.utn.nutricionista.detalleComida.DetalleComidaActivity
+import com.utn.nutricionista.models.Diet
+import com.utn.nutricionista.models.User
 
 
 class MainActivity : AppCompatActivity() {
