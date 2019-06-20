@@ -5,7 +5,7 @@ module.exports = (app) => {
   app.get('/messages', withErrors(async (req, res) => {
     const messages = await Message.index(req.currentUser.uid);
 
-    success(res, messages);
+    return success(res, messages);
   }));
 
   app.post('/messages', withErrors(async (req, res) => {
@@ -14,6 +14,6 @@ module.exports = (app) => {
 
     await Message.create(data);
 
-    success(res);
+    return success(res);
   }));
 };

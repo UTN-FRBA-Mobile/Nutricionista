@@ -1,7 +1,7 @@
-const UserOwned = require('./userOwned');
+const Resource = require('./resource');
 
-class Message extends UserOwned {
-  static get path() {
+class Message extends Resource {
+  static get collection() {
     return 'mensajes';
   }
 }

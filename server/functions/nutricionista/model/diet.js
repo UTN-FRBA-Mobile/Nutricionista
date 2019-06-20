@@ -1,15 +1,17 @@
-const UserOwned                      = require('./userOwned');
+const Resource                       = require('./resource');
 const { ResourceAlreadyExistsError } = require('../errors');
 
-class Diet extends UserOwned {
+class Diet extends Resource {
   static async validate(data) {
-    const result = await this.collectionRef(data.uid).where('fecha', '==', data.fecha).get();
+    const result = await this.collectionRef.where('fecha', '==', data.fecha)
+                                           .where('uid', '==', data.uid)
+                                           .get();
 
     if(!result.empty) throw new ResourceAlreadyExistsError();
   }
 
-  static get path() {
-    return 'dieta';
+  static get collection() {
+    return 'dietas';
   }
 }
 
