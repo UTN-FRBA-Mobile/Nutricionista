@@ -1,6 +1,6 @@
-const NotFoundError = require('../errors/notFoundError')
-const Resource      = require('./resource');
-const { db }        = require('../firebase');
+const { NotFoundError, UnimplementedError } = require('../errors');
+const Resource                              = require('./resource');
+const { db }                                = require('../firebase');
 
 class UserOwned extends Resource {
   static async create(data) {
@@ -16,8 +16,8 @@ class UserOwned extends Resource {
     return results.docs.map((data) => new this(data));
   }
 
-  static async get(uid, id) {
-    const doc = await this.collectionRef(uid).doc(id).get();
+  static async get(uid, id) {                                 // TODO: I hate how I have to pass current user id too to be able to access resource. 
+    const doc = await this.collectionRef(uid).doc(id).get();  // Fixing this will require moving nested collections in database to root.
 
     if(!doc.exists) throw new NotFoundError(this);
 
@@ -31,7 +31,7 @@ class UserOwned extends Resource {
   static async validate(_data) {}
 
   static get path() {
-    throw new Error('Unimplemented method: path');
+    throw new UnimplementedError('Unimplemented method: path');
   }
 }
 
