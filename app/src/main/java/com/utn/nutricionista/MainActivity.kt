@@ -26,19 +26,10 @@ class MainActivity : AppCompatActivity() {
             return
         }
 
-
-        ApiClient.getUser().addOnSuccessListener { user ->
-            Log.d("SUCCESSFUL GET /user", user.displayName)
+        ApiClient.postDiet(Diet(fecha = "10/13")).addOnSuccessListener {
+            Log.d("SUCCESS", "SWEET, SWEET SUCCESS!")
         }.addOnFailureListener { e ->
-            Log.d("FAILED GET /user", e.localizedMessage)
-        }
-
-        ApiClient.getDiets().addOnSuccessListener { diets ->
-            diets.forEach {
-                Log.d("SUCCESSFUL GET /diet", it.uid)
-            }
-        }.addOnFailureListener { e ->
-            Log.d("FAILED GET /user", e.message)
+            Log.d("FAILURE", "GASP! SOMETHING WENT WRONG: ${e.message}")
         }
 
     }
