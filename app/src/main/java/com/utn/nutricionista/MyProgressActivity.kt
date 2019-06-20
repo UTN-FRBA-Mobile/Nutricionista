@@ -2,11 +2,14 @@ package com.utn.nutricionista
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.utn.nutricionista.models.Message
 import kotlinx.android.synthetic.main.activity_my_progress.*
 import java.text.SimpleDateFormat
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -23,47 +26,24 @@ class MyProgressActivity : AppCompatActivity() {
         linearLayoutManager = LinearLayoutManager(this)
         recyclerView.layoutManager = linearLayoutManager
         val messages = ArrayList<Message>()
-        messages.add(Message("diego",
-            "iorem ipsum iorem ipsum iorem ipsum iorem ipsum iorem ipsum iorem ipsum iorem ipsum iorem ipsum ",
-            "22/05/19",
-            "sent", own = true))
-        messages.add(Message("Nutricionista",
-            "iorem ipsum iorem ipsum iorem ipsum iorem ipsum iorem ipsum iorem ipsum iorem ipsum iorem ipsum iorem ipsum iorem ipsum iorem ipsum iorem ipsum iorem ipsum iorem ipsum ",
-            "22/05/19",
-            "sent", own = false))
-        messages.add(Message("Nutricionista",
-            "iorem ipsum iorem ipsum iorem ipsum iorem ipsum iorem ipsum iorem ipsum iorem ipsum iorem ipsum iorem ipsum iorem ipsum iorem ipsum iorem ipsum iorem ipsum iorem ipsum iorem ipsum iorem ipsum iorem ipsum iorem ipsum iorem ipsum ",
-            "22/05/19",
-            "sent", own = false))
-        messages.add(Message("diego",
-            "iorem ipsum iorem ipsum iorem ipsum iorem ipsum iorem ipsum iorem ipsum iorem ipsum iorem ipsum iorem ipsum iorem ipsum iorem ipsum iorem ipsum iorem ipsum iorem ipsum iorem ipsum iorem ipsum iorem ipsum iorem ipsum iorem ipsum ",
-            "22/05/19",
-            "sent", own = true))
-        messages.add(Message("diego",
-            "iorem ipsum iorem ipsum iorem ipsum iorem ipsum iorem ipsum ipsum iorem ipsum ",
-            "22/05/19",
-            "sent", own = true))
-        messages.add(Message("diego",
-            "iorem ipsum iorem ipsum iorem ipsum iorem ipsum iorem ipsum iorem ipsum iorem ipsum iorem ipsum iorem ipsum iorem ipsum iorem ipsum iorem ipsum iorem ipsum iorem ipsum iorem ipsum iorem ipsum iorem ipsum iorem ipsum iorem ipsum ",
-            "22/05/19",
-            "sent", own = true))
-        messages.add(Message("Nutricionista",
-            "iorem ipsum iorem ipsum iorem ipsum iorem ipsum iorem ipsum ",
-            "22/05/19",
-            "sent", own = false))
-        messages.add(Message("Nutricionista",
-            "iorem ipsum iorem ipsum iorem ipsum iorem ipsum iorem ipsum iorem ipsum iorem ipsum iorem ipsum iorem ipsum iorem ipsum iorem ipsum iorem ipsum iorem ipsum iorem ipsum iorem ipsum iorem ipsum iorem ipsum iorem ipsum iorem ipsum ",
-            "22/05/19",
-            "sent", own = false))
         adapter = RecyclerAdapter(messages)
         recyclerView.adapter = adapter
         recyclerView.scrollToPosition(adapter.messages.size - 1)
+        ApiClient.getMessages().addOnSuccessListener {
+            Log.d("SUCCESS", "SWEET, SWEET SUCCESS!")
+            val messages = it
+            adapter = RecyclerAdapter(messages)
+            recyclerView.adapter = adapter
+            recyclerView.scrollToPosition(adapter.messages.size - 1)
+        }.addOnFailureListener { e ->
+            Log.d("FAILURE", "GASP! SOMETHING WENT WRONG: ${e.message}")
+        }
     }
 
     fun buttonPressed(view: View) {
-        adapter.messages += Message("Diego", // change to user name when profile is ready
+        adapter.messages = adapter.messages + Message("Diego", // change to user name when profile is ready
             textfield.text.toString(),
-            getCurrentDateFormatted(),
+            LocalDateTime.now(),
             "sent", own = true)
         recyclerView.adapter = adapter
         recyclerView.scrollToPosition(adapter.messages.size - 1)
