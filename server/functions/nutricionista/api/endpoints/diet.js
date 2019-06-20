@@ -5,13 +5,13 @@ module.exports = (app) => {
   app.get('/diet', withErrors(async (req, res) => {
     const diets = await Diet.index(req.currentUser.uid);
 
-    success(res, diets);
+    return success(res, diets);
   }));
 
   app.get('/diet/:id', withErrors(async (req, res) => {
-    const diet = await Diet.get(req.currentUser.uid, req.params.id);
+    const diet = await Diet.get(req.params.id);
 
-    success(res, diet);
+    return success(res, diet);
   }));
 
   app.post('/diet', withErrors(async (req, res) => {
@@ -24,7 +24,7 @@ module.exports = (app) => {
   }));
 
   app.put('/diet/:id', withErrors(async (req, res) => {
-    const diet = await Diet.get(req.currentUser.uid, req.params.id)
+    const diet = await Diet.get(req.params.id)
 
     await diet.update(req.body)
 

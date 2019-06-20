@@ -1,5 +1,5 @@
-const _                       = require('lodash');
 const { success, withErrors } = require('../helpers/response');
+const _                       = require('lodash');
 
 module.exports = (app) => {
   app.get('/user', withErrors(async (req, res) => {

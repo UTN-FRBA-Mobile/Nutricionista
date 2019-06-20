@@ -19,14 +19,14 @@ const authenticate = withErrors(async (req, _res, next) => {
 });
 
 const setCurrentUser = withErrors(async (req, _res, next) => {
-  req.currentUser = User.get(req.decodedIdToken.uid);
+  req.currentUser = await User.get(req.decodedIdToken.uid);
   
   return next();
 });
 
 const errorHandling = (err, _req, res, _next) => {
   if(err.status) return res.status(err.status).send(err.message);
-  return res.status(500).send(`Something went wrong: ${err.message}` );
+  return res.status(500).send(`Something went wrong: ${err}` );
 };
 
 module.exports = {
