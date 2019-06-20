@@ -1,4 +1,4 @@
-package com.utn.nutricionista.Adapters
+package com.utn.nutricionista.adapters
 
 import android.view.LayoutInflater
 import android.view.View

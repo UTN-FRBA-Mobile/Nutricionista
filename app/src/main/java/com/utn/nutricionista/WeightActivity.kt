@@ -4,8 +4,6 @@ import android.graphics.Color
 import android.graphics.Rect
 import android.os.Bundle
 import android.view.View
-import android.widget.TableLayout
-import android.widget.TableRow
 import androidx.appcompat.app.AppCompatActivity
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.AxisBase
@@ -22,10 +20,9 @@ import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 import kotlin.collections.ArrayList
-import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.utn.nutricionista.Adapters.WeightDataAdapter
+import com.utn.nutricionista.adapters.WeightDataAdapter
 
 
 class WeightActivity : AppCompatActivity() {

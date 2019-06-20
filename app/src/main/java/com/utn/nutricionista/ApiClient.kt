@@ -6,8 +6,8 @@ import com.github.kittinunf.fuel.core.extensions.authentication
 import com.github.kittinunf.fuel.gson.responseObject
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
-import com.utn.nutricionista.Models.Diet
-import com.utn.nutricionista.Models.User
+import com.utn.nutricionista.models.Diet
+import com.utn.nutricionista.models.User
 
 object ApiClient {
     private const val API_HOST = "https://us-central1-test-project-214218.cloudfunctions.net"
