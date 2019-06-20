@@ -13,6 +13,7 @@ import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import com.github.chrisbanes.photoview.PhotoView
 import com.utn.nutricionista.R
+import kotlinx.android.synthetic.main.activity_detalle_comida.*
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
@@ -42,11 +43,18 @@ class DetalleComidaActivity : AppCompatActivity(),
                 DetalleComidaFragment.newExtraDietaInstance()
             )
             .commit()
-
+            getIntentExtras()
             takePictureIntent()
 
     }
 
+
+    fun getIntentExtras(){
+        if(intent.hasExtra("tipo_dieta")){
+            toolbarDetalle!!.title = intent.getStringExtra("tipo_dieta")
+            setSupportActionBar(toolbarDetalle)
+        }
+    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
