@@ -2,10 +2,17 @@ package com.utn.nutricionista
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import com.github.kittinunf.fuel.core.FuelError
+import com.github.kittinunf.fuel.core.Request
+import com.github.kittinunf.fuel.core.Response
+import com.github.kittinunf.fuel.core.ResponseHandler
 import com.utn.nutricionista.DetalleComida.DetalleComidaActivity
-import com.utn.nutricionista.DetalleComida.SlideActivity
+import com.utn.nutricionista.Models.Diet
+import com.utn.nutricionista.Models.User
+
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,9 +27,30 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-        ApiClient.getUser { user ->
-            user;
-        }
+        ApiClient.getUser(object: ResponseHandler<User> {
+            override fun success(request: Request, response: Response, value: User) {
+                Log.d("GET /user", value.displayName)
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
+            override fun failure(request: Request, response: Response, error: FuelError) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+        })
+
+        ApiClient.getDietas(object: ResponseHandler<List<Diet>> {
+            override fun success(request: Request, response: Response, value: List<Diet>) {
+                value.forEach {
+                    Log.d("GET /diet", it.uid)
+                }
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
+            override fun failure(request: Request, response: Response, error: FuelError) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+        })
+
 
     }
 
