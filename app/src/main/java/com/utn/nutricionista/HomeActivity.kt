@@ -8,7 +8,6 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.ExpandableListView
 import androidx.appcompat.widget.Toolbar
-import com.utn.nutricionista.DetalleComida.DetalleComida
 
 class HomeActivity : AppCompatActivity() {
 

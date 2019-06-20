@@ -8,7 +8,6 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.BaseExpandableListAdapter
 import android.widget.TextView
-import com.utn.nutricionista.DetalleComida.DetalleComida
 
 class HomeExpandibleListAdapter(var context: Context, var listOfDetalleComida:HashMap<String,List<String>>, var listOfTitulosComida: List<String>): BaseExpandableListAdapter() {
 
