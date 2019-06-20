@@ -25,7 +25,8 @@
                 android:label="@string/title_activity_slide"
                 android:theme="@style/AppTheme.NoActionBar">
         </activity>
-        <activity android:name=".DetalleComida.DetalleComidaActivity">
+
+        <activity android:name=".detalleComida.DetalleComidaActivity">
         </activity>
         <activity
                 android:name=".LoginActivity"

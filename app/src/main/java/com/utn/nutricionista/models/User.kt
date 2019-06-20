@@ -1,4 +1,4 @@
-package com.utn.nutricionista.Models
+package com.utn.nutricionista.models
 
 data class User(val displayName: String) {
 
