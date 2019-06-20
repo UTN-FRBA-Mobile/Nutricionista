@@ -6,6 +6,10 @@ class User extends Resource {
     const ref = await db.collection('usuarios').doc(data.uid).set(data);
     return new User({ ref: ref, data: () => data });
   }
+
+  static get collection() {
+    return 'usuarios';
+  }
 }
 
 module.exports = User;
