@@ -1,36 +1,33 @@
-const Diet            = require('../../model/diet');
-const ValidationError = require('../../errors/validationError');
-const { success }     = require('../helpers/response');
-const { db }               = require('../../firebase')
+const Diet                    = require('../../model/diet');
+const { success, withErrors } = require('../helpers/response');
 
 module.exports = (app) => {
-  app.get('/diet', async (req, res) => {
-    const diets = await Diet.get(req.currentUser.uid);
+  app.get('/diet', withErrors(async (req, res) => {
+    const diets = await Diet.index(req.currentUser.uid);
 
     success(res, diets);
-  });
+  }));
 
-  app.post('/diet', async (req, res) => {
+  app.get('/diet/:id', withErrors(async (req, res) => {
+    const diet = await Diet.get(req.currentUser.uid, req.params.id);
+
+    success(res, diet);
+  }));
+
+  app.post('/diet', withErrors(async (req, res) => {
     const data = req.body;
     data.uid = req.currentUser.uid;
 
-    try {
-      await Diet.create(data);
-    } catch (e) {
-      if (e instanceof ValidationError) return res.status(409).send(e.message);
-      throw e;
-    }
+    await Diet.create(data);
 
     return success(res);
-  });
+  }));
 
-  app.put('/diet', async (req, res) => {
-    const data = req.body;
-    const snap = await db.collection(`usuarios/${req.currentUser.uid}/dieta`).where('fecha', '==', data.fecha).get();
-    
-    if(snap.empty) return res.status(404).send('Not Found');
+  app.put('/diet/:id', withErrors(async (req, res) => {
+    const diet = await Diet.get(req.currentUser.uid, req.params.id)
 
-    snap.docs[0].ref.update(data);
+    await diet.update(req.body)
+
     return success(res);
-  });
+  }));
 };

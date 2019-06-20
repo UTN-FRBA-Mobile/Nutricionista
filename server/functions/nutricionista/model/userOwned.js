@@ -1,5 +1,6 @@
-const Resource = require('./resource');
-const { db }   = require('../firebase');
+const NotFoundError = require('../errors/notFoundError')
+const Resource      = require('./resource');
+const { db }        = require('../firebase');
 
 class UserOwned extends Resource {
   static async create(data) {
@@ -9,10 +10,18 @@ class UserOwned extends Resource {
     return new this({ ref: ref, data: () => data });
   }
 
-  static async get(uid) {
+  static async index(uid) {
     const results = await this.collectionRef(uid).get();
 
     return results.docs.map((data) => new this(data));
+  }
+
+  static async get(uid, id) {
+    const doc = await this.collectionRef(uid).doc(id).get();
+
+    if(!doc.exists) throw new NotFoundError(this);
+
+    return new this(doc);
   }
 
   static collectionRef(uid) {

@@ -1,33 +1,40 @@
-const { User }      = require('../model');
-const { admin, db } = require('../firebase');
+const { User }          = require('../model');
+const { admin, db }     = require('../firebase');
+const { withErrors }    = require('./helpers/response');
+const NotFoundError     = require('../errors/notFoundError');
+const UnauthorizedError = require('../errors/unauthorizedError');
 
 const bodyParser = require('body-parser').json();
 
-const authenticate = async (req, res, next) => {
+const authenticate = withErrors(async (req, _res, next) => {
   if (!req.headers.authorization || !req.headers.authorization.startsWith('Bearer ')) {
-    return res.status(403).send('Unauthorized');
+    throw new UnauthorizedError();
   }
   const idToken = req.headers.authorization.split('Bearer ')[1];
   try {
     req.decodedIdToken = await admin.auth().verifyIdToken(idToken);
   } catch(e) {
-    return res.status(403).send('Unauthorized');
+    throw new UnauthorizedError();
   }
   return next();
-};
+});
 
-const setCurrentUser = async (req, res, next) => {
-  try {
-    const snap = await db.collection('usuarios').where('uid', '==', req.decodedIdToken.uid).get();
-    const userData = snap.docs[0];
+const setCurrentUser = withErrors(async (req, _res, next) => {
+  const doc = await db.collection('usuarios').doc(req.decodedIdToken.uid).get();
 
-    if(!userData) return res.status(404).send('Usuario no encontrado');
+  if(!doc.exists) throw new NotFoundError('User');
 
-    req.currentUser = new User(userData);
-  } catch(e) {
-    return res.status(500).send(`Something went wrong: ${e}` );
-  }
+  req.currentUser = new User(doc);
+  
   return next();
+});
+
+const errorHandling = (err, _req, res, _next) => {
+  if(err.status) return res.status(err.status).send(err.message);
+  return res.status(500).send(`Something went wrong: ${err.message}` );
 };
 
-module.exports = [bodyParser, authenticate, setCurrentUser];
+module.exports = {
+  before: [bodyParser, authenticate, setCurrentUser],
+  after:  [errorHandling]
+};
