@@ -1,11 +1,9 @@
 package com.utn.nutricionista
 
 import com.github.kittinunf.fuel.Fuel
-import com.github.kittinunf.fuel.core.FuelError
-import com.github.kittinunf.fuel.core.Request
-import com.github.kittinunf.fuel.core.Response
-import com.github.kittinunf.fuel.core.ResponseHandler
+import com.github.kittinunf.fuel.core.*
 import com.github.kittinunf.fuel.core.extensions.authentication
+import com.github.kittinunf.fuel.gson.jsonBody
 import com.github.kittinunf.fuel.gson.responseObject
 import com.github.kittinunf.result.Result
 import com.google.android.gms.tasks.Task
@@ -40,11 +38,28 @@ object ApiClient {
         }
     }
 
+    inline fun <reified T : Any> post(path: String, payload: T): Task<Unit> {
+        return withIdToken {
+            Fuel.post(url(path))
+                .authentication()
+                .bearer(it)
+                .jsonBody(payload)
+                .response()
+                .third
+                .get()
+            Unit
+        }
+    }
+
     fun getUser(): Task<User> {
         return get("/user")
     }
 
     fun getDiets(): Task<List<Diet>> {
         return get("/diet")
+    }
+
+    fun postDiet(diet: Diet): Task<Unit> {
+        return post("/diet", diet)
     }
 }
