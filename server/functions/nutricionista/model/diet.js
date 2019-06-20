@@ -1,5 +1,5 @@
-const UserOwned                  = require('./userOwned');
-const ResourceAlreadyExistsError = require('../errors/resourceAlreadyExistsError');
+const UserOwned                      = require('./userOwned');
+const { ResourceAlreadyExistsError } = require('../errors');
 
 class Diet extends UserOwned {
   static async validate(data) {

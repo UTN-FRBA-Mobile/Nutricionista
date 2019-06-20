@@ -1,8 +1,7 @@
-const { User }          = require('../model');
-const { admin, db }     = require('../firebase');
-const { withErrors }    = require('./helpers/response');
-const NotFoundError     = require('../errors/notFoundError');
-const UnauthorizedError = require('../errors/unauthorizedError');
+const { User }              = require('../model');
+const { admin }             = require('../firebase');
+const { withErrors }        = require('./helpers/response');
+const { UnauthorizedError } = require('../errors');
 
 const bodyParser = require('body-parser').json();
 
@@ -20,11 +19,7 @@ const authenticate = withErrors(async (req, _res, next) => {
 });
 
 const setCurrentUser = withErrors(async (req, _res, next) => {
-  const doc = await db.collection('usuarios').doc(req.decodedIdToken.uid).get();
-
-  if(!doc.exists) throw new NotFoundError('User');
-
-  req.currentUser = new User(doc);
+  req.currentUser = User.get(req.decodedIdToken.uid);
   
   return next();
 });
