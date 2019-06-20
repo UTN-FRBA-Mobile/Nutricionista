@@ -21,9 +21,9 @@ module.exports = (model) => (app) => {
     const data = req.body;
     data.uid = req.currentUser.uid;
 
-    await model.create(data);
+    const instance = await model.create(data);
 
-    return success(res);
+    return success(res, instance);
   }));
 
   app.put(endpoint('/:id'), withErrors(async (req, res) => {
