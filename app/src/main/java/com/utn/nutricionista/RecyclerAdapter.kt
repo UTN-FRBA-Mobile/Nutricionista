@@ -4,9 +4,10 @@ import android.graphics.Typeface
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.utn.nutricionista.models.Message
 import kotlinx.android.synthetic.main.recyclerview_own_message.view.*
 
-class RecyclerAdapter(val messages: ArrayList<Message>):  RecyclerView.Adapter<RecyclerAdapter.MessageHolder>() {
+class RecyclerAdapter(var messages: List<Message>):  RecyclerView.Adapter<RecyclerAdapter.MessageHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerAdapter.MessageHolder {
         if (viewType == 1) {
@@ -52,10 +53,8 @@ class RecyclerAdapter(val messages: ArrayList<Message>):  RecyclerView.Adapter<R
             view.itemUserName.text = message.sender + ":"
             view.itemUserName.setTypeface(null, Typeface.BOLD)
             view.itemText.text = message.text
-            view.itemDate.text = message.date
+            view.itemDate.text = "22/4"
         }
 
     }
 }
-
-data class Message(val sender: String, val text: String, val date: String, val status: String, val own: Boolean)

@@ -1,5 +1,6 @@
 package com.utn.nutricionista
 
+import android.util.Log
 import com.github.kittinunf.fuel.Fuel
 import com.github.kittinunf.fuel.core.*
 import com.github.kittinunf.fuel.core.extensions.authentication
@@ -9,6 +10,7 @@ import com.github.kittinunf.result.Result
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
 import com.utn.nutricionista.models.Diet
+import com.utn.nutricionista.models.Message
 import com.utn.nutricionista.models.User
 import java.util.concurrent.Callable
 import java.util.concurrent.Executor
@@ -40,6 +42,7 @@ object ApiClient {
 
     inline fun <reified T : Any> post(path: String, payload: T): Task<T> {
         return withIdToken {
+            Log.d("SUCCESS", it)
             Fuel.post(url(path))
                 .authentication()
                 .bearer(it)
@@ -60,5 +63,13 @@ object ApiClient {
 
     fun postDiet(diet: Diet): Task<Diet> {
         return post("/diet", diet)
+    }
+
+    fun postMessage(message: Message): Task<Message> {
+        return post("/message", message)
+    }
+
+    fun getMessages(): Task<List<Message>> {
+        return get("/message")
     }
 }
