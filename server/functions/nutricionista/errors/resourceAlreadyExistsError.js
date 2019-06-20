@@ -1,7 +1,7 @@
 const ValidationError = require('./validationError');
 
 class ResourceAlreadyExistsError extends ValidationError {
-  constructor(){
+  constructor() {
     super("Resource already exists");
   }
 }
