@@ -38,16 +38,15 @@ object ApiClient {
         }
     }
 
-    inline fun <reified T : Any> post(path: String, payload: T): Task<Unit> {
+    inline fun <reified T : Any> post(path: String, payload: T): Task<T> {
         return withIdToken {
             Fuel.post(url(path))
                 .authentication()
                 .bearer(it)
                 .jsonBody(payload)
-                .response()
+                .responseObject<T>()
                 .third
                 .get()
-            Unit
         }
     }
 
@@ -59,7 +58,7 @@ object ApiClient {
         return get("/diet")
     }
 
-    fun postDiet(diet: Diet): Task<Unit> {
+    fun postDiet(diet: Diet): Task<Diet> {
         return post("/diet", diet)
     }
 }
