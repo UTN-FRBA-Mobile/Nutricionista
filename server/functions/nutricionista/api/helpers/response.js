@@ -4,9 +4,7 @@ function success(res, body = 'success') {
 
 function withErrors(handler) {
   return (req, res, next) => {
-    return handler(req, res, next).catch((err) => {
-      next(err);
-    });
+    return handler(req, res, next).catch(next);
   };
 }
 
