@@ -3,6 +3,7 @@ package com.utn.nutricionista
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -11,16 +12,7 @@ import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
-import androidx.core.view.ViewCompat
-import com.github.sundeepk.compactcalendarview.CompactCalendarView
-import com.google.android.material.appbar.AppBarLayout
-import com.utn.nutricionista.Messages.MessagesActivity
-import java.text.SimpleDateFormat
-import java.util.*
-import kotlin.collections.ArrayList
-import kotlin.collections.HashMap
-import com.google.android.material.appbar.AppBarLayout
-
+import com.utn.nutricionista.models.MomentoComida
 
 
 class HomeActivity : AppCompatActivity() {
@@ -49,74 +41,10 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
-        init()
-
         toolbar = findViewById(R.id.toolbarHome)
         setSupportActionBar(toolbar)
 
-        appBarLayout = findViewById(R.id.app_bar_layout)
-        // Set up the CompactCalendarView
-        compactCalendarView = findViewById(R.id.compactcalendar_view)
-        // Force English
-        compactCalendarView!!.setLocale(TimeZone.getDefault(), /*Locale.getDefault()*/Locale.ENGLISH)
-
-        compactCalendarView!!.setShouldDrawDaysHeader(true)
-
-        compactCalendarView!!.setListener(object : CompactCalendarView.CompactCalendarViewListener {
-            override fun onDayClick(dateClicked: Date) {
-                setSubtitle(dateFormat.format(dateClicked))
-            }
-
-            override fun onMonthScroll(firstDayOfNewMonth: Date) {
-                setSubtitle(dateFormat.format(firstDayOfNewMonth))
-            }
-        })
-
-        // Set current date to today
-        setCurrentDate(Date())
-
-        val arrow = findViewById<ImageView>(R.id.date_picker_arrow)
-
-        val datePickerButton = findViewById<RelativeLayout>(R.id.date_picker_button)
-
-        datePickerButton.setOnClickListener { v ->
-            val rotation = (if (isExpanded) 0 else 180).toFloat()
-            ViewCompat.animate(arrow).rotation(rotation).start()
-
-            isExpanded = !isExpanded
-            appBarLayout!!.setExpanded(isExpanded, true)
-        }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        expandableListView.setAdapter(expandableListViewAdapter)
-        expandableListView.setOnGroupExpandListener { object : ExpandableListView.OnGroupExpandListener {
-            override fun onGroupExpand(groupPosition: Int) {
-
-                if(latestExpandedPosition != -1 && groupPosition != latestExpandedPosition){
-                    expandableListView.collapseGroup(latestExpandedPosition)
-                }
-                latestExpandedPosition = groupPosition
-            }
-        } }
-
+        init()
 
     }
 
@@ -144,36 +72,63 @@ class HomeActivity : AppCompatActivity() {
     private fun init(){
 
 
-        dietaPreDefArr["Desayuno"] = listOf(
-            "Medialunas",
-            "Tazas de Cafe",
-            "Tostadas",
-            "Galletitas dulces",
-            "Te"
-        )
-        dietaPreDefArr["Almuerzo"] = listOf(
-            "Ensalada mixta",
-            "2 rodajas de pan",
-            "Currazco de cerdo"
-        )
-        dietaPreDefArr["Merienda"] = listOf(
-            "1 o 2 Frutas",
-            "Yogurt con cereales",
-            "Alfajor",
-            "Cafe",
-            "Te"
-        )
-        dietaPreDefArr["Cena"] = listOf(
-            "Jugo de naraja",
-            "Pollo Grille",
-            "Pure de batata"
-        )
+        ApiClient.getDiets().addOnSuccessListener { dietas ->
+           val itemNameList  =
+           dietas.map{d ->
+               d.momentos?.map { m ->
+                   m.nombre.capitalize()
+               }
+           }
+
+            dietaPreDefArr["Desayuno"] = listOf(
+                "Medialunas",
+                "Tazas de Cafe",
+                "Tostadas",
+                "Galletitas dulces",
+                "Te"
+            )
+            dietaPreDefArr["Almuerzo"] = listOf(
+                "Ensalada mixta",
+                "2 rodajas de pan",
+                "Currazco de cerdo"
+            )
+            dietaPreDefArr["Merienda"] = listOf(
+                "1 o 2 Frutas",
+                "Yogurt con cereales",
+                "Alfajor",
+                "Cafe",
+                "Te"
+            )
+            dietaPreDefArr["Cena"] = listOf(
+                "Jugo de naraja",
+                "Pollo Grille",
+                "Pure de batata"
+            )
 
 
-        val itemNameList: List<String> = ArrayList(dietaPreDefArr.keys) as List<String>
+            expandableListView = findViewById(R.id.home_expandable_list_view)
+            expandableListViewAdapter = HomeExpandibleListAdapter(
+                this,
+                dietas[0].momentos as ArrayList<MomentoComida>,
+                itemNameList[0]
+            )
 
-        expandableListView = findViewById(R.id.home_expandable_list_view)
-        expandableListViewAdapter = HomeExpandibleListAdapter(this, dietaPreDefArr, itemNameList)
+            expandableListView.setAdapter(expandableListViewAdapter)
+            expandableListView.setOnGroupExpandListener { object : ExpandableListView.OnGroupExpandListener {
+                override fun onGroupExpand(groupPosition: Int) {
+
+                    if(latestExpandedPosition != -1 && groupPosition != latestExpandedPosition){
+                        expandableListView.collapseGroup(latestExpandedPosition)
+                    }
+                    latestExpandedPosition = groupPosition
+                }
+            } }
+
+
+        }.addOnFailureListener { e ->
+            Log.d("FAILURE", "GASP! SOMETHING WENT WRONG: ${e.message}")
+        }
+
     }
 
 

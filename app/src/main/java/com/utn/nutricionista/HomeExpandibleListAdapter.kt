@@ -10,13 +10,13 @@ import android.view.animation.AnimationUtils
 import android.widget.BaseExpandableListAdapter
 import android.widget.ImageView
 import android.widget.TextView
-import com.utn.nutricionista.DetalleComida.DetalleComida
-import com.utn.nutricionista.DetalleComida.DetalleComidaActivity
+import com.utn.nutricionista.detalleComida.DetalleComidaActivity
+import com.utn.nutricionista.models.MomentoComida
 
-class HomeExpandibleListAdapter(var context: Context, var listOfDetalleComida:HashMap<String,List<String>>, var listOfTitulosComida: List<String>): BaseExpandableListAdapter() {
+class HomeExpandibleListAdapter(var context: Context, var listOfMomentos:ArrayList<MomentoComida>, var listOfTitulosComida: List<String>?): BaseExpandableListAdapter() {
 
     override fun getGroup(groupPosition: Int): Any {
-        return listOfTitulosComida[groupPosition]
+        return listOfTitulosComida!![groupPosition]
     }
 
     override fun isChildSelectable(groupPosition: Int, childPosition: Int): Boolean {
@@ -52,11 +52,11 @@ class HomeExpandibleListAdapter(var context: Context, var listOfDetalleComida:Ha
     }
 
     override fun getChildrenCount(groupPosition: Int): Int {
-        return listOfDetalleComida[listOfTitulosComida[groupPosition]]?.size!!
+        return listOfMomentos[groupPosition].predefinida.size
     }
 
     override fun getChild(groupPosition: Int, childPosition: Int): String? {
-        return listOfDetalleComida[listOfTitulosComida[groupPosition]]?.get(childPosition)
+        return listOfMomentos[groupPosition].predefinida.get(childPosition).nombreComida.capitalize()
     }
 
     override fun getGroupId(groupPosition: Int): Long {
@@ -91,7 +91,7 @@ class HomeExpandibleListAdapter(var context: Context, var listOfDetalleComida:Ha
     }
 
     override fun getGroupCount(): Int {
-        return listOfTitulosComida.size
+        return listOfTitulosComida!!.size
     }
 
 
