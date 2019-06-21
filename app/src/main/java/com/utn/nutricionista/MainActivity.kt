@@ -26,11 +26,11 @@ class MainActivity : AppCompatActivity() {
             return
         }
 
-        ApiClient.postDiet(Diet(fecha = "10/13")).addOnSuccessListener {
+     /*   ApiClient.postDiet(Diet(fecha = "10/13")).addOnSuccessListener {
             Log.d("SUCCESS", "SWEET, SWEET SUCCESS!")
         }.addOnFailureListener { e ->
             Log.d("FAILURE", "GASP! SOMETHING WENT WRONG: ${e.message}")
-        }
+        }*/
 
     }
 
