@@ -1,9 +1,8 @@
 const { success, withErrors } = require('../helpers/response');
-const _                       = require('lodash');
 
 module.exports = (app) => {
   app.get('/user', withErrors(async (req, res) => {
-    success(res, _.omit(req.currentUser, 'uid'));
+    success(res, req.currentUser);
   }));
 
   app.put('/user', withErrors(async (req, res) => {
