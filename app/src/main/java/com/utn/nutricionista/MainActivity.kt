@@ -14,6 +14,7 @@ import com.utn.nutricionista.models.Diet
 import com.utn.nutricionista.models.Message
 import com.utn.nutricionista.models.User
 import java.time.LocalDateTime
+import java.util.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -26,19 +27,6 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, LoginActivity::class.java))
             finish()
             return
-        }
-
-
-        ApiClient.postMessage(Message(sender="diego", text = "hola", date = LocalDateTime.now(), status = "read", own = true)).addOnSuccessListener {
-            Log.d("SUCCESS", "SWEET, SWEET SUCCESS!")
-        }.addOnFailureListener { e ->
-            Log.d("FAILURE", "GASP! SOMETHING WENT WRONG: ${e.message}")
-        }
-
-        ApiClient.postMessage(Message(sender="nutricionista", text = "hola", date = LocalDateTime.now(), status = "read", own = false)).addOnSuccessListener {
-            Log.d("SUCCESS", "SWEET, SWEET SUCCESS!")
-        }.addOnFailureListener { e ->
-            Log.d("FAILURE", "GASP! SOMETHING WENT WRONG: ${e.message}")
         }
 
     }
