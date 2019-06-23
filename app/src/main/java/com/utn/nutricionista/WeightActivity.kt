@@ -1,5 +1,6 @@
 package com.utn.nutricionista
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.graphics.Rect
 import android.os.Bundle
@@ -42,6 +43,7 @@ class WeightActivity : AppCompatActivity() {
         fab.setOnClickListener { view -> addWeightRecord(view) }
     }
 
+    @SuppressLint("OnClick")
     private fun addWeightRecord(view: View) {
         Snackbar.make(view, "TODO: Add dialog", Snackbar.LENGTH_LONG)
             .setAction("Action", null).show()
