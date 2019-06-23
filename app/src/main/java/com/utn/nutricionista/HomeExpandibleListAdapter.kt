@@ -44,7 +44,7 @@ class HomeExpandibleListAdapter(var context: Context, var listOfMomentos:ArrayLi
         val cameraIcon = convertView_Aux.findViewById<ImageView>(R.id.home_list_camera)
         cameraIcon.setOnClickListener{
             val intent = Intent(context, DetalleComidaActivity::class.java)
-            intent.putExtra("tipo_dieta", nombre)
+            intent.putExtra("dietaSeleccionada", listOfMomentos[groupPosition])
             context.startActivity(intent)
         }
 
