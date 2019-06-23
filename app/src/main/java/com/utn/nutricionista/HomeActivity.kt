@@ -39,7 +39,6 @@ class HomeActivity : AppCompatActivity() {
 
     private fun init(){
 
-
         ApiClient.getDiets().addOnSuccessListener { dietas ->
            val itemNameList  =
            dietas.map{d ->
@@ -47,32 +46,6 @@ class HomeActivity : AppCompatActivity() {
                    m.nombre.capitalize()
                }
            }
-
-            dietaPreDefArr["Desayuno"] = listOf(
-                "Medialunas",
-                "Tazas de Cafe",
-                "Tostadas",
-                "Galletitas dulces",
-                "Te"
-            )
-            dietaPreDefArr["Almuerzo"] = listOf(
-                "Ensalada mixta",
-                "2 rodajas de pan",
-                "Currazco de cerdo"
-            )
-            dietaPreDefArr["Merienda"] = listOf(
-                "1 o 2 Frutas",
-                "Yogurt con cereales",
-                "Alfajor",
-                "Cafe",
-                "Te"
-            )
-            dietaPreDefArr["Cena"] = listOf(
-                "Jugo de naraja",
-                "Pollo Grille",
-                "Pure de batata"
-            )
-
 
             expandableListView = findViewById(R.id.home_expandable_list_view)
             expandableListViewAdapter = HomeExpandibleListAdapter(
@@ -98,7 +71,6 @@ class HomeActivity : AppCompatActivity() {
         }
 
     }
-
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.manu_home, menu)

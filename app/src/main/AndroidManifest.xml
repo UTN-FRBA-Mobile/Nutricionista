@@ -27,7 +27,7 @@
         </activity>
 
         <activity
-                android:name=".DetalleComida.DetalleComidaActivity"
+                android:name=".detalleComida.DetalleComidaActivity"
                 android:label="@string/title_activity_weight"
                 android:theme="@style/AppTheme.NoActionBar">
         </activity>
