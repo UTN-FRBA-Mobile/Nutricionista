@@ -1,17 +1,14 @@
 package com.utn.nutricionista
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.utn.nutricionista.models.Message
+import com.utn.nutricionista.models.MessageStatus
 import kotlinx.android.synthetic.main.activity_my_progress.*
 import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 import java.util.*
 
 class MyProgressActivity : AppCompatActivity() {
@@ -32,7 +29,7 @@ class MyProgressActivity : AppCompatActivity() {
         ApiClient.getMessages().addOnSuccessListener {
             Log.d("SUCCESS", "SWEET, SWEET SUCCESS!")
             val messages = it
-            adapter = RecyclerAdapter(messages)
+            adapter = RecyclerAdapter(messages.sortedBy { it.date })
             recyclerView.adapter = adapter
             recyclerView.scrollToPosition(adapter.messages.size - 1)
         }.addOnFailureListener { e ->
@@ -41,13 +38,32 @@ class MyProgressActivity : AppCompatActivity() {
     }
 
     fun buttonPressed(view: View) {
-        adapter.messages = adapter.messages + Message("Diego", // change to user name when profile is ready
-            textfield.text.toString(),
-            LocalDateTime.now(),
-            "sent", own = true)
+        var newMessage = Message(null,
+        "Diego", // change to user name when profile is ready
+        textfield.text.toString(),
+        Date(),
+        MessageStatus.SENDING,
+        own = true)
+        adapter.messages = (adapter.messages + newMessage).sortedBy { it.date }
         recyclerView.adapter = adapter
         recyclerView.scrollToPosition(adapter.messages.size - 1)
         textfield.setText("")
+        ApiClient.postMessage(newMessage.getMessageForPost()).addOnSuccessListener {
+            val postedMessage = it
+            val removedWaitingMessage = adapter.messages.filter {
+                !it.equals(newMessage)
+            }
+            adapter.messages = (removedWaitingMessage + postedMessage).sortedBy { it.date }
+            recyclerView.adapter = adapter
+            recyclerView.scrollToPosition(adapter.messages.size - 1)
+        }.addOnFailureListener { e ->
+            val removedWaitingMessage = adapter.messages.filter {
+                !it.equals(newMessage)
+            }
+            adapter.messages = (removedWaitingMessage + newMessage.getErrorMessage()).sortedBy { it.date }
+            recyclerView.adapter = adapter
+            recyclerView.scrollToPosition(adapter.messages.size - 1)
+        }
     }
 
     private fun getCurrentDateFormatted(): String {
