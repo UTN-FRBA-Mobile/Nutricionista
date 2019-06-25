@@ -27,10 +27,10 @@ module.exports = (model) => (app) => {
   }));
 
   app.put(endpoint('/:id'), withErrors(async (req, res) => {
-    const model = await model.get(req.params.id)
+    const result = await model.get(req.params.id)
 
-    await model.update(req.body)
+    await result.update(req.body)
 
-    return success(res);
+    return success(res, result);
   }));
 };
