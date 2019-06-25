@@ -1,17 +1,17 @@
 package com.utn.nutricionista
 
 import com.github.kittinunf.fuel.Fuel
-import com.github.kittinunf.fuel.core.*
+import com.github.kittinunf.fuel.core.Parameters
+import com.github.kittinunf.fuel.core.Request
 import com.github.kittinunf.fuel.core.extensions.authentication
 import com.github.kittinunf.fuel.gson.jsonBody
 import com.github.kittinunf.fuel.gson.responseObject
-import com.github.kittinunf.result.Result
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
 import com.utn.nutricionista.models.Diet
 import com.utn.nutricionista.models.User
+import com.utn.nutricionista.models.WeightData
 import java.util.concurrent.Callable
-import java.util.concurrent.Executor
 import java.util.concurrent.Executors
 
 object ApiClient {
@@ -27,29 +27,25 @@ object ApiClient {
         }
     }
 
-    inline fun <reified T : Any> get(path: String): Task<T> {
+    inline fun <reified T : Any> authenticatedRequest(crossinline method: (String, Parameters?) -> Request, path: String, payload : T? = null): Task<T> {
         return withIdToken {
-            Fuel.get(url(path))
+            method(url(path), null)
                 .authentication()
                 .bearer(it)
+                .jsonBody(payload ?: Unit)
                 .responseObject<T>()
                 .third
                 .get()
         }
     }
 
-    inline fun <reified T : Any> post(path: String, payload: T): Task<T> {
-        return withIdToken {
-            Fuel.post(url(path))
-                .authentication()
-                .bearer(it)
-                .jsonBody(payload)
-                .responseObject<T>()
-                .third
-                .get()
-        }
-    }
+    inline fun <reified T : Any> get(path: String): Task<T> = authenticatedRequest(Fuel::get, path)
 
+    inline fun <reified T : Any> post(path: String, payload: T): Task<T> = authenticatedRequest(Fuel::post, path, payload)
+
+    inline fun <reified T : Any> put(path: String, payload: T): Task<T> = authenticatedRequest(Fuel::put, path, payload)
+
+    //TODO: move these to companion object methods of their respective classes
     fun getUser(): Task<User> {
         return get("/user")
     }
@@ -60,5 +56,17 @@ object ApiClient {
 
     fun postDiet(diet: Diet): Task<Diet> {
         return post("/diet", diet)
+    }
+
+    fun getWeight(id: String): Task<WeightData> {
+        return get("/weight/$id")
+    }
+
+    fun postWeight(payload: WeightData): Task<WeightData> {
+        return post("/weight", payload)
+    }
+
+    fun putWeight(payload: WeightData): Task<WeightData> {
+        return put("/weight/${payload.id}", payload)
     }
 }
