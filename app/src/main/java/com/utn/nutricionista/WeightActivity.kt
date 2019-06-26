@@ -4,8 +4,6 @@ import android.graphics.Color
 import android.graphics.Rect
 import android.os.Bundle
 import android.view.View
-import android.widget.TableLayout
-import android.widget.TableRow
 import androidx.appcompat.app.AppCompatActivity
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.AxisBase
@@ -22,11 +20,14 @@ import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 import kotlin.collections.ArrayList
-import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.utn.nutricionista.Adapters.WeightDataAdapter
-
+import android.content.DialogInterface
+import android.app.AlertDialog
+import android.widget.EditText
+import android.view.ViewGroup
+import android.view.LayoutInflater
 
 class WeightActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
@@ -42,12 +43,11 @@ class WeightActivity : AppCompatActivity() {
         loadChart(weightRecords)
         loadTable(weightRecords)
 
-        fab.setOnClickListener { view -> addWeightRecord(view) }
+        fab.setOnClickListener { view -> openAddWeightRecord(view) }
     }
 
-    private fun addWeightRecord(view: View) {
-        Snackbar.make(view, "TODO: Add dialog", Snackbar.LENGTH_LONG)
-            .setAction("Action", null).show()
+    private fun openAddWeightRecord(view: View) {
+        InputWeightDialogFragment().show(this.supportFragmentManager,"inputWeight")
     }
 
     private fun loadTable(weightRecords : MutableList<WeightData>) {
