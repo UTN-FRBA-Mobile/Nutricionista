@@ -145,7 +145,7 @@ class WeightActivity : AppCompatActivity() {
 
         val y = chart.axisLeft
         y.setLabelCount(6, false)
-        y.textColor = Color.WHITE
+        y.textColor = Color.BLUE
         y.setPosition(YAxis.YAxisLabelPosition.INSIDE_CHART)
         y.setDrawGridLines(false)
         y.axisLineColor = Color.WHITE
