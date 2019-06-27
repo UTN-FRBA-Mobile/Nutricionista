@@ -22,6 +22,12 @@ import kotlin.collections.ArrayList
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.utn.nutricionista.adapters.WeightDataAdapter
+import com.github.mikephil.charting.components.YAxis
+import com.github.mikephil.charting.formatter.IFillFormatter
+
+
+
+
 
 class WeightActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
@@ -59,8 +65,6 @@ class WeightActivity : AppCompatActivity() {
     }
 
     private fun loadChart(weightRecords : MutableList<WeightData>){
-        val chart = findViewById<LineChart>(R.id.weight_chart)
-
         val entries = ArrayList<Entry>()
         var dayStart = 0
         var dateLabels = mutableMapOf<Long,String>()
@@ -75,15 +79,60 @@ class WeightActivity : AppCompatActivity() {
             entries.add(Entry((dayAdjusted).toFloat(), weightRecord.weight.toFloat()))
         }
 
-        val dataSet = LineDataSet(entries,"Peso")
+        val chart = configureChart(dayStart)
+
+        //Add Data
+        val lineData = configureDataSet(entries, chart!!)
+        chart!!.data = lineData
+
+        // refresh the drawing
+        chart.invalidate()
+    }
+
+    private fun configureDataSet(entries: ArrayList<Entry>, chart: LineChart): LineData {
+        val dataSet = LineDataSet(entries, "Peso")
+        dataSet.mode = LineDataSet.Mode.CUBIC_BEZIER
+        dataSet.cubicIntensity = 0.2f
+        dataSet.setDrawFilled(true)
+        dataSet.setDrawCircles(false)
+        dataSet.lineWidth = 1.8f
+        dataSet.circleRadius = 4f
+        dataSet.setCircleColor(Color.WHITE)
+        dataSet.highLightColor = Color.rgb(244, 117, 117)
+        dataSet.color = Color.rgb(129, 162, 172)
+        dataSet.fillColor = Color.rgb(173, 216, 230)
+        dataSet.fillAlpha = 100
+        dataSet.setDrawHorizontalHighlightIndicator(false)
+        dataSet.fillFormatter = IFillFormatter { dataSet, dataProvider -> chart.getAxisLeft().getAxisMinimum() }
         dataSet.isHighlightEnabled = true
         dataSet.setDrawHighlightIndicators(true)
         dataSet.lineWidth = 3f
-
         val lineData = LineData(dataSet)
-        
+        lineData.setValueTextSize(9f)
+        lineData.setDrawValues(false)
+        return lineData
+    }
+
+    private fun configureChart(dayStart: Int): LineChart? {
+        val chart = findViewById<LineChart>(R.id.weight_chart)
+        chart.setViewPortOffsets(0F, 0F, 0F, 0F)
+        chart.setBackgroundColor(Color.WHITE)
+        // enable touch gestures
+        chart.setTouchEnabled(true)
+        // enable scaling and dragging
+        chart.setDragEnabled(true)
+        chart.setScaleEnabled(true)
+        // if disabled, scaling can be done on x- and y-axis separately
+        chart.setPinchZoom(false)
+        chart.setDrawGridBackground(false)
+        chart.setMaxHighlightDistance(300F)
+
+        chart.isHighlightPerTapEnabled = true
+        chart.legend.isEnabled = false
+        chart.setNoDataText("Sin datos disponibles.")
+        chart.setDrawBorders(true)
+
         val xAxis = chart.xAxis
-        chart.data = lineData
         xAxis.valueFormatter = GridLabelDateFormatter(dayStart)
         xAxis.position = XAxis.XAxisPosition.TOP_INSIDE
         xAxis.textSize = 10f
@@ -93,13 +142,18 @@ class WeightActivity : AppCompatActivity() {
         xAxis.textColor = Color.rgb(255, 192, 56)
         xAxis.setCenterAxisLabels(false)
         xAxis.granularity = 30f
-        chart.setTouchEnabled(false)
-        chart.isHighlightPerTapEnabled = true
-        chart.legend.isEnabled = false
-        chart.setNoDataText("Sin datos disponibles.")
-        chart.setDrawGridBackground(true)
-        chart.setDrawBorders(true)
-        chart.invalidate()
+
+        val y = chart.axisLeft
+        y.setLabelCount(6, false)
+        y.textColor = Color.WHITE
+        y.setPosition(YAxis.YAxisLabelPosition.INSIDE_CHART)
+        y.setDrawGridLines(false)
+        y.axisLineColor = Color.WHITE
+
+        chart.getAxisRight().setEnabled(false)
+        chart.animateXY(2000, 2000)
+        chart.getLegend().setEnabled(false)
+        return chart
     }
 
     class GridLabelDateFormatter(private val dayStart : Int) : ValueFormatter() {
