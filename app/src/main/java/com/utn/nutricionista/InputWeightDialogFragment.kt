@@ -9,15 +9,17 @@ import android.app.DatePickerDialog
 import android.icu.util.Calendar
 import android.widget.EditText
 
-class InputWeightDialogFragment : DialogFragment() {
+class InputWeightDialogFragment : DialogFragment(), DatePickerDialog.OnDateSetListener {
+    private lateinit var date : EditText
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+
         return activity?.let {
             val builder = AlertDialog.Builder(it)
             val view = activity!!.layoutInflater.inflate(R.layout.fragment_input_weight_dialog,null,false)
             builder.setView(view)
 
-            val date = view.findViewById(R.id.input_weight_date) as EditText
+            date = view.findViewById(R.id.input_weight_date) as EditText
             date.setOnClickListener { showDatePickerDialog() }
             builder.create()
 
@@ -25,18 +27,19 @@ class InputWeightDialogFragment : DialogFragment() {
     }
 
     fun showDatePickerDialog() {
-            val newFragment = DatePickerFragment()
-//                DatePickerFragment.newInstance(DatePickerDialog.OnDateSetListener { datePicker, year, month, day ->
-//                    // +1 because january is zero
-//                    val selectedDate = day.toString() + " / " + (month + 1) + " / " + year
-//                    .setText(selectedDate)
-//                })
-
+        val newFragment = DatePickerFragment().newInstance(this)
         newFragment.show(activity!!.supportFragmentManager, "datePicker")
+    }
+
+    override fun onDateSet(view: DatePicker, year: Int, month: Int, day: Int) {
+        // Do something with the date chosen by the user
+        //+1 because january is zero
+        val selectedDate = day.toString() + " / " + (month + 1) + " / " + year
+        date.setText(selectedDate)
     }
 }
 
-class DatePickerFragment : DialogFragment(), DatePickerDialog.OnDateSetListener {
+class DatePickerFragment : DialogFragment() {
     private var listener: DatePickerDialog.OnDateSetListener? = null
 
     fun newInstance(listener: DatePickerDialog.OnDateSetListener): DatePickerFragment {
@@ -48,6 +51,7 @@ class DatePickerFragment : DialogFragment(), DatePickerDialog.OnDateSetListener 
     fun setListener(listener: DatePickerDialog.OnDateSetListener) {
         this.listener = listener
     }
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         // Use the current date as the default date in the picker
         val c = Calendar.getInstance()
@@ -56,10 +60,6 @@ class DatePickerFragment : DialogFragment(), DatePickerDialog.OnDateSetListener 
         val day = c.get(Calendar.DAY_OF_MONTH)
 
         // Create a new instance of DatePickerDialog and return it
-        return DatePickerDialog(activity!!, this, year, month, day)
-    }
-
-    override fun onDateSet(view: DatePicker, year: Int, month: Int, day: Int) {
-        // Do something with the date chosen by the user
+        return DatePickerDialog(activity!!, listener, year, month, day)
     }
 }
