@@ -25,10 +25,6 @@ import com.utn.nutricionista.adapters.WeightDataAdapter
 import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.formatter.IFillFormatter
 
-
-
-
-
 class WeightActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
