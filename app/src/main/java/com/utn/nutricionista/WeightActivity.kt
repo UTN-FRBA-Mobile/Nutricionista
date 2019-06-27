@@ -12,9 +12,7 @@ import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.ValueFormatter
-import com.google.android.material.snackbar.Snackbar
 import com.utn.nutricionista.api.NutritionApi
-import com.utn.nutricionista.models.WeightData
 import kotlinx.android.synthetic.main.activity_weight.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -23,11 +21,7 @@ import kotlin.collections.ArrayList
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.utn.nutricionista.Adapters.WeightDataAdapter
-import android.content.DialogInterface
-import android.app.AlertDialog
-import android.widget.EditText
-import android.view.ViewGroup
-import android.view.LayoutInflater
+import com.utn.nutricionista.models.WeightData
 
 class WeightActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
