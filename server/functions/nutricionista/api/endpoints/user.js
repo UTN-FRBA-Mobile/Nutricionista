@@ -1,13 +1,12 @@
-const _                    = require('lodash');
-const { success: success } = require('../helpers/response');
+const { success, withErrors } = require('../helpers/response');
 
 module.exports = (app) => {
-  app.get('/user', async (req, res) => {
-    success(res, _.omit(req.currentUser, 'uid'));
-  });
+  app.get('/user', withErrors(async (req, res) => {
+    success(res, req.currentUser);
+  }));
 
-  app.put('/user', async (req, res) => {
+  app.put('/user', withErrors(async (req, res) => {
     await req.currentUser.update(req.body);
     success(res);
-  });
+  }));
 };
