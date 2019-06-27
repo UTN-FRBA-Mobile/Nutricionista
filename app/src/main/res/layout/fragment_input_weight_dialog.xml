@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content" android:orientation="vertical">
+                 android:orientation="vertical"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:background="#ffffffff">
 
     <EditText
             android:id="@+id/input_weight_value"
@@ -22,4 +24,31 @@
             android:focusable="false"
             android:clickable="true"
             android:maxLines="1" />
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:orientation="horizontal"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:background="#ffffffff">
+
+        <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cancelar"
+                android:id="@+id/btnInputWeightCancel"
+                android:gravity="center_vertical"
+                android:layout_alignEnd="@+id/btnInputWeightConfirm"
+                android:layout_marginBottom="20dp"
+                android:textColor="#ffffffff"/>
+
+        <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Aceptar"
+                android:id="@+id/btnInputWeightConfirm"
+                android:gravity="center_horizontal|center_vertical"
+                android:layout_marginBottom="20dp"
+                android:layout_alignParentRight="true"
+                android:textColor="#ffffffff"/>
+    </RelativeLayout>
 </LinearLayout>
