@@ -13,7 +13,7 @@ import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.utn.nutricionista.api.NutritionApi
-import com.utn.nutricionista.models.WeightData
+import com.utn.nutricionista.models.Weight
 import kotlinx.android.synthetic.main.activity_weight.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -36,6 +36,15 @@ class WeightActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         val weightRecords = NutritionApi().getWeights()
+
+        val otherRecs = ApiClient.getWeights()
+//
+//            ApiClient.getDiets().addOnSuccessListener { dietas ->
+//            val itemNameList  =
+//                dietas.map{d ->
+//                }
+//            }
+
         loadChart(weightRecords)
         loadTable(weightRecords)
 
@@ -46,7 +55,7 @@ class WeightActivity : AppCompatActivity() {
         InputWeightDialogFragment().show(this.supportFragmentManager,"inputWeight")
     }
 
-    private fun loadTable(weightRecords : MutableList<WeightData>) {
+    private fun loadTable(weightRecords : MutableList<Weight>) {
         viewManager = LinearLayoutManager(this)
         var sortedData = weightRecords.sortedBy { x -> x.date }.asReversed()
         viewAdapter = WeightDataAdapter(sortedData.toMutableList())
@@ -60,7 +69,7 @@ class WeightActivity : AppCompatActivity() {
         }
     }
 
-    private fun loadChart(weightRecords : MutableList<WeightData>){
+    private fun loadChart(weightRecords : MutableList<Weight>){
         val entries = ArrayList<Entry>()
         var dayStart = 0
         var dateLabels = mutableMapOf<Long,String>()
