@@ -12,7 +12,7 @@ import com.google.android.gms.tasks.Tasks
 import com.utn.nutricionista.models.Diet
 import com.utn.nutricionista.models.Message
 import com.utn.nutricionista.models.User
-import com.utn.nutricionista.models.WeightData
+import com.utn.nutricionista.models.Weight
 import java.util.concurrent.Callable
 import java.util.concurrent.Executors
 
@@ -54,17 +54,19 @@ object ApiClient {
 
     fun getDietsByDate(date: String): Task<List<Diet>> = get("/diet", listOf(Pair("date", date)))
 
-    fun postDiet(diet: Diet): Task<Diet> = post("/diet", diet)
+    fun getWeights(): Task<Weight> {
+        return get("/weight")
+    }
 
-    fun getWeight(id: String): Task<WeightData> = get("/weight/$id")
+    fun getWeight(id: String): Task<Weight> {
+        return get("/weight/$id")
+    }
 
-    fun postWeight(payload: WeightData): Task<WeightData> = post("/weight", payload)
+    fun postWeight(payload: Weight): Task<Weight> {
+        return post("/weight", payload)
+    }
 
-    fun putWeight(payload: WeightData): Task<WeightData> = put("/weight/${payload.id}", payload)
-
-    fun deleteWeight(id: String): Task<WeightData> = delete("/weight/$id")
-
-    fun getMessages(): Task<List<Message>> = get("/message")
-
-    fun postMessage(payload: Message): Task<Message> = post("/message", payload)
+    fun putWeight(payload: Weight): Task<Weight> {
+        return put("/weight/${payload.id}", payload)
+    }
 }

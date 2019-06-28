@@ -7,10 +7,10 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.utn.nutricionista.R
-import com.utn.nutricionista.models.WeightData
+import com.utn.nutricionista.models.Weight
 import kotlinx.android.synthetic.main.item_weight_row.view.*
 
-class WeightDataAdapter(private val myDataset: MutableList<WeightData>) :
+class WeightDataAdapter(private val myDataset: MutableList<Weight>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val TYPE_HEADER = 0
@@ -54,7 +54,7 @@ class WeightDataAdapter(private val myDataset: MutableList<WeightData>) :
         }
     }
 
-    private fun getItem(position: Int): WeightData {
+    private fun getItem(position: Int): Weight {
         return myDataset[position - 1]
     }
 
