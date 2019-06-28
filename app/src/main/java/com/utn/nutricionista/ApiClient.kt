@@ -10,7 +10,7 @@ import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
 import com.utn.nutricionista.models.Diet
 import com.utn.nutricionista.models.User
-import com.utn.nutricionista.models.WeightData
+import com.utn.nutricionista.models.Weight
 import java.util.concurrent.Callable
 import java.util.concurrent.Executors
 
@@ -58,15 +58,19 @@ object ApiClient {
         return post("/diet", diet)
     }
 
-    fun getWeight(id: String): Task<WeightData> {
+    fun getWeights(): Task<Weight> {
+        return get("/weight")
+    }
+
+    fun getWeight(id: String): Task<Weight> {
         return get("/weight/$id")
     }
 
-    fun postWeight(payload: WeightData): Task<WeightData> {
+    fun postWeight(payload: Weight): Task<Weight> {
         return post("/weight", payload)
     }
 
-    fun putWeight(payload: WeightData): Task<WeightData> {
+    fun putWeight(payload: Weight): Task<Weight> {
         return put("/weight/${payload.id}", payload)
     }
 }

@@ -4,7 +4,12 @@
                  android:layout_width="match_parent"
                  android:layout_height="wrap_content"
                  android:background="#ffffffff">
-
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nuevo registro:"
+        android:textSize="16dp"
+        android:textStyle="bold"/>
     <EditText
             android:id="@+id/input_weight_value"
             android:inputType="numberDecimal"
@@ -14,7 +19,10 @@
             android:layout_marginLeft="4dp"
             android:layout_marginRight="4dp"
             android:layout_marginBottom="4dp"
-            android:maxLength="5"/>
+            android:maxLength="5"
+            android:hint="Peso"
+            android:drawableStart="@drawable/baseline_lock_black_18dp"
+            android:drawablePadding="5dp"/>
 
     <EditText
             android:id="@+id/input_weight_date"
@@ -23,7 +31,10 @@
             android:inputType="date"
             android:focusable="false"
             android:clickable="true"
-            android:maxLines="1" />
+            android:maxLines="1"
+            android:hint="Fecha"
+            android:drawableStart="@drawable/baseline_calendar_today_black_18dp"
+            android:drawablePadding="5dp"/>
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                   android:orientation="horizontal"
