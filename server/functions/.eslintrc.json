@@ -1,7 +1,9 @@
 {
   "globals": {
     "require": "readonly",
-    "module": "readonly"
+    "module": "readonly",
+    "Promise": "readonly",
+    "console": "readonly"
   },
   "parserOptions": {
     // Required for certain syntax usages
@@ -23,7 +25,7 @@
     "no-debugger": "off",
 
     // Removed rule "disallow unused variables" from recommended eslint rules
-    "no-unused-vars": "warn",
+    "no-unused-vars": ["warn", { "args": "none" }],
 
     // Removed rule "disallow mixed spaces and tabs for indentation" from recommended eslint rules
     "no-mixed-spaces-and-tabs": "warn",

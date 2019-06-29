@@ -1,13 +1,12 @@
-package com.utn.nutricionista.DetalleComida
+package com.utn.nutricionista.detalleComida
 
-import android.content.Intent
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 
 
-import com.utn.nutricionista.DetalleComida.DetalleComidaFragment.OnListFragmentInteractionListener
+import com.utn.nutricionista.detalleComida.DetalleComidaFragment.OnListFragmentInteractionListener
 import com.utn.nutricionista.R
 import com.utn.nutricionista.dummy.DummyContent.DummyItem
 
