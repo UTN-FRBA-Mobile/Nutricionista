@@ -67,13 +67,13 @@ class RecyclerAdapter(var messages: List<Message>):  RecyclerView.Adapter<Recycl
                 MessageStatus.SENDING -> view.itemStatusImage.setImageDrawable(
                     ContextCompat.getDrawable(
                         view.context, // Context
-                        R.drawable.abc_ratingbar_indicator_material // Drawable
+                        R.drawable.ic_clock // Drawable
                     )
                 )
                 MessageStatus.ERROR -> view.itemStatusImage.setImageDrawable(
                     ContextCompat.getDrawable(
                         view.context, // Context
-                        R.drawable.abc_ic_clear_material // Drawable
+                        R.drawable.ic_cross // Drawable
                     )
                 )
             }
