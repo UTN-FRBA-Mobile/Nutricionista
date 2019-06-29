@@ -25,6 +25,7 @@ const setCurrentUser = withErrors(async (req, _res, next) => {
 });
 
 const errorHandling = (err, _req, res, _next) => {
+  console.error(err);
   if(err.status) return res.status(err.status).send(err.message);
   return res.status(500).send(`Something went wrong: ${err}` );
 };
