@@ -11,6 +11,8 @@ import android.widget.EditText
 
 class InputWeightDialogFragment : DialogFragment(), DatePickerDialog.OnDateSetListener {
     private lateinit var date : EditText
+    private lateinit var btnAccept : Button
+    private lateinit var weight : EditText
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 
@@ -19,17 +21,21 @@ class InputWeightDialogFragment : DialogFragment(), DatePickerDialog.OnDateSetLi
             val view = activity!!.layoutInflater.inflate(R.layout.fragment_input_weight_dialog,null,false)
             builder.setView(view)
 
+            weight = view.findViewById(R.id.input_weight_value) as EditText
             date = view.findViewById(R.id.input_weight_date) as EditText
             date.setOnClickListener { showDatePickerDialog() }
+            btnAccept = view.findViewById(R.id.btnInputWeightConfirm) as Button
+            btnAccept.setOnClickListener { saveNewWeightRecord() }
+
             builder.create()
 
         } ?: throw IllegalStateException("Activity cannot be null")
     }
 
     private fun saveNewWeightRecord() {
-        if (input_weight_value.text.isNotEmpty() && input_weight_date.text.isNotEmpty()) {
-            val peso = input_weight_value.text
-            val fecha = input_weight_date.text
+        if (weight.text.isNotEmpty() && date.text.isNotEmpty()) {
+            val peso = weight.text
+            val fecha = date.text
         }
             //save
     }
@@ -42,7 +48,7 @@ class InputWeightDialogFragment : DialogFragment(), DatePickerDialog.OnDateSetLi
     override fun onDateSet(view: DatePicker, year: Int, month: Int, day: Int) {
         // Do something with the date chosen by the user
         //+1 because january is zero
-        val selectedDate = day.toString() + " / " + (month + 1) + " / " + year
+        val selectedDate = year.toString()  + "-" + (month + 1) + "-" + day
         date.setText(selectedDate)
     }
 }
