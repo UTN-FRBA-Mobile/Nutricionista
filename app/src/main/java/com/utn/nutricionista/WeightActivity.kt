@@ -65,7 +65,7 @@ class WeightActivity : AppCompatActivity() {
     }
 
     fun saveNewWeightRecord(weight : Float, date : String) {
-        var newRecord = Weight(null,null,weight.toDouble(),date)
+        var newRecord = Weight(null,null,weight,date)
 
         ApiClient.postWeight(newRecord).addOnSuccessListener {
             val postedWeight = it
@@ -103,7 +103,7 @@ class WeightActivity : AppCompatActivity() {
 
             dateLabels[day] = weightRecord.date().toString()
             var dayAdjusted = day - dayStart
-            entries.add(Entry((dayAdjusted).toFloat(), weightRecord.peso.toFloat()))
+            entries.add(Entry((dayAdjusted).toFloat(), weightRecord.peso))
         }
 
         val chart = configureChart(dayStart)
