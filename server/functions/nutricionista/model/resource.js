@@ -34,6 +34,10 @@ class Resource {
     return this.dbRef.update(updates);
   }
 
+  delete(data) {
+    return this.dbRef.delete();
+  }
+
   static async validate(_data) {} // for overriding purposes
 
   get dbRef() {
