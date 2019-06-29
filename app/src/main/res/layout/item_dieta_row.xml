@@ -14,5 +14,5 @@
             android:text="TextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" android:id="@+id/detalleItemTxt" android:textSize="24sp"
-            android:textAlignment="viewStart" android:gravity="left|center_vertical"/>
+            android:textAlignment="viewStart" android:gravity="left|center_vertical" tools:ignore="RtlCompat"/>
 </LinearLayout>

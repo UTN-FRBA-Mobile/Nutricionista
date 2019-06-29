@@ -1,4 +1,4 @@
-package com.utn.nutricionista.DetalleComida
+package com.utn.nutricionista.detalleComida
 
 import android.content.Context
 import android.os.Bundle

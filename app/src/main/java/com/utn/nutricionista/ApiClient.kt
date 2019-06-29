@@ -1,13 +1,20 @@
 package com.utn.nutricionista
 
+import android.util.Log
 import com.github.kittinunf.fuel.Fuel
+import com.github.kittinunf.fuel.core.*
 import com.github.kittinunf.fuel.core.extensions.authentication
-import com.github.kittinunf.fuel.serialization.responseObject
+import com.github.kittinunf.fuel.gson.jsonBody
+import com.github.kittinunf.fuel.gson.responseObject
+import com.github.kittinunf.result.Result
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
-import com.utn.nutricionista.Models.User
-import kotlinx.serialization.ImplicitReflectionSerializer
-import kotlinx.serialization.json.Json
+import com.utn.nutricionista.models.Diet
+import com.utn.nutricionista.models.Message
+import com.utn.nutricionista.models.User
+import java.util.concurrent.Callable
+import java.util.concurrent.Executor
+import java.util.concurrent.Executors
 
 object ApiClient {
     private const val API_HOST = "https://us-central1-test-project-214218.cloudfunctions.net"
@@ -18,23 +25,51 @@ object ApiClient {
 
     fun <T> withIdToken(continuation: (String) -> T): Task<T> {
         return SessionManager.currentUser!!.getIdToken(true).onSuccessTask {
-            Tasks.forResult(continuation(it!!.token!!))
+            Tasks.call(Executors.newCachedThreadPool(), Callable { continuation(it!!.token!!) })
         }
     }
 
-    @UseExperimental(ImplicitReflectionSerializer::class)
-    inline fun <reified T : Any> get(path: String, crossinline continuation: (T) -> Unit) {
-        withIdToken {
+    inline fun <reified T : Any> get(path: String): Task<T> {
+        return withIdToken {
             Fuel.get(url(path))
                 .authentication()
                 .bearer(it)
-                .responseObject<T>(Json.nonstrict) { _, _, result ->
-                    continuation(result.get())
-                }
+                .responseObject<T>()
+                .third
+                .get()
         }
     }
 
-    fun getUser(continuation: (User) -> Unit) {
-        get("/user", continuation)
+    inline fun <reified T : Any> post(path: String, payload: T): Task<T> {
+        return withIdToken {
+            Log.d("SUCCESS", it)
+            Fuel.post(url(path))
+                .authentication()
+                .bearer(it)
+                .jsonBody(payload)
+                .responseObject<T>()
+                .third
+                .get()
+        }
+    }
+
+    fun getUser(): Task<User> {
+        return get("/user")
+    }
+
+    fun getDiets(): Task<List<Diet>> {
+        return get("/diet")
+    }
+
+    fun postDiet(diet: Diet): Task<Diet> {
+        return post("/diet", diet)
+    }
+
+    fun postMessage(message: Message): Task<Message> {
+        return post("/message", message)
+    }
+
+    fun getMessages(): Task<List<Message>> {
+        return get("/message")
     }
 }

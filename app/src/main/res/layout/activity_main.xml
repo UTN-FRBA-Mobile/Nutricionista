@@ -38,7 +38,8 @@
             android:layout_height="wrap_content" tools:layout_editor_absoluteY="441dp"
             android:id="@+id/button" android:onClick="redirectToDetalle" app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginEnd="160dp" app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="8dp" app:layout_constraintHorizontal_bias="0.987"/>
+            android:layout_marginStart="8dp" app:layout_constraintHorizontal_bias="0.987"
+            tools:ignore="MissingConstraints"/>
 
 
 
