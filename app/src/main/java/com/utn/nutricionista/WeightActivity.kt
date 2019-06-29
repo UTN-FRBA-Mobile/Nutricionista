@@ -80,15 +80,16 @@ class WeightActivity : AppCompatActivity() {
         val entries = ArrayList<Entry>()
         var dayStart = 0
         var dateLabels = mutableMapOf<Long,String>()
+        var sortedData = weightRecords.sortedBy { x -> x.date() }
 
-        for (weightRecord in weightRecords) {
+        for (weightRecord in sortedData) {
             var day = weightRecord.date().toEpochDay()
             if (dayStart == 0)
                 dayStart = day.toInt()
 
             dateLabels[day] = weightRecord.date().toString()
             var dayAdjusted = day - dayStart
-            entries.add(Entry((dayAdjusted).toFloat(), weightRecord.weight.toFloat()))
+            entries.add(Entry((dayAdjusted).toFloat(), weightRecord.peso.toFloat()))
         }
 
         val chart = configureChart(dayStart)
