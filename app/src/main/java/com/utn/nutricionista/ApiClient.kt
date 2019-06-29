@@ -2,8 +2,6 @@ package com.utn.nutricionista
 
 import android.util.Log
 import com.github.kittinunf.fuel.Fuel
-import com.github.kittinunf.fuel.core.Parameters
-import com.github.kittinunf.fuel.core.Request
 import com.github.kittinunf.fuel.core.extensions.authentication
 import com.github.kittinunf.fuel.gson.jsonBody
 import com.github.kittinunf.fuel.gson.responseObject
@@ -41,7 +39,19 @@ object ApiClient {
 
     inline fun <reified T : Any> get(path: String, queryParams: Parameters? = null): Task<T> = authenticatedRequest(Fuel::get, path, queryParams = queryParams)
 
-    inline fun <reified T : Any> post(path: String, payload: T, queryParams: Parameters? = null): Task<T> = authenticatedRequest(Fuel::post, path, payload, queryParams)
+    inline fun delete(path: String, id : String) {
+        withIdToken {
+            Log.d("SUCCESS", it)
+            Fuel.delete(url(path))
+                .authentication()
+                .bearer(it)
+                .parameters = List<Pair<String,Any?>>(1) { Pair("id", id) }
+        }
+    }
+
+    fun getUser(): Task<User> {
+        return get("/user")
+    }
 
     inline fun <reified T : Any> put(path: String, payload: T, queryParams: Parameters? = null): Task<T> = authenticatedRequest(Fuel::put, path, payload, queryParams)
 
@@ -66,7 +76,7 @@ object ApiClient {
         return post("/weight", payload)
     }
 
-    fun putWeight(payload: Weight): Task<Weight> {
-        return put("/weight/${payload.id}", payload)
+    fun deleteWeight(id: String) {
+        delete("/weight/delete", id)
     }
 }
