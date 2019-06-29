@@ -43,11 +43,11 @@ class WeightDataAdapter(private val myDataset: MutableList<Weight>) :
                 return@setOnLongClickListener true
             }
 
-            holder.itemView.weight_date.text = getItem(position).date.toString()
-            holder.itemView.weight_value.text = getItem(position).weight.toString() + " kg"
+            holder.itemView.weight_date.text = getItem(position).fecha
+            holder.itemView.weight_value.text = getItem(position).peso.toString() + " kg"
             if (position < myDataset.size) {
                 holder.itemView.weight_prev_compare.setImageResource(
-                    if (getItem(position).weight > getItem(position+1).weight)
+                    if (getItem(position).peso > getItem(position+1).peso)
                         R.drawable.baseline_arrow_upward_black_18dp else R.drawable.baseline_arrow_downward_black_18dp
                 )
             }
