@@ -16,6 +16,31 @@ class MyProgressActivity : AppCompatActivity() {
     private lateinit var linearLayoutManager: LinearLayoutManager
     private lateinit var adapter: RecyclerAdapter
 
+    private lateinit var timer: Timer
+    private val fiveSeconds = 10000L
+
+    override fun onResume() {
+        super.onResume()
+
+        val timerTask = object : TimerTask() {
+            override fun run() {
+                runOnUiThread {
+                    getNewMessages()
+                }
+            }
+        }
+
+        timer = Timer()
+        timer.schedule(timerTask, fiveSeconds, fiveSeconds)
+    }
+
+    override fun onPause() {
+        super.onPause()
+
+        timer.cancel()
+        timer.purge()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_my_progress)
@@ -26,6 +51,24 @@ class MyProgressActivity : AppCompatActivity() {
         adapter = RecyclerAdapter(messages)
         recyclerView.adapter = adapter
         recyclerView.scrollToPosition(adapter.messages.size - 1)
+        getMessages()
+    }
+
+    private fun getNewMessages() {
+        ApiClient.getMessages().addOnSuccessListener {
+            Log.d("SUCCESS", "SWEET, SWEET SUCCESS!")
+            val messages = it
+            val newMessages = messages.filter { !adapter.messages.contains(it) }
+            if (newMessages.count() > 0) {
+                adapter.messages = (adapter.messages + newMessages).sortedBy { it.date }
+                recyclerView.scrollToPosition(adapter.messages.size - 1)
+            }
+        }.addOnFailureListener { e ->
+            Log.d("FAILURE", "GASP! SOMETHING WENT WRONG: ${e.message}")
+        }
+    }
+
+    private fun getMessages() {
         ApiClient.getMessages().addOnSuccessListener {
             Log.d("SUCCESS", "SWEET, SWEET SUCCESS!")
             val messages = it
