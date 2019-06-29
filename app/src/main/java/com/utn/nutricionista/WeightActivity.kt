@@ -1,11 +1,12 @@
 package com.utn.nutricionista
 
-import android.annotation.SuppressLint
 import android.graphics.Color
 import android.graphics.Rect
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.components.XAxis
@@ -13,18 +14,14 @@ import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.ValueFormatter
+import com.utn.nutricionista.adapters.WeightDataAdapter
 import com.utn.nutricionista.api.NutritionApi
+import com.utn.nutricionista.models.WeightData
 import kotlinx.android.synthetic.main.activity_weight.*
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 import kotlin.collections.ArrayList
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.utn.nutricionista.adapters.WeightDataAdapter
-
-
-import com.utn.nutricionista.models.WeightData
 
 class WeightActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView

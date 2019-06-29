@@ -1,7 +1,6 @@
 package com.utn.nutricionista
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -10,14 +9,15 @@ import android.widget.ExpandableListView
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.ViewCompat
 import com.github.sundeepk.compactcalendarview.CompactCalendarView
+import com.google.android.material.appbar.AppBarLayout
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
-import com.google.android.material.appbar.AppBarLayout
 
 class HomeActivity : AppCompatActivity() {
 
