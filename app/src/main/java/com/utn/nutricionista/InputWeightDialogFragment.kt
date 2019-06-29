@@ -39,6 +39,7 @@ class InputWeightDialogFragment : DialogFragment(), DatePickerDialog.OnDateSetLi
     private fun saveNewWeightRecord() {
         if (weight.text.isNotEmpty() && date.text.isNotEmpty()) {
             (activity as WeightActivity).saveNewWeightRecord(weight.text.toString().toFloat(), date.text.toString())
+            dialog.dismiss()
         }
     }
 
@@ -50,7 +51,8 @@ class InputWeightDialogFragment : DialogFragment(), DatePickerDialog.OnDateSetLi
     override fun onDateSet(view: DatePicker, year: Int, month: Int, day: Int) {
         // Do something with the date chosen by the user
         //+1 because january is zero
-        val selectedDate = year.toString()  + "-" + (month + 1) + "-" + day
+        val monthStr = (month + 1).toString().padStart(2, '0')
+        val selectedDate = "$year-$monthStr-$day"
         date.setText(selectedDate)
     }
 }
