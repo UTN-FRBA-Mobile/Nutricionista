@@ -27,9 +27,9 @@ object ApiClient {
         }
     }
 
-    inline fun <reified T : Any> authenticatedRequest(crossinline method: (String, Parameters?) -> Request, path: String, payload : T? = null): Task<T> {
+    inline fun <reified T : Any> authenticatedRequest(crossinline method: (String, Parameters?) -> Request, path: String, payload : T? = null, queryParams: Parameters?): Task<T> {
         return withIdToken {
-            method(url(path), null)
+            method(url(path), queryParams)
                 .authentication()
                 .bearer(it)
                 .jsonBody(payload ?: Unit)
@@ -39,18 +39,20 @@ object ApiClient {
         }
     }
 
-    inline fun <reified T : Any> get(path: String): Task<T> = authenticatedRequest(Fuel::get, path)
+    inline fun <reified T : Any> get(path: String, queryParams: Parameters? = null): Task<T> = authenticatedRequest(Fuel::get, path, queryParams = queryParams)
 
-    inline fun <reified T : Any> post(path: String, payload: T): Task<T> = authenticatedRequest(Fuel::post, path, payload)
+    inline fun <reified T : Any> post(path: String, payload: T, queryParams: Parameters? = null): Task<T> = authenticatedRequest(Fuel::post, path, payload, queryParams)
 
-    inline fun <reified T : Any> put(path: String, payload: T): Task<T> = authenticatedRequest(Fuel::put, path, payload)
+    inline fun <reified T : Any> put(path: String, payload: T, queryParams: Parameters? = null): Task<T> = authenticatedRequest(Fuel::put, path, payload, queryParams)
 
-    inline fun <reified T : Any> delete(path: String): Task<T> = authenticatedRequest(Fuel::delete, path)
+    inline fun <reified T : Any> delete(path: String, queryParams: Parameters? = null): Task<T> = authenticatedRequest(Fuel::delete, path, queryParams = queryParams)
 
     //TODO: move these to companion object methods of their respective classes
     fun getUser(): Task<User> = get("/user")
 
     fun getDiets(): Task<List<Diet>> = get("/diet")
+
+    fun getDietsByDate(date: String): Task<List<Diet>> = get("/diet", listOf(Pair("date", date)))
 
     fun postDiet(diet: Diet): Task<Diet> = post("/diet", diet)
 
