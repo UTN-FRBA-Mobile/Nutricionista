@@ -19,9 +19,7 @@ import java.util.concurrent.Executors
 object ApiClient {
     private const val API_HOST = "https://us-central1-test-project-214218.cloudfunctions.net"
 
-    fun url(path: String): String {
-        return "$API_HOST/api$path"
-    }
+    fun url(path: String): String = "$API_HOST/api$path"
 
     fun <T> withIdToken(continuation: (String) -> T): Task<T> {
         return SessionManager.currentUser!!.getIdToken(true).onSuccessTask {
@@ -50,31 +48,17 @@ object ApiClient {
     inline fun <reified T : Any> delete(path: String): Task<T> = authenticatedRequest(Fuel::delete, path)
 
     //TODO: move these to companion object methods of their respective classes
-    fun getUser(): Task<User> {
-        return get("/user")
-    }
+    fun getUser(): Task<User> = get("/user")
 
-    fun getDiets(): Task<List<Diet>> {
-        return get("/diet")
-    }
+    fun getDiets(): Task<List<Diet>> = get("/diet")
 
-    fun postDiet(diet: Diet): Task<Diet> {
-        return post("/diet", diet)
-    }
+    fun postDiet(diet: Diet): Task<Diet> = post("/diet", diet)
 
-    fun getWeight(id: String): Task<WeightData> {
-        return get("/weight/$id")
-    }
+    fun getWeight(id: String): Task<WeightData> = get("/weight/$id")
 
-    fun postWeight(payload: WeightData): Task<WeightData> {
-        return post("/weight", payload)
-    }
+    fun postWeight(payload: WeightData): Task<WeightData> = post("/weight", payload)
 
-    fun putWeight(payload: WeightData): Task<WeightData> {
-        return put("/weight/${payload.id}", payload)
-    }
+    fun putWeight(payload: WeightData): Task<WeightData> = put("/weight/${payload.id}", payload)
 
-    fun deleteWeight(id: String): Task<WeightData> {
-        return delete("/weight/$id")
-    }
+    fun deleteWeight(id: String): Task<WeightData> = delete("/weight/$id")
 }
