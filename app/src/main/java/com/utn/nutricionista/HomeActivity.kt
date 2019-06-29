@@ -79,20 +79,6 @@ class HomeActivity : AppCompatActivity() {
             appBarLayout!!.setExpanded(isExpanded, true)
         }
 
-
-
-
-            expandableListView.setAdapter(expandableListViewAdapter)
-            expandableListView.setOnGroupExpandListener { object : ExpandableListView.OnGroupExpandListener {
-                override fun onGroupExpand(groupPosition: Int) {
-
-                    if(latestExpandedPosition != -1 && groupPosition != latestExpandedPosition){
-                        expandableListView.collapseGroup(latestExpandedPosition)
-                    }
-                    latestExpandedPosition = groupPosition
-                }
-            } }
-
     init()
 
     }
