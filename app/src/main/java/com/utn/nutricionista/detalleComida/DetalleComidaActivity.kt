@@ -13,6 +13,8 @@ import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import com.github.chrisbanes.photoview.PhotoView
 import com.utn.nutricionista.R
+import com.utn.nutricionista.models.MomentoComida
+import kotlinx.android.synthetic.main.activity_detalle_comida.*
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
@@ -23,30 +25,41 @@ class DetalleComidaActivity : AppCompatActivity(),
     DetalleComidaFragment.OnListFragmentInteractionListener {
 
     private val REQUEST_IMAGE_CAPTURE = 1
-    private val PHOTO_PATH = "/Detalle_Comida_36670211988851389587.jpg"
     private var currentPhotoPath: String = ""
+    private val DIETA_PREDEF = 1
+    private val FUERA_DIETA_PREDEF = 2
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        val dietaSeleccionada = getIntentExtras()
         setContentView(R.layout.activity_detalle_comida)
                 supportFragmentManager.beginTransaction()
             .replace(
                 R.id.dietaPropuestaFragmentContainer,
-                DetalleComidaFragment.newPreDefDietaInstance()
+                DetalleComidaFragment.newDietaInstance(dietaSeleccionada, DIETA_PREDEF)
             )
             .commit()
         supportFragmentManager.beginTransaction()
             .replace(
                 R.id.dietaExtraFragmentContainer,
-                DetalleComidaFragment.newExtraDietaInstance()
+                DetalleComidaFragment.newDietaInstance(dietaSeleccionada, FUERA_DIETA_PREDEF)
             )
             .commit()
 
-            takePictureIntent()
+       /* TODO:
+        toolbarDetalle!!.title = dietaSeleccionada.nombre.capitalize()
+        setSupportActionBar(toolbarDetalle)*/
+
+        takePictureIntent(dietaSeleccionada.foto)
 
     }
 
+
+    fun getIntentExtras() : MomentoComida{
+
+        return intent.extras!!["dietaSeleccionada"]!! as MomentoComida
+    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -55,7 +68,6 @@ class DetalleComidaActivity : AppCompatActivity(),
             val imageView = findViewById<ImageView>(R.id.comidaImage)
             imageView.setImageBitmap(BitmapFactory.decodeFile(currentPhotoPath))
             imageView.setOnClickListener{
-
 
                 val mBuilder = AlertDialog.Builder(this)
                 val mView = layoutInflater.inflate(R.layout.fullscreen_image, null)
@@ -70,12 +82,12 @@ class DetalleComidaActivity : AppCompatActivity(),
     }
 
 
-    private fun takePictureIntent() {
+    private fun takePictureIntent(path: String) {
 
-        val checkFile = File(getExternalFilesDir(Environment.DIRECTORY_PICTURES).absolutePath+PHOTO_PATH)
+        val checkFile = File(getExternalFilesDir(Environment.DIRECTORY_PICTURES).absolutePath+"/"+path)
 
         if(checkFile.exists()){
-            val photoFile: String? = getExternalFilesDir(Environment.DIRECTORY_PICTURES+PHOTO_PATH)?.absolutePath
+            val photoFile: String? = getExternalFilesDir(Environment.DIRECTORY_PICTURES+"/"+path)?.absolutePath
             val imageView = findViewById<ImageView>(R.id.comidaImage)
 
             imageView.setImageBitmap(BitmapFactory.decodeFile(photoFile))
@@ -120,7 +132,6 @@ class DetalleComidaActivity : AppCompatActivity(),
             currentPhotoPath = absolutePath
         }
     }
-
 
 
     override fun showFragment(fragment: Fragment) {

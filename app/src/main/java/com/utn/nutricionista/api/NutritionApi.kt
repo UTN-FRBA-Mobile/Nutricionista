@@ -7,13 +7,13 @@ class NutritionApi {
     private val data = mutableListOf<Weight>()
 
     constructor() {
-        data.add(Weight(1, 1, 85.4, LocalDate.of(2018,9,25)))
-        data.add(Weight(2, 1, 82.1, LocalDate.of(2018,10,25)))
-        data.add(Weight(8, 1, 80.3, LocalDate.of(2018,11,25)))
-        data.add(Weight(9, 1, 78.0, LocalDate.of(2019,1,15)))
-        data.add(Weight(7, 1, 78.5, LocalDate.of(2019,1,25)))
-        data.add(Weight(3, 1, 75.4, LocalDate.of(2019,2,25)))
-        data.add(Weight(4, 1, 77.6, LocalDate.of(2019,4,25)))
+        data.add(Weight("id1","id1",  85.4, "2018-09-25"))
+        data.add(Weight("id2","id1",  82.1, "2018-10-25"))
+        data.add(Weight("id8","id1",  80.3, "2018-11-25"))
+        data.add(Weight("id9","id1",  78.0, "2019-01-15"))
+        data.add(Weight("id7","id1",  78.5, "2019-01-25"))
+        data.add(Weight("id3","id1",  75.4, "2019-02-25"))
+        data.add(Weight("id4","id1",  77.6, "2019-04-25"))
     }
 
     fun getWeights(): MutableList<Weight> {

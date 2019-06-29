@@ -7,10 +7,13 @@ import androidx.appcompat.app.AlertDialog
 import android.widget.DatePicker
 import android.app.DatePickerDialog
 import android.icu.util.Calendar
+import android.widget.Button
 import android.widget.EditText
+import kotlinx.android.synthetic.main.fragment_input_weight_dialog.*
 
 class InputWeightDialogFragment : DialogFragment(), DatePickerDialog.OnDateSetListener {
     private lateinit var date : EditText
+    private lateinit var btnAccept : Button
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 
@@ -18,12 +21,26 @@ class InputWeightDialogFragment : DialogFragment(), DatePickerDialog.OnDateSetLi
             val builder = AlertDialog.Builder(it)
             val view = activity!!.layoutInflater.inflate(R.layout.fragment_input_weight_dialog,null,false)
             builder.setView(view)
+                .setTitle("Nuevo registro")
 
             date = view.findViewById(R.id.input_weight_date) as EditText
             date.setOnClickListener { showDatePickerDialog() }
+            btnAccept = view.findViewById(R.id.btnInputWeightConfirm) as Button
+//            btnAccept.setOnClickListener { activity!!.saveNewWeightRecord() }
+
             builder.create()
 
         } ?: throw IllegalStateException("Activity cannot be null")
+    }
+
+    private fun saveNewWeightRecord() {
+        if (input_weight_value.text.isNotEmpty() && input_weight_date.text.isNotEmpty()) {
+            val peso = input_weight_value.text
+            val fecha = input_weight_date.text
+        }
+
+
+            //save
     }
 
     fun showDatePickerDialog() {
