@@ -6,7 +6,7 @@ module.exports = (model) => (app) => {
   }
 
   app.get(endpoint(), withErrors(async (req, res) => {
-    const results = await model.index(req.currentUser.uid);
+    const results = await model.index(req.currentUser.uid, req.query);
 
     return success(res, results);
   }));
