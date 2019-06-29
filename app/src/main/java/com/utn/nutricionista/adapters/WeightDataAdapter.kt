@@ -3,12 +3,15 @@ package com.utn.nutricionista.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.utn.nutricionista.R
 import com.utn.nutricionista.models.Weight
 import kotlinx.android.synthetic.main.item_weight_row.view.*
+import android.content.DialogInterface
+import androidx.appcompat.app.AlertDialog
+import com.utn.nutricionista.ApiClient
+
 
 class WeightDataAdapter(private val myDataset: MutableList<Weight>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -32,17 +35,6 @@ class WeightDataAdapter(private val myDataset: MutableList<Weight>) :
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is ItemViewHolder) {
 
-            holder.itemView.setOnClickListener { view ->
-                Snackbar.make(view, "Highlight Graph", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
-            }
-
-            holder.itemView.setOnLongClickListener { view ->
-                Toast.makeText( view.context,"Offer Delete? ", Toast.LENGTH_SHORT)
-                    .show()
-                return@setOnLongClickListener true
-            }
-
             holder.itemView.weight_date.text = getItem(position).fecha
             holder.itemView.weight_value.text = getItem(position).peso.toString() + " kg"
             if (position < myDataset.size) {
@@ -50,6 +42,26 @@ class WeightDataAdapter(private val myDataset: MutableList<Weight>) :
                     if (getItem(position).peso > getItem(position+1).peso)
                         R.drawable.baseline_arrow_upward_black_18dp else R.drawable.baseline_arrow_downward_black_18dp
                 )
+            }
+
+            holder.itemView.setOnClickListener { view ->
+
+                Snackbar.make(view, "Highlight Graph", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show()
+            }
+
+            holder.itemView.setOnLongClickListener { view ->
+                AlertDialog.Builder(holder.itemView.context)
+                    .setTitle("Eliminar registro")
+                    .setMessage("¿Seguro que desea eliminar el registro?")
+                    .setPositiveButton(android.R.string.yes) { dialog, which ->
+                        ApiClient.deleteWeight(getItem(position).id!!)
+                        dialog.dismiss()
+                    }
+                    .setNegativeButton(android.R.string.no, null)
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show()
+                return@setOnLongClickListener true
             }
         }
     }

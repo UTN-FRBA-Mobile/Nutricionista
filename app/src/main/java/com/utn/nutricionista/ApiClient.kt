@@ -2,11 +2,9 @@ package com.utn.nutricionista
 
 import android.util.Log
 import com.github.kittinunf.fuel.Fuel
-import com.github.kittinunf.fuel.core.*
 import com.github.kittinunf.fuel.core.extensions.authentication
 import com.github.kittinunf.fuel.gson.jsonBody
 import com.github.kittinunf.fuel.gson.responseObject
-import com.github.kittinunf.result.Result
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
 import com.utn.nutricionista.models.Diet
@@ -53,6 +51,16 @@ object ApiClient {
         }
     }
 
+    inline fun delete(path: String, id : String) {
+        withIdToken {
+            Log.d("SUCCESS", it)
+            Fuel.delete(url(path))
+                .authentication()
+                .bearer(it)
+                .parameters = List<Pair<String,Any?>>(1) { Pair("id", id) }
+        }
+    }
+
     fun getUser(): Task<User> {
         return get("/user")
     }
@@ -83,5 +91,9 @@ object ApiClient {
 
     fun postWeight(payload: Weight): Task<Weight> {
         return post("/weight", payload)
+    }
+
+    fun deleteWeight(id: String) {
+        delete("/weight/delete", id)
     }
 }
