@@ -41,7 +41,7 @@
                 android:text="Cancelar"
                 android:id="@+id/btnInputWeightCancel"
                 android:gravity="center_vertical"
-                android:layout_alignEnd="@+id/btnInputWeightConfirm"
+                android:layout_toLeftOf="@+id/btnInputWeightConfirm"
                 android:layout_marginBottom="20dp"
                 android:textColor="#ffffffff"/>
 
