@@ -27,10 +27,19 @@ module.exports = (model) => (app) => {
   }));
 
   app.put(endpoint('/:id'), withErrors(async (req, res) => {
-    const result = await model.get(req.params.id)
+    const instance = await model.get(req.params.id)
 
-    await result.update(req.body)
+    await instance.update(req.body);
 
-    return success(res, result);
+    return success(res, instance);
+  }));
+
+  app.delete(endpoint('/:id'), withErrors(async (req, res) => {
+    const instance = await model.get(req.params.id)
+
+    await instance.delete();
+    delete instance.id;
+    
+    return success(res, instance);
   }));
 };
