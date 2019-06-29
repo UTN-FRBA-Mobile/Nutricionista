@@ -65,7 +65,15 @@ class WeightActivity : AppCompatActivity() {
     }
 
     fun saveNewWeightRecord(weight : Float, date : String) {
-        Log.d("SUCCESS", "llegao peso ${weight} fecha ${date}")
+        var newRecord = Weight(null,null,weight.toDouble(),date)
+
+        ApiClient.postWeight(newRecord).addOnSuccessListener {
+            val postedWeight = it
+            refreshWeightData()
+            Log.d("SUCCESS", "Saved Id:${postedWeight.id} with peso ${postedWeight.peso}, fecha ${postedWeight.fecha}")
+        }.addOnFailureListener { e ->
+            Log.d("ERROR", "Insert failed with error ${e.message}}")
+        }
     }
 
     private fun loadTable(weightRecords : MutableList<Weight>) {
