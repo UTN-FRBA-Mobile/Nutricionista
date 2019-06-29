@@ -40,6 +40,7 @@ class WeightActivity : AppCompatActivity() {
         setContentView(R.layout.activity_weight)
         setSupportActionBar(toolbar)
         title = "Mi Peso"
+        fab.setOnClickListener { view -> openAddWeightRecord(view) }
 
         refreshWeightData()
     }
@@ -56,8 +57,6 @@ class WeightActivity : AppCompatActivity() {
         }.addOnFailureListener { e ->
             Log.d("FAILURE", "GASP! SOMETHING WENT WRONG: ${e.message}")
         }
-
-        fab.setOnClickListener { view -> openAddWeightRecord(view) }
     }
 
     private fun openAddWeightRecord(view: View) {

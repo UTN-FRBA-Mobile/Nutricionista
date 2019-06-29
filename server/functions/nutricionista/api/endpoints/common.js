@@ -26,6 +26,13 @@ module.exports = (model) => (app) => {
     return success(res, instance);
   }));
 
+  app.post(endpoint('/delete'), withErrors(async (req, res) => {
+    const id = req.params["id"];
+    const instance = await model.delete(id);
+
+    return success(res, instance)
+  }));
+
   app.put(endpoint('/:id'), withErrors(async (req, res) => {
     const result = await model.get(req.params.id)
 

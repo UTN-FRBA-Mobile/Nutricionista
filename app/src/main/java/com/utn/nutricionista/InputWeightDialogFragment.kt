@@ -9,7 +9,6 @@ import android.app.DatePickerDialog
 import android.icu.util.Calendar
 import android.widget.Button
 import android.widget.EditText
-import kotlinx.android.synthetic.main.fragment_input_weight_dialog.*
 
 class InputWeightDialogFragment : DialogFragment(), DatePickerDialog.OnDateSetListener {
     private lateinit var date : EditText
