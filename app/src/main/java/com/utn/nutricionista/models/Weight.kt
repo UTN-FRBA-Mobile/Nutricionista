@@ -3,7 +3,7 @@ import java.time.LocalDate
 
 class Weight(var id:  String?,
              var uid : String? = null,
-             var peso: Double,
+             var peso: Float,
              var fecha : String)
 {
     fun date(): LocalDate {
