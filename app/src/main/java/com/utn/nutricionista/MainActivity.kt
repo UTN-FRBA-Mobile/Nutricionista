@@ -2,19 +2,9 @@ package com.utn.nutricionista
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import com.github.kittinunf.fuel.core.FuelError
-import com.github.kittinunf.fuel.core.Request
-import com.github.kittinunf.fuel.core.Response
-import com.github.kittinunf.fuel.core.ResponseHandler
 import com.utn.nutricionista.detalleComida.DetalleComidaActivity
-import com.utn.nutricionista.models.Diet
-import com.utn.nutricionista.models.Message
-import com.utn.nutricionista.models.User
-import java.time.LocalDateTime
-import java.util.*
 
 
 class MainActivity : AppCompatActivity() {

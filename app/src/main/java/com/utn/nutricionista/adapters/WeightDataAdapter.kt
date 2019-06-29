@@ -1,5 +1,6 @@
 package com.utn.nutricionista.adapters
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,12 +9,11 @@ import com.google.android.material.snackbar.Snackbar
 import com.utn.nutricionista.R
 import com.utn.nutricionista.models.Weight
 import kotlinx.android.synthetic.main.item_weight_row.view.*
-import android.content.DialogInterface
 import androidx.appcompat.app.AlertDialog
-import com.utn.nutricionista.ApiClient
+import com.utn.nutricionista.WeightActivity
 
 
-class WeightDataAdapter(private val myDataset: MutableList<Weight>) :
+class WeightDataAdapter(private val myDataset: MutableList<Weight>, private val context : Context) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val TYPE_HEADER = 0
@@ -53,9 +53,9 @@ class WeightDataAdapter(private val myDataset: MutableList<Weight>) :
             holder.itemView.setOnLongClickListener { view ->
                 AlertDialog.Builder(holder.itemView.context)
                     .setTitle("Eliminar registro")
-                    .setMessage("¿Seguro que desea eliminar el registro?")
+                    .setMessage("¿Desea eliminar el registro?")
                     .setPositiveButton(android.R.string.yes) { dialog, which ->
-                        ApiClient.deleteWeight(getItem(position).id!!)
+                        (context as WeightActivity).deleteWeight(getItem(position).id!!)
                         dialog.dismiss()
                     }
                     .setNegativeButton(android.R.string.no, null)
