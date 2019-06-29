@@ -12,6 +12,7 @@ import android.widget.EditText
 class InputWeightDialogFragment : DialogFragment(), DatePickerDialog.OnDateSetListener {
     private lateinit var date : EditText
     private lateinit var btnAccept : Button
+    private lateinit var btnCancel : Button
     private lateinit var weight : EditText
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -24,6 +25,9 @@ class InputWeightDialogFragment : DialogFragment(), DatePickerDialog.OnDateSetLi
             weight = view.findViewById(R.id.input_weight_value) as EditText
             date = view.findViewById(R.id.input_weight_date) as EditText
             date.setOnClickListener { showDatePickerDialog() }
+
+            btnCancel = view.findViewById(R.id.btnInputWeightCancel) as Button
+            btnCancel.setOnClickListener { dialog.dismiss()}
             btnAccept = view.findViewById(R.id.btnInputWeightConfirm) as Button
             btnAccept.setOnClickListener { saveNewWeightRecord() }
 
@@ -34,10 +38,8 @@ class InputWeightDialogFragment : DialogFragment(), DatePickerDialog.OnDateSetLi
 
     private fun saveNewWeightRecord() {
         if (weight.text.isNotEmpty() && date.text.isNotEmpty()) {
-            val peso = weight.text
-            val fecha = date.text
+            (activity as WeightActivity).saveNewWeightRecord(weight.text.toString().toFloat(), date.text.toString())
         }
-            //save
     }
 
     fun showDatePickerDialog() {
