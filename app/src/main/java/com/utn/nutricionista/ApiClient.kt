@@ -47,6 +47,8 @@ object ApiClient {
 
     inline fun <reified T : Any> put(path: String, payload: T): Task<T> = authenticatedRequest(Fuel::put, path, payload)
 
+    inline fun <reified T : Any> delete(path: String): Task<T> = authenticatedRequest(Fuel::delete, path)
+
     //TODO: move these to companion object methods of their respective classes
     fun getUser(): Task<User> {
         return get("/user")
@@ -70,5 +72,9 @@ object ApiClient {
 
     fun putWeight(payload: WeightData): Task<WeightData> {
         return put("/weight/${payload.id}", payload)
+    }
+
+    fun deleteWeight(id: String): Task<WeightData> {
+        return delete("/weight/$id")
     }
 }
