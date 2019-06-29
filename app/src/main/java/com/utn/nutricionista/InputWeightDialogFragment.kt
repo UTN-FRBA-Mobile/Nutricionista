@@ -26,6 +26,14 @@ class InputWeightDialogFragment : DialogFragment(), DatePickerDialog.OnDateSetLi
         } ?: throw IllegalStateException("Activity cannot be null")
     }
 
+    private fun saveNewWeightRecord() {
+        if (input_weight_value.text.isNotEmpty() && input_weight_date.text.isNotEmpty()) {
+            val peso = input_weight_value.text
+            val fecha = input_weight_date.text
+        }
+            //save
+    }
+
     fun showDatePickerDialog() {
         val newFragment = DatePickerFragment().newInstance(this)
         newFragment.show(activity!!.supportFragmentManager, "datePicker")
