@@ -63,22 +63,12 @@ class WeightActivity : AppCompatActivity() {
         InputWeightDialogFragment().show(this.supportFragmentManager,"inputWeight")
     }
 
-    fun saveNewWeightRecord(weight : Float, date : String) {
-        var newRecord = Weight(null,null,weight,date)
-
-        ApiClient.postWeight(newRecord).addOnSuccessListener {
-            val postedWeight = it
-            refreshWeightData()
-            Log.d("SUCCESS", "Saved Id:${postedWeight.id} with peso ${postedWeight.peso}, fecha ${postedWeight.fecha}")
-        }.addOnFailureListener { e ->
-            Log.d("ERROR", "Insert failed with error ${e.message}}")
-        }
-    }
+    //region Set Up Data Display
 
     private fun loadTable(weightRecords : MutableList<Weight>) {
         viewManager = LinearLayoutManager(this)
         var sortedData = weightRecords.sortedBy { x -> x.date() }.asReversed()
-        viewAdapter = WeightDataAdapter(sortedData.toMutableList())
+        viewAdapter = WeightDataAdapter(sortedData.toMutableList(), this)
         viewAdapter.notifyDataSetChanged()
 
         recyclerView = findViewById<RecyclerView>(R.id.weight_table).apply {
@@ -191,6 +181,30 @@ class WeightActivity : AppCompatActivity() {
             return format.format(valueDate)
         }
     }
+
+    //endregion
+
+    //region Data Operations
+
+    fun saveNewWeightRecord(weight : Float, date : String) {
+        var newRecord = Weight(null,null,weight,date)
+
+        ApiClient.postWeight(newRecord).addOnSuccessListener {
+            val postedWeight = it
+            refreshWeightData()
+            Log.d("SUCCESS", "Saved Id:${postedWeight.id} with peso ${postedWeight.peso}, fecha ${postedWeight.fecha}")
+        }.addOnFailureListener { e ->
+            Log.d("ERROR", "Insert failed with error ${e.message}}")
+        }
+    }
+
+    fun deleteWeight(id: String) {
+        ApiClient.deleteWeight(id).addOnSuccessListener {
+            refreshWeightData()
+        }
+    }
+
+    //endregion
 }
 
 class ItemOffsetDecoration(var offset : Int) : RecyclerView.ItemDecoration() {

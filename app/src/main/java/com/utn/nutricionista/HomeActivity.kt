@@ -8,13 +8,29 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.ExpandableListView
+import android.widget.ImageView
+import android.widget.RelativeLayout
+import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
+import androidx.core.view.ViewCompat
 import com.utn.nutricionista.models.MomentoComida
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
+import com.github.sundeepk.compactcalendarview.CompactCalendarView
+import com.google.android.material.appbar.AppBarLayout
+import java.text.SimpleDateFormat
 
 class HomeActivity : AppCompatActivity() {
 
     var toolbar: Toolbar? = null
+    private var appBarLayout: AppBarLayout? = null
+
+    private val dateFormat = SimpleDateFormat("d MMMM yyyy", /*Locale.getDefault()*/Locale.ENGLISH)
+    private var compactCalendarView: CompactCalendarView? = null
+    private var isExpanded = false
+
     lateinit private var expandableListView: ExpandableListView
     lateinit private var expandableListViewAdapter: HomeExpandibleListAdapter
     var dietaPreDefArr = HashMap<String,List<String>>()
@@ -25,27 +41,53 @@ class HomeActivity : AppCompatActivity() {
         setContentView(R.layout.activity_home)
 
         toolbar = findViewById(R.id.toolbarHome)
-        toolbar?.setTitle(R.string.dieta_home)
         setSupportActionBar(toolbar)
 
+        appBarLayout = findViewById(R.id.app_bar_layout)
+        // Set up the CompactCalendarView
+        compactCalendarView = findViewById(R.id.compactcalendar_view)
+        // Force English
+        compactCalendarView!!.setLocale(TimeZone.getDefault(), /*Locale.getDefault()*/Locale.ENGLISH)
+
+        compactCalendarView!!.setShouldDrawDaysHeader(true)
+
+        compactCalendarView!!.setListener(object : CompactCalendarView.CompactCalendarViewListener {
+            override fun onDayClick(dateClicked: Date) {
+                setSubtitle(dateFormat.format(dateClicked))
+            }
+
+            override fun onMonthScroll(firstDayOfNewMonth: Date) {
+                setSubtitle(dateFormat.format(firstDayOfNewMonth))
+            }
+        })
+
+        // Set current date to today
+        setCurrentDate(Date())
+
+        val arrow = findViewById<ImageView>(R.id.date_picker_arrow)
+
+        val datePickerButton = findViewById<RelativeLayout>(R.id.date_picker_button)
+
+        datePickerButton.setOnClickListener { v ->
+            val rotation = (if (isExpanded) 0 else 180).toFloat()
+            ViewCompat.animate(arrow).rotation(rotation).start()
+
+            isExpanded = !isExpanded
+            appBarLayout!!.setExpanded(isExpanded, true)
+        }
+
         init()
-
     }
 
-    fun buttonPressed(view: View) {
-        val intent = Intent(this, DietActivity::class.java)
-        startActivity(intent)
-    }
-
-    private fun init(){
+    private fun init() {
 
         ApiClient.getDiets().addOnSuccessListener { dietas ->
-           val itemNameList  =
-           dietas.map{d ->
-               d.momentos?.map { m ->
-                   m.nombre.capitalize()
-               }
-           }
+            val itemNameList =
+                dietas.map { d ->
+                    d.momentos?.map { m ->
+                        m.nombre.capitalize()
+                    }
+                }
 
             expandableListView = findViewById(R.id.home_expandable_list_view)
             expandableListViewAdapter = HomeExpandibleListAdapter(
@@ -55,21 +97,42 @@ class HomeActivity : AppCompatActivity() {
             )
 
             expandableListView.setAdapter(expandableListViewAdapter)
-            expandableListView.setOnGroupExpandListener { object : ExpandableListView.OnGroupExpandListener {
-                override fun onGroupExpand(groupPosition: Int) {
+            expandableListView.setOnGroupExpandListener {
+                object : ExpandableListView.OnGroupExpandListener {
+                    override fun onGroupExpand(groupPosition: Int) {
 
-                    if(latestExpandedPosition != -1 && groupPosition != latestExpandedPosition){
-                        expandableListView.collapseGroup(latestExpandedPosition)
+                        if (latestExpandedPosition != -1 && groupPosition != latestExpandedPosition) {
+                            expandableListView.collapseGroup(latestExpandedPosition)
+                        }
+                        latestExpandedPosition = groupPosition
                     }
-                    latestExpandedPosition = groupPosition
                 }
-            } }
+            }
 
 
         }.addOnFailureListener { e ->
             Log.d("FAILURE", "GASP! SOMETHING WENT WRONG: ${e.message}")
         }
+    }
 
+    private fun setCurrentDate(date: Date) {
+        setSubtitle(dateFormat.format(date))
+        if (compactCalendarView != null) {
+            compactCalendarView!!.setCurrentDate(date)
+        }
+    }
+
+    private fun setSubtitle(subtitle: String) {
+        val datePickerTextView = findViewById<TextView>(R.id.date_picker_text_view)
+
+        if (datePickerTextView != null) {
+            datePickerTextView.text = subtitle
+        }
+    }
+
+    fun buttonPressed(view: View) {
+        val intent = Intent(this, DietActivity::class.java)
+        startActivity(intent)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -86,8 +149,4 @@ class HomeActivity : AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
-
-
-
-
 }

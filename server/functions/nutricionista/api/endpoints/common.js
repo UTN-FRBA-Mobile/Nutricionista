@@ -6,7 +6,7 @@ module.exports = (model) => (app) => {
   }
 
   app.get(endpoint(), withErrors(async (req, res) => {
-    const results = await model.index(req.currentUser.uid);
+    const results = await model.index(req.currentUser.uid, req.query);
 
     return success(res, results);
   }));
@@ -26,18 +26,20 @@ module.exports = (model) => (app) => {
     return success(res, instance);
   }));
 
-  app.post(endpoint('/delete'), withErrors(async (req, res) => {
-    const id = req.params["id"];
-    const instance = await model.delete(id);
+  app.put(endpoint('/:id'), withErrors(async (req, res) => {
+    const instance = await model.get(req.params.id)
 
-    return success(res, instance)
+    await instance.update(req.body);
+
+    return success(res, instance);
   }));
 
-  app.put(endpoint('/:id'), withErrors(async (req, res) => {
-    const result = await model.get(req.params.id)
+  app.delete(endpoint('/:id'), withErrors(async (req, res) => {
+    const instance = await model.get(req.params.id)
 
-    await result.update(req.body)
+    await instance.delete();
+    delete instance.id;
 
-    return success(res, result);
+    return success(res, instance);
   }));
 };
