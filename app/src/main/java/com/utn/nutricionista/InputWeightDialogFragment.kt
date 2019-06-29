@@ -38,8 +38,6 @@ class InputWeightDialogFragment : DialogFragment(), DatePickerDialog.OnDateSetLi
             val peso = input_weight_value.text
             val fecha = input_weight_date.text
         }
-
-
             //save
     }
 
