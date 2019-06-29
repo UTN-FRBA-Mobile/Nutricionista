@@ -41,10 +41,10 @@ class WeightActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         title = "Mi Peso"
 
-        init()
+        refreshWeightData()
     }
 
-    private fun init() {
+    private fun refreshWeightData() {
         val progressBar: ProgressBar = this.progressBar
         progressBar.visibility = View.VISIBLE
         ApiClient.getWeights().addOnSuccessListener {
