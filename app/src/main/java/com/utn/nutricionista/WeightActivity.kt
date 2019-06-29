@@ -5,6 +5,7 @@ import android.graphics.Rect
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.AxisBase
@@ -13,7 +14,6 @@ import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.ValueFormatter
-import com.utn.nutricionista.api.NutritionApi
 import com.utn.nutricionista.models.Weight
 import kotlinx.android.synthetic.main.activity_weight.*
 import java.text.SimpleDateFormat
@@ -25,6 +25,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.utn.nutricionista.adapters.WeightDataAdapter
 import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.formatter.IFillFormatter
+import kotlinx.android.synthetic.main.fragment_weight.*
 import java.time.LocalDate
 
 class WeightActivity : AppCompatActivity() {
@@ -32,6 +33,7 @@ class WeightActivity : AppCompatActivity() {
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: RecyclerView.LayoutManager
     private lateinit var pesos : MutableList<Weight>
+    private lateinit var spinner : ProgressBar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,17 +41,21 @@ class WeightActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         title = "Mi Peso"
 
-//        val weightRecords = NutritionApi().getWeights()
+        init()
+    }
+
+    private fun init() {
+        val progressBar: ProgressBar = this.progressBar
+        progressBar.visibility = View.VISIBLE
         ApiClient.getWeights().addOnSuccessListener {
             Log.d("SUCCESS", "SWEET, SWEET SUCCESS!")
             pesos = it.toMutableList()
+            progressBar.visibility = View.GONE
             loadChart(pesos)
             loadTable(pesos)
         }.addOnFailureListener { e ->
             Log.d("FAILURE", "GASP! SOMETHING WENT WRONG: ${e.message}")
         }
-//        loadChart(weightRecords)
-//        loadTable(weightRecords)
 
         fab.setOnClickListener { view -> openAddWeightRecord(view) }
     }
@@ -59,7 +65,7 @@ class WeightActivity : AppCompatActivity() {
     }
 
     fun saveNewWeightRecord(weight : Float, date : String) {
-
+        Log.d("SUCCESS", "llegao peso ${weight} fecha ${date}")
     }
 
     private fun loadTable(weightRecords : MutableList<Weight>) {
