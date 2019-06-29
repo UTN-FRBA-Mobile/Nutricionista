@@ -3,6 +3,7 @@ package com.utn.nutricionista
 import android.graphics.Color
 import android.graphics.Rect
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.github.mikephil.charting.charts.LineChart
@@ -24,29 +25,31 @@ import androidx.recyclerview.widget.RecyclerView
 import com.utn.nutricionista.adapters.WeightDataAdapter
 import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.formatter.IFillFormatter
+import java.time.LocalDate
 
 class WeightActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: RecyclerView.LayoutManager
+    private lateinit var pesos : MutableList<Weight>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_weight)
         setSupportActionBar(toolbar)
+        title = "Mi Peso"
 
-        val weightRecords = NutritionApi().getWeights()
-
-        val otherRecs = ApiClient.getWeights()
-//
-//            ApiClient.getDiets().addOnSuccessListener { dietas ->
-//            val itemNameList  =
-//                dietas.map{d ->
-//                }
-//            }
-
-        loadChart(weightRecords)
-        loadTable(weightRecords)
+//        val weightRecords = NutritionApi().getWeights()
+        ApiClient.getWeights().addOnSuccessListener {
+            Log.d("SUCCESS", "SWEET, SWEET SUCCESS!")
+            pesos = it.toMutableList()
+            loadChart(pesos)
+            loadTable(pesos)
+        }.addOnFailureListener { e ->
+            Log.d("FAILURE", "GASP! SOMETHING WENT WRONG: ${e.message}")
+        }
+//        loadChart(weightRecords)
+//        loadTable(weightRecords)
 
         fab.setOnClickListener { view -> openAddWeightRecord(view) }
     }
@@ -55,9 +58,13 @@ class WeightActivity : AppCompatActivity() {
         InputWeightDialogFragment().show(this.supportFragmentManager,"inputWeight")
     }
 
+    fun saveNewWeightRecord(weight : Float, date : String) {
+
+    }
+
     private fun loadTable(weightRecords : MutableList<Weight>) {
         viewManager = LinearLayoutManager(this)
-        var sortedData = weightRecords.sortedBy { x -> x.date }.asReversed()
+        var sortedData = weightRecords.sortedBy { x -> x.date() }.asReversed()
         viewAdapter = WeightDataAdapter(sortedData.toMutableList())
         viewAdapter.notifyDataSetChanged()
 
@@ -75,11 +82,11 @@ class WeightActivity : AppCompatActivity() {
         var dateLabels = mutableMapOf<Long,String>()
 
         for (weightRecord in weightRecords) {
-            var day = weightRecord.date.toEpochDay()
+            var day = weightRecord.date().toEpochDay()
             if (dayStart == 0)
                 dayStart = day.toInt()
 
-            dateLabels[day] = weightRecord.date.toString()
+            dateLabels[day] = weightRecord.date().toString()
             var dayAdjusted = day - dayStart
             entries.add(Entry((dayAdjusted).toFloat(), weightRecord.weight.toFloat()))
         }

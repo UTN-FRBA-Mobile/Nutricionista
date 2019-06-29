@@ -26,12 +26,12 @@
                 android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
-        <activity android:name=".detalleComida.DetalleComidaActivity">
-        </activity>
         <activity
-                android:name=".LoginActivity"
-                android:label="@string/title_activity_login">
+                android:name=".detalleComida.DetalleComidaActivity"
+                android:label="@string/title_activity_weight"
+                android:theme="@style/AppTheme.NoActionBar">
         </activity>
+
         <activity android:name=".CalendarActivity">
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"

@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.utn.nutricionista.R
+import com.utn.nutricionista.models.MomentoComida
 
 /**
  * A fragment representing a list of Items.
@@ -27,38 +28,23 @@ class DetalleComidaFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
-        //Datos Mockeados --> obtenidos desde la BD
-        val dietaPreDefArr:  List<DetalleComida> = arrayListOf(
-            DetalleComida("Medialunas", 2),
-            DetalleComida("Tazas de Cafe", 1),
-            DetalleComida("Tostadas", 2),
-            DetalleComida("Galletitas dulces", 3),
-            DetalleComida("Te", 2)
-        )
-
-        //Datos Mockeados --> obtenidos desde la BD
-        var dietaRealArr: List<DetalleComida> = arrayListOf(
-            DetalleComida("Tostadas", 2),
-            DetalleComida("Medialunas", 2),
-            DetalleComida("Tazas de Cafe", 1),
-            DetalleComida("Jugo de Naranja", 1)
-        )
-
-
-        val tipoDieta: Int = this.arguments!!.getInt("tipoDieta")
+        val momento: MomentoComida = this.arguments!!.getParcelable("momento")!!
+        val tipoDieta : Int = this.arguments!!.getInt("tipoDieta")
+        var dietaPreDefArr = momento.predefinida
+        var dietaRealArr = momento.extras
         when(tipoDieta){
             DIETA_PREDEF -> {
-                dietaRealArr = dietaPreDefArr.onEach { item -> if(item.detalle in dietaRealArr.map { e -> e.detalle }) item.tipoItem = DIETA_PREDEF }
+                dietaRealArr = dietaPreDefArr.onEach { item -> if(item.nombreComida in dietaRealArr.map { e -> e.nombreComida }) item.realizada = true }
 
             }
             FUERA_DIETA_PREDEF -> {
-                dietaRealArr = dietaRealArr.filter{ item -> item.detalle !in dietaPreDefArr.map { e->e.detalle } }.onEach { e -> e.tipoItem=FUERA_DIETA_PREDEF }
+                dietaRealArr = dietaRealArr.filter{ item -> item.nombreComida !in dietaPreDefArr.map { e->e.nombreComida } }
             }
             else ->{
             }
         }
 
-        detalleComidaAdapter.setData(dietaRealArr)
+        detalleComidaAdapter.setData(dietaRealArr, tipoDieta)
         detalleComidaAdapter.notifyDataSetChanged()
     }
 
@@ -118,20 +104,13 @@ class DetalleComidaFragment : Fragment() {
          * @param title Title.
          * @return A new instance of fragment MainFragment.
          */
-        @JvmStatic
-        fun newExtraDietaInstance(): DetalleComidaFragment {
-            val newFragment = DetalleComidaFragment()
-            val args = Bundle()
-            args.putInt("tipoDieta", 2)
-            newFragment.arguments = args
-            return newFragment
-        }
 
         @JvmStatic
-        fun newPreDefDietaInstance(): DetalleComidaFragment {
+        fun newDietaInstance(momento : MomentoComida, tipoDieta : Int): DetalleComidaFragment {
             val newFragment = DetalleComidaFragment()
             val args = Bundle()
-            args.putInt("tipoDieta", 1)
+            args.putParcelable("momento", momento)
+            args.putInt("tipoDieta", tipoDieta)
             newFragment.arguments = args
             return newFragment
         }

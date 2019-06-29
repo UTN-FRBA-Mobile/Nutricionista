@@ -7,7 +7,7 @@
               android:orientation="horizontal" android:id="@+id/itemDetalleComidaList" android:padding="10dp">
     <ImageView
             android:layout_width="40dp"
-            android:layout_height="35dp" app:srcCompat="@drawable/icons8_eliminar_64"
+            android:layout_height="35dp"
             android:id="@+id/statusComidaIcon"
     />
     <TextView

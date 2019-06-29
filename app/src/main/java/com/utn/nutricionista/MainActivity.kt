@@ -11,7 +11,10 @@ import com.github.kittinunf.fuel.core.Response
 import com.github.kittinunf.fuel.core.ResponseHandler
 import com.utn.nutricionista.detalleComida.DetalleComidaActivity
 import com.utn.nutricionista.models.Diet
+import com.utn.nutricionista.models.Message
 import com.utn.nutricionista.models.User
+import java.time.LocalDateTime
+import java.util.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -24,12 +27,6 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, LoginActivity::class.java))
             finish()
             return
-        }
-
-        ApiClient.postDiet(Diet(fecha = "10/13")).addOnSuccessListener {
-            Log.d("SUCCESS", "SWEET, SWEET SUCCESS!")
-        }.addOnFailureListener { e ->
-            Log.d("FAILURE", "GASP! SOMETHING WENT WRONG: ${e.message}")
         }
 
     }
