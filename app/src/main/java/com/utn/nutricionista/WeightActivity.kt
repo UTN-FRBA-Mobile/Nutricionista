@@ -13,9 +13,7 @@ import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.ValueFormatter
-import com.google.android.material.snackbar.Snackbar
 import com.utn.nutricionista.api.NutritionApi
-import com.utn.nutricionista.models.WeightData
 import kotlinx.android.synthetic.main.activity_weight.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -25,6 +23,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.utn.nutricionista.adapters.WeightDataAdapter
 
+
+import com.utn.nutricionista.models.WeightData
 
 class WeightActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
@@ -40,13 +40,11 @@ class WeightActivity : AppCompatActivity() {
         loadChart(weightRecords)
         loadTable(weightRecords)
 
-        fab.setOnClickListener { view -> addWeightRecord(view) }
+        fab.setOnClickListener { view -> openAddWeightRecord(view) }
     }
 
-    @SuppressLint("OnClick")
-    private fun addWeightRecord(view: View) {
-        Snackbar.make(view, "TODO: Add dialog", Snackbar.LENGTH_LONG)
-            .setAction("Action", null).show()
+    private fun openAddWeightRecord(view: View) {
+        InputWeightDialogFragment().show(this.supportFragmentManager,"inputWeight")
     }
 
     private fun loadTable(weightRecords : MutableList<WeightData>) {
