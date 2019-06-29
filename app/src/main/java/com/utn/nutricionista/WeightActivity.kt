@@ -21,7 +21,7 @@ import java.util.concurrent.TimeUnit
 import kotlin.collections.ArrayList
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.utn.nutricionista.Adapters.WeightDataAdapter
+import com.utn.nutricionista.adapters.WeightDataAdapter
 import com.utn.nutricionista.models.WeightData
 
 class WeightActivity : AppCompatActivity() {

@@ -44,7 +44,40 @@ class HomeActivity : AppCompatActivity() {
         toolbar = findViewById(R.id.toolbarHome)
         setSupportActionBar(toolbar)
 
-        init()
+        appBarLayout = findViewById(R.id.app_bar_layout)
+        // Set up the CompactCalendarView
+        compactCalendarView = findViewById(R.id.compactcalendar_view)
+        // Force English
+        compactCalendarView!!.setLocale(TimeZone.getDefault(), /*Locale.getDefault()*/Locale.ENGLISH)
+
+        compactCalendarView!!.setShouldDrawDaysHeader(true)
+
+        compactCalendarView!!.setListener(object : CompactCalendarView.CompactCalendarViewListener {
+            override fun onDayClick(dateClicked: Date) {
+                setSubtitle(dateFormat.format(dateClicked))
+            }
+
+            override fun onMonthScroll(firstDayOfNewMonth: Date) {
+                setSubtitle(dateFormat.format(firstDayOfNewMonth))
+            }
+        })
+
+        // Set current date to today
+        setCurrentDate(Date())
+
+        val arrow = findViewById<ImageView>(R.id.date_picker_arrow)
+
+        val datePickerButton = findViewById<RelativeLayout>(R.id.date_picker_button)
+
+        datePickerButton.setOnClickListener { v ->
+            val rotation = (if (isExpanded) 0 else 180).toFloat()
+            ViewCompat.animate(arrow).rotation(rotation).start()
+
+            isExpanded = !isExpanded
+            appBarLayout!!.setExpanded(isExpanded, true)
+        }
+
+    init()
 
     }
 
