@@ -8,8 +8,13 @@ class Resource {
     this.id = doc.ref.id;
   }
 
-  static async index(uid) {
-    const results = await this.collectionRef.where('uid', '==', uid).get();
+  static async index(uid, query) {
+    const filters = Object.entries(query);
+    filters.push(['uid', uid]);
+
+    const dbQuery = filters.reduce((accQuery, [key, value]) => 
+      accQuery.where(key, '==', value), this.collectionRef);
+    const results = await dbQuery.get();
 
     return results.docs.map((data) => new this(data));
   }
