@@ -63,4 +63,8 @@ object ApiClient {
     fun putWeight(payload: WeightData): Task<WeightData> = put("/weight/${payload.id}", payload)
 
     fun deleteWeight(id: String): Task<WeightData> = delete("/weight/$id")
+
+    fun getMessages(): Task<List<Message>> = get("/message")
+
+    fun postMessage(payload: Message): Task<Message> = post("/message", payload)
 }
