@@ -19,7 +19,7 @@ class MessagesActivity : AppCompatActivity() {
     private lateinit var adapterMessages: MessagesRecyclerAdapter
 
     private lateinit var timer: Timer
-    private val fiveSeconds = 10000L
+    private val tenSeconds = 10000L
 
     override fun onResume() {
         super.onResume()
@@ -33,7 +33,7 @@ class MessagesActivity : AppCompatActivity() {
         }
 
         timer = Timer()
-        timer.schedule(timerTask, fiveSeconds, fiveSeconds)
+        timer.schedule(timerTask, tenSeconds, tenSeconds)
     }
 
     override fun onPause() {
@@ -52,68 +52,61 @@ class MessagesActivity : AppCompatActivity() {
         val messages = ArrayList<Message>()
         adapterMessages = MessagesRecyclerAdapter(messages)
         recyclerView.adapter = adapterMessages
-        recyclerView.scrollToPosition(adapterMessages.messages.size - 1)
-        getMessages()
+        getNewMessages()
     }
 
     private fun getNewMessages() {
         ApiClient.getMessages().addOnSuccessListener {
-            Log.d("SUCCESS", "SWEET, SWEET SUCCESS!")
             val messages = it
             val newMessages = messages.filter { !adapterMessages.messages.contains(it) }
             if (newMessages.count() > 0) {
-                adapterMessages.messages = (adapterMessages.messages + newMessages).sortedBy { it.date }
-                recyclerView.scrollToPosition(adapterMessages.messages.size - 1)
+                val updatedMessages = adapterMessages.messages + newMessages
+                updateMessages(updatedMessages)
             }
-        }.addOnFailureListener { e ->
-            Log.d("FAILURE", "GASP! SOMETHING WENT WRONG: ${e.message}")
-        }
-    }
-
-    private fun getMessages() {
-        ApiClient.getMessages().addOnSuccessListener {
-            Log.d("SUCCESS", "SWEET, SWEET SUCCESS!")
-            val messages = it
-            adapterMessages = MessagesRecyclerAdapter(messages.sortedBy { it.date })
-            recyclerView.adapter = adapterMessages
-            recyclerView.scrollToPosition(adapterMessages.messages.size - 1)
         }.addOnFailureListener { e ->
             Log.d("FAILURE", "GASP! SOMETHING WENT WRONG: ${e.message}")
         }
     }
 
     fun buttonPressed(view: View) {
-        var newMessage = Message(null,
-        "Diego", // change to user name when profile is ready
-        textfield.text.toString(),
-        Date(),
-        MessageStatus.SENDING,
-        own = true)
-        adapterMessages.messages = (adapterMessages.messages + newMessage).sortedBy { it.date }
-        recyclerView.adapter = adapterMessages
-        recyclerView.scrollToPosition(adapterMessages.messages.size - 1)
-        textfield.setText("")
+        var newMessage = getNewMessage()
+        val messages = adapterMessages.messages + newMessage
+        updateMessages(messages)
+        emptyTextField()
         ApiClient.postMessage(newMessage.getMessageForPost()).addOnSuccessListener {
             val postedMessage = it
             val removedWaitingMessage = adapterMessages.messages.filter {
                 !it.equals(newMessage)
             }
-            adapterMessages.messages = (removedWaitingMessage + postedMessage).sortedBy { it.date }
-            recyclerView.adapter = adapterMessages
-            recyclerView.scrollToPosition(adapterMessages.messages.size - 1)
+            val messages = removedWaitingMessage + postedMessage
+            updateMessages(messages)
         }.addOnFailureListener { e ->
             val removedWaitingMessage = adapterMessages.messages.filter {
                 !it.equals(newMessage)
             }
-            adapterMessages.messages = (removedWaitingMessage + newMessage.getErrorMessage()).sortedBy { it.date }
-            recyclerView.adapter = adapterMessages
-            recyclerView.scrollToPosition(adapterMessages.messages.size - 1)
+            val messages = removedWaitingMessage + newMessage.getErrorMessage()
+            updateMessages(messages)
         }
     }
 
-    private fun getCurrentDateFormatted(): String {
-        val current = Calendar.getInstance().time
-        val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-        return formatter.format(current)
+    private fun getNewMessage(): Message {
+        return Message(
+            null,
+            "Diego", // change to user name when profile is ready
+            textfield.text.toString(),
+            Date(),
+            MessageStatus.SENDING,
+            own = true
+        )
+    }
+
+    private fun emptyTextField() {
+        textfield.setText("")
+    }
+
+    private fun updateMessages(newMessages: List<Message>) {
+        adapterMessages.messages = (newMessages).sortedBy { it.date }
+        recyclerView.adapter = adapterMessages
+        recyclerView.scrollToPosition(adapterMessages.messages.size - 1)
     }
 }
