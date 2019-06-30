@@ -38,6 +38,31 @@ data class Diet(
         }
     }
 
+    fun updateFotoComida(momentoSelected: String, path: String){
+        momentos!!.forEach {
+                elem -> if(elem.nombre == momentoSelected){
+                                elem.foto = path
+                            }
+        }
+    }
+
+
+    fun getMomento(nombreMomento: String): MomentoComida{
+
+        return momentos!!.filter{
+            it.nombre == nombreMomento
+        }.first()
+
+    }
+
+    fun addNewComida(momentoSelected: String, newComida: Comida){
+        momentos!!.forEach {
+                elem -> if(elem.nombre == momentoSelected){
+            elem.extras.add(newComida)
+        }
+        }
+    }
+
     fun updateRealizado(momentoSelected: String, comidaSelected: String, realizada: Boolean){
         momentos!!.forEach {
             elem -> if(elem.nombre == momentoSelected){

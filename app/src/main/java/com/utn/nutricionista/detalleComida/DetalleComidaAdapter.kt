@@ -1,5 +1,6 @@
 package com.utn.nutricionista.detalleComida
 
+import android.app.AlertDialog
 import android.util.Log
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
@@ -66,6 +67,7 @@ class DetalleComidaAdapter(
                 checkEstadoComida(it, position)
             }
         }
+
     }
 
     fun checkEstadoComida(view: View, position: Int){
