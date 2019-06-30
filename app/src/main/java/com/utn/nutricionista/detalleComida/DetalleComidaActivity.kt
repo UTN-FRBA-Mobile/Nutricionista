@@ -13,6 +13,7 @@ import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import com.github.chrisbanes.photoview.PhotoView
 import com.utn.nutricionista.R
+import com.utn.nutricionista.models.Diet
 import com.utn.nutricionista.models.MomentoComida
 import kotlinx.android.synthetic.main.activity_detalle_comida.*
 import java.io.File
@@ -31,19 +32,19 @@ class DetalleComidaActivity : AppCompatActivity(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        val dietaSeleccionada = getIntentExtras()
+        val dietaConcreta = getExtrasDietaConcreta()
+        val dietaSeleccionada = getExtrasDietaSeleccionada()
         setContentView(R.layout.activity_detalle_comida)
                 supportFragmentManager.beginTransaction()
             .replace(
                 R.id.dietaPropuestaFragmentContainer,
-                DetalleComidaFragment.newDietaInstance(dietaSeleccionada, DIETA_PREDEF)
+                DetalleComidaFragment.newDietaInstance(dietaSeleccionada, DIETA_PREDEF, dietaConcreta)
             )
             .commit()
         supportFragmentManager.beginTransaction()
             .replace(
                 R.id.dietaExtraFragmentContainer,
-                DetalleComidaFragment.newDietaInstance(dietaSeleccionada, FUERA_DIETA_PREDEF)
+                DetalleComidaFragment.newDietaInstance(dietaSeleccionada, FUERA_DIETA_PREDEF, dietaConcreta)
             )
             .commit()
 
@@ -56,9 +57,13 @@ class DetalleComidaActivity : AppCompatActivity(),
     }
 
 
-    fun getIntentExtras() : MomentoComida{
+    fun getExtrasDietaSeleccionada() : MomentoComida{
 
         return intent.extras!!["dietaSeleccionada"]!! as MomentoComida
+    }
+
+    private fun getExtrasDietaConcreta() : Diet {
+        return intent.extras!!["dietaConcreta"]!! as Diet
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

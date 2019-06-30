@@ -8,7 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.utn.nutricionista.ApiClient
 import com.utn.nutricionista.R
+import com.utn.nutricionista.models.Diet
 import com.utn.nutricionista.models.MomentoComida
 
 /**
@@ -30,11 +32,15 @@ class DetalleComidaFragment : Fragment() {
 
         val momento: MomentoComida = this.arguments!!.getParcelable("momento")!!
         val tipoDieta : Int = this.arguments!!.getInt("tipoDieta")
-        var dietaPreDefArr = momento.predefinida
+        val dietaConcreta: Diet = this.arguments!!.getParcelable("dietaConcreta")!!
+        val dietaPreDefArr = momento.predefinida
         var dietaRealArr = momento.extras
         when(tipoDieta){
             DIETA_PREDEF -> {
-                dietaRealArr = dietaPreDefArr.onEach { item -> if(item.nombreComida in dietaRealArr.map { e -> e.nombreComida }) item.realizada = true }
+                dietaRealArr = dietaPreDefArr.onEach { item -> if(item.nombreComida in dietaRealArr.map { e -> e.nombreComida })
+                { item.realizada = true
+                  dietaConcreta.updateRealizado(momento.nombre, item.nombreComida, true)
+                }}
 
             }
             FUERA_DIETA_PREDEF -> {
@@ -44,7 +50,7 @@ class DetalleComidaFragment : Fragment() {
             }
         }
 
-        detalleComidaAdapter.setData(dietaRealArr, tipoDieta)
+        detalleComidaAdapter.setData(dietaRealArr, tipoDieta, dietaConcreta, momento)
         detalleComidaAdapter.notifyDataSetChanged()
     }
 
@@ -106,11 +112,12 @@ class DetalleComidaFragment : Fragment() {
          */
 
         @JvmStatic
-        fun newDietaInstance(momento : MomentoComida, tipoDieta : Int): DetalleComidaFragment {
+        fun newDietaInstance(momento : MomentoComida, tipoDieta : Int, dietaConcreta: Diet): DetalleComidaFragment {
             val newFragment = DetalleComidaFragment()
             val args = Bundle()
             args.putParcelable("momento", momento)
             args.putInt("tipoDieta", tipoDieta)
+            args.putParcelable("dietaConcreta", dietaConcreta)
             newFragment.arguments = args
             return newFragment
         }
