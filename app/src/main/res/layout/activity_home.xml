@@ -44,7 +44,7 @@
                                         app:compactCalendarBackgroundColor="?attr/colorPrimary"
                                         app:compactCalendarCurrentDayBackgroundColor="#FFC107"
                                         app:compactCalendarCurrentSelectedDayBackgroundColor="#BBDEFB"
-                                        app:compactCalendarTextColor="#fff"
+                                        app:compactCalendarTextColor="#000"
                                         app:compactCalendarTextSize="12sp"/>
                         </LinearLayout>
 

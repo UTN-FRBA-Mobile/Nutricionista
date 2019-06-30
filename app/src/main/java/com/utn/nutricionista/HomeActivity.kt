@@ -12,6 +12,7 @@ import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import com.github.sundeepk.compactcalendarview.CompactCalendarView
 import com.google.android.material.appbar.AppBarLayout
@@ -64,6 +65,8 @@ class HomeActivity : AppCompatActivity() {
         appBarLayout = findViewById(R.id.app_bar_layout)
         // Set up the CompactCalendarView
         compactCalendarView = findViewById(R.id.compactcalendar_view)
+        compactCalendarView!!.setCalendarBackgroundColor(ContextCompat.getColor(this, R.color.white))
+        compactCalendarView!!.setCurrentSelectedDayBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary))
         // Force English
         compactCalendarView!!.setLocale(TimeZone.getDefault(), /*Locale.getDefault()*/Locale.ENGLISH)
 
