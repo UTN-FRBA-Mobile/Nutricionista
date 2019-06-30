@@ -51,7 +51,7 @@ class HomeActivity : AppCompatActivity() {
         setContentView(R.layout.activity_home)
 
         toolbar = findViewById(R.id.toolbarHome)
-        toolbar?.setTitle(R.string.dieta_home)
+        title = "Dieta"
         setSupportActionBar(toolbar)
 
         appBarLayout = findViewById(R.id.app_bar_layout)
@@ -111,6 +111,14 @@ class HomeActivity : AppCompatActivity() {
 
         if (datePickerTextView != null) {
             datePickerTextView.text = subtitle
+        }
+    }
+
+    override fun setTitle(title: CharSequence) {
+        val tvTitle = findViewById<TextView>(R.id.title)
+
+        if (tvTitle != null) {
+            tvTitle.text = title
         }
     }
 
