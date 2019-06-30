@@ -102,7 +102,7 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
                     ).show()
                 } else {
                     Log.d(TAG, "i am working")
-                    startActivity(Intent(this, MainActivity::class.java))
+                    startActivity(Intent(this, HomeActivity::class.java))
                     finish()
                 }
             }
