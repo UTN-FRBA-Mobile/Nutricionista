@@ -48,6 +48,13 @@ class HomeActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        if (SessionManager.currentUser == null) {
+            // Not signed in, launch the Sign In activity
+            startActivity(Intent(this, LoginActivity::class.java))
+            finish()
+            return
+        }
         setContentView(R.layout.activity_home)
 
         toolbar = findViewById(R.id.toolbarHome)
