@@ -12,6 +12,15 @@ import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
+import androidx.core.view.ViewCompat
+import com.github.sundeepk.compactcalendarview.CompactCalendarView
+import com.google.android.material.appbar.AppBarLayout
+import com.utn.nutricionista.Messages.MessagesActivity
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
+
 import com.utn.nutricionista.models.MomentoComida
 
 
