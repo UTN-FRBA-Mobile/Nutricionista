@@ -11,7 +11,8 @@ import com.google.android.gms.tasks.Tasks
 import com.utn.nutricionista.models.Diet
 import com.utn.nutricionista.models.Message
 import com.utn.nutricionista.models.User
-import com.utn.nutricionista.models.WeightData
+import com.utn.nutricionista.models.Weight
+import java.util.*
 import java.util.concurrent.Callable
 import java.util.concurrent.Executors
 
@@ -51,19 +52,27 @@ object ApiClient {
 
     fun getDiets(): Task<List<Diet>> = get("/diet")
 
-    fun getDietsByDate(date: String): Task<List<Diet>> = get("/diet", listOf(Pair("date", date)))
+    fun getDietsByDate(date: String): Task<List<Diet>> = get("/diet", listOf(Pair("fecha", date)))
 
     fun postDiet(diet: Diet): Task<Diet> = post("/diet", diet)
 
-    fun getWeight(id: String): Task<WeightData> = get("/weight/$id")
+    fun putDieta(payload: Diet): Task<Diet> = put("/diet/${payload.id}", payload)
 
-    fun postWeight(payload: WeightData): Task<WeightData> = post("/weight", payload)
+    fun postMessage(message: Message): Task<Message> {
+        return post("/message", message)
+    }
 
-    fun putWeight(payload: WeightData): Task<WeightData> = put("/weight/${payload.id}", payload)
+    fun getMessages(): Task<List<Message>> {
+        return get("/message")
+    }
 
-    fun deleteWeight(id: String): Task<WeightData> = delete("/weight/$id")
+    fun getWeights(): Task<List<Weight>>  = get("/weight")
 
-    fun getMessages(): Task<List<Message>> = get("/message")
+    fun getWeight(id: String): Task<Weight> = get("/weight/$id")
 
-    fun postMessage(payload: Message): Task<Message> = post("/message", payload)
+    fun postWeight(payload: Weight): Task<Weight> = post("/weight", payload)
+
+    fun putWeight(payload: Weight): Task<Weight> = put("/weight/${payload.id}", payload)
+
+    fun deleteWeight(id: String): Task<Weight> = delete("/weight/$id")
 }

@@ -1,18 +1,23 @@
 package com.utn.nutricionista
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.BaseExpandableListAdapter
+import android.widget.ImageView
 import android.widget.TextView
+import com.utn.nutricionista.detalleComida.DetalleComidaActivity
+import com.utn.nutricionista.models.Diet
+import com.utn.nutricionista.models.MomentoComida
 
-class HomeExpandibleListAdapter(var context: Context, var listOfDetalleComida:HashMap<String,List<String>>, var listOfTitulosComida: List<String>): BaseExpandableListAdapter() {
+class HomeExpandibleListAdapter(var context: Context, var dietaConcreta: Diet, var listOfMomentos:ArrayList<MomentoComida>, var listOfTitulosComida: List<String>?): BaseExpandableListAdapter() {
 
     override fun getGroup(groupPosition: Int): Any {
-        return listOfTitulosComida[groupPosition]
+        return listOfTitulosComida!![groupPosition]
     }
 
     override fun isChildSelectable(groupPosition: Int, childPosition: Int): Boolean {
@@ -34,18 +39,26 @@ class HomeExpandibleListAdapter(var context: Context, var listOfDetalleComida:Ha
             convertView_Aux = layoutInflater.inflate(R.layout.home_list_group, parent, false)
         }
 
-        val itemText = convertView_Aux?.findViewById<TextView>(R.id.home_list_tb)
+        val itemText = convertView_Aux!!.findViewById<TextView>(R.id.home_list_tb)
         itemText?.setText(nombre)
 
-        return convertView_Aux!!
+        val cameraIcon = convertView_Aux.findViewById<ImageView>(R.id.home_list_camera)
+        cameraIcon.setOnClickListener{
+            val intent = Intent(context, DetalleComidaActivity::class.java)
+            intent.putExtra("dietaSeleccionada", listOfMomentos[groupPosition])
+            intent.putExtra("dietaConcreta", dietaConcreta)
+            context.startActivity(intent)
+        }
+
+        return convertView_Aux
     }
 
     override fun getChildrenCount(groupPosition: Int): Int {
-        return listOfDetalleComida[listOfTitulosComida[groupPosition]]?.size!!
+        return listOfMomentos[groupPosition].predefinida.size
     }
 
     override fun getChild(groupPosition: Int, childPosition: Int): String? {
-        return listOfDetalleComida[listOfTitulosComida[groupPosition]]?.get(childPosition)
+        return listOfMomentos[groupPosition].predefinida.get(childPosition).nombreComida.capitalize()
     }
 
     override fun getGroupId(groupPosition: Int): Long {
@@ -66,14 +79,13 @@ class HomeExpandibleListAdapter(var context: Context, var listOfDetalleComida:Ha
             convertView_Aux = layoutInflater.inflate(R.layout.fragment_detalle_comida, parent, false)
         }
 
-        val itemText = convertView_Aux?.findViewById<TextView>(R.id.detalleItemTxt)
+        val itemText = convertView_Aux!!.findViewById<TextView>(R.id.detalleItemTxt)
+        val animation: Animation = AnimationUtils.loadAnimation(context, android.R.anim.fade_in)
 
         itemText?.text = getChild(groupPosition, childPosition)!!
+        convertView_Aux.startAnimation(animation)
 
-        val animation: Animation = AnimationUtils.loadAnimation(context, android.R.anim.fade_in)
-        convertView?.startAnimation(animation)
-
-        return convertView_Aux!!
+        return convertView_Aux
     }
 
     override fun getChildId(groupPosition: Int, childPosition: Int): Long {
@@ -81,7 +93,7 @@ class HomeExpandibleListAdapter(var context: Context, var listOfDetalleComida:Ha
     }
 
     override fun getGroupCount(): Int {
-        return listOfTitulosComida.size
+        return listOfTitulosComida!!.size
     }
 
 

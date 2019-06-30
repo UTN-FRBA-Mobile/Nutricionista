@@ -18,6 +18,7 @@ class MainActivity : AppCompatActivity() {
             finish()
             return
         }
+
     }
 
     fun buttonPressed(view: View) {
