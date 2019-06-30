@@ -37,7 +37,7 @@
                     android:name="android.support.PARENT_ACTIVITY"
                     android:value=".DietActivity"/>
         </activity>
-        <activity android:name=".MyProgressActivity">
+        <activity android:name=".Messages.MessagesActivity">
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
                     android:value=".CalendarActivity"/>

@@ -1,20 +1,22 @@
-package com.utn.nutricionista
+package com.utn.nutricionista.Messages
 
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.utn.nutricionista.ApiClient
+import com.utn.nutricionista.R
 import com.utn.nutricionista.models.Message
 import com.utn.nutricionista.models.MessageStatus
-import kotlinx.android.synthetic.main.activity_my_progress.*
+import kotlinx.android.synthetic.main.activity_messages.*
 import java.text.SimpleDateFormat
 import java.util.*
 
-class MyProgressActivity : AppCompatActivity() {
+class MessagesActivity : AppCompatActivity() {
 
     private lateinit var linearLayoutManager: LinearLayoutManager
-    private lateinit var adapter: RecyclerAdapter
+    private lateinit var adapterMessages: MessagesRecyclerAdapter
 
     private lateinit var timer: Timer
     private val fiveSeconds = 10000L
@@ -43,14 +45,14 @@ class MyProgressActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_my_progress)
+        setContentView(R.layout.activity_messages)
 
         linearLayoutManager = LinearLayoutManager(this)
         recyclerView.layoutManager = linearLayoutManager
         val messages = ArrayList<Message>()
-        adapter = RecyclerAdapter(messages)
-        recyclerView.adapter = adapter
-        recyclerView.scrollToPosition(adapter.messages.size - 1)
+        adapterMessages = MessagesRecyclerAdapter(messages)
+        recyclerView.adapter = adapterMessages
+        recyclerView.scrollToPosition(adapterMessages.messages.size - 1)
         getMessages()
     }
 
@@ -58,10 +60,10 @@ class MyProgressActivity : AppCompatActivity() {
         ApiClient.getMessages().addOnSuccessListener {
             Log.d("SUCCESS", "SWEET, SWEET SUCCESS!")
             val messages = it
-            val newMessages = messages.filter { !adapter.messages.contains(it) }
+            val newMessages = messages.filter { !adapterMessages.messages.contains(it) }
             if (newMessages.count() > 0) {
-                adapter.messages = (adapter.messages + newMessages).sortedBy { it.date }
-                recyclerView.scrollToPosition(adapter.messages.size - 1)
+                adapterMessages.messages = (adapterMessages.messages + newMessages).sortedBy { it.date }
+                recyclerView.scrollToPosition(adapterMessages.messages.size - 1)
             }
         }.addOnFailureListener { e ->
             Log.d("FAILURE", "GASP! SOMETHING WENT WRONG: ${e.message}")
@@ -72,9 +74,9 @@ class MyProgressActivity : AppCompatActivity() {
         ApiClient.getMessages().addOnSuccessListener {
             Log.d("SUCCESS", "SWEET, SWEET SUCCESS!")
             val messages = it
-            adapter = RecyclerAdapter(messages.sortedBy { it.date })
-            recyclerView.adapter = adapter
-            recyclerView.scrollToPosition(adapter.messages.size - 1)
+            adapterMessages = MessagesRecyclerAdapter(messages.sortedBy { it.date })
+            recyclerView.adapter = adapterMessages
+            recyclerView.scrollToPosition(adapterMessages.messages.size - 1)
         }.addOnFailureListener { e ->
             Log.d("FAILURE", "GASP! SOMETHING WENT WRONG: ${e.message}")
         }
@@ -87,25 +89,25 @@ class MyProgressActivity : AppCompatActivity() {
         Date(),
         MessageStatus.SENDING,
         own = true)
-        adapter.messages = (adapter.messages + newMessage).sortedBy { it.date }
-        recyclerView.adapter = adapter
-        recyclerView.scrollToPosition(adapter.messages.size - 1)
+        adapterMessages.messages = (adapterMessages.messages + newMessage).sortedBy { it.date }
+        recyclerView.adapter = adapterMessages
+        recyclerView.scrollToPosition(adapterMessages.messages.size - 1)
         textfield.setText("")
         ApiClient.postMessage(newMessage.getMessageForPost()).addOnSuccessListener {
             val postedMessage = it
-            val removedWaitingMessage = adapter.messages.filter {
+            val removedWaitingMessage = adapterMessages.messages.filter {
                 !it.equals(newMessage)
             }
-            adapter.messages = (removedWaitingMessage + postedMessage).sortedBy { it.date }
-            recyclerView.adapter = adapter
-            recyclerView.scrollToPosition(adapter.messages.size - 1)
+            adapterMessages.messages = (removedWaitingMessage + postedMessage).sortedBy { it.date }
+            recyclerView.adapter = adapterMessages
+            recyclerView.scrollToPosition(adapterMessages.messages.size - 1)
         }.addOnFailureListener { e ->
-            val removedWaitingMessage = adapter.messages.filter {
+            val removedWaitingMessage = adapterMessages.messages.filter {
                 !it.equals(newMessage)
             }
-            adapter.messages = (removedWaitingMessage + newMessage.getErrorMessage()).sortedBy { it.date }
-            recyclerView.adapter = adapter
-            recyclerView.scrollToPosition(adapter.messages.size - 1)
+            adapterMessages.messages = (removedWaitingMessage + newMessage.getErrorMessage()).sortedBy { it.date }
+            recyclerView.adapter = adapterMessages
+            recyclerView.scrollToPosition(adapterMessages.messages.size - 1)
         }
     }
 

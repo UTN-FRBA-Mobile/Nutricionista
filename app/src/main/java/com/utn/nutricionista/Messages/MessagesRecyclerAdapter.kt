@@ -1,16 +1,17 @@
-package com.utn.nutricionista
+package com.utn.nutricionista.Messages
 
 import android.graphics.Typeface
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.utn.nutricionista.R
+import com.utn.nutricionista.inflate
 import com.utn.nutricionista.models.Message
 import com.utn.nutricionista.models.MessageStatus
 import kotlinx.android.synthetic.main.recyclerview_own_message.view.*
-import kotlin.coroutines.coroutineContext
 
-class RecyclerAdapter(var messages: List<Message>):  RecyclerView.Adapter<RecyclerAdapter.MessageHolder>() {
+class MessagesRecyclerAdapter(var messages: List<Message>):  RecyclerView.Adapter<MessagesRecyclerAdapter.MessageHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MessageHolder {
         if (viewType == 1) {
