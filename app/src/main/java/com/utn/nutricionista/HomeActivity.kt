@@ -14,7 +14,6 @@ import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.ViewCompat
 import com.github.sundeepk.compactcalendarview.CompactCalendarView
-import com.utn.nutricionista.detalleComida.DetalleComida
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -22,6 +21,8 @@ import kotlin.collections.HashMap
 import com.google.android.material.appbar.AppBarLayout
 
 import com.utn.nutricionista.models.MomentoComida
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 
 class HomeActivity : AppCompatActivity() {
@@ -29,7 +30,8 @@ class HomeActivity : AppCompatActivity() {
     var toolbar: Toolbar? = null
     private var appBarLayout: AppBarLayout? = null
 
-    private val dateFormat = SimpleDateFormat("d MMMM yyyy", /*Locale.getDefault()*/Locale.ENGLISH)
+    //private val dateFormat = SimpleDateFormat("d MMMM yyyy", /*Locale.getDefault()*/Locale.ENGLISH)
+    private val dateFormat = SimpleDateFormat("yyyy/MM/dd", /*Locale.getDefault()*/Locale.ENGLISH)
     private var compactCalendarView: CompactCalendarView? = null
     private var isExpanded = false
 
@@ -37,6 +39,11 @@ class HomeActivity : AppCompatActivity() {
     lateinit private var expandableListViewAdapter: HomeExpandibleListAdapter
     var dietaPreDefArr = HashMap<String,List<String>>()
     var latestExpandedPosition: Int = -1
+
+    override fun onResume() {
+        super.onResume()
+        init()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,7 +63,9 @@ class HomeActivity : AppCompatActivity() {
 
         compactCalendarView!!.setListener(object : CompactCalendarView.CompactCalendarViewListener {
             override fun onDayClick(dateClicked: Date) {
-                setSubtitle(dateFormat.format(dateClicked))
+                val formatted = dateFormat.format(dateClicked)
+                setSubtitle(formatted)
+                getDietaByDate(formatted)
             }
 
             override fun onMonthScroll(firstDayOfNewMonth: Date) {
@@ -107,7 +116,17 @@ class HomeActivity : AppCompatActivity() {
 
     private fun init(){
 
-        ApiClient.getDiets().addOnSuccessListener { dietas ->
+        val currentDate = LocalDateTime.now().toLocalDate()
+        val formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd")
+        val formatted = currentDate.format(formatter)
+        getDietaByDate(formatted)
+
+    }
+
+
+    private fun getDietaByDate(date: String) {
+
+        ApiClient.getDietsByDate(date).addOnSuccessListener { dietas ->
             val itemNameList  =
                 dietas.map{d ->
                     d.momentos?.map { m ->
@@ -118,6 +137,7 @@ class HomeActivity : AppCompatActivity() {
             expandableListView = findViewById(R.id.home_expandable_list_view)
             expandableListViewAdapter = HomeExpandibleListAdapter(
                 this,
+                dietas[0],
                 dietas[0].momentos as ArrayList<MomentoComida>,
                 itemNameList[0]
             )

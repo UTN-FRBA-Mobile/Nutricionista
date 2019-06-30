@@ -11,9 +11,10 @@ import android.widget.BaseExpandableListAdapter
 import android.widget.ImageView
 import android.widget.TextView
 import com.utn.nutricionista.detalleComida.DetalleComidaActivity
+import com.utn.nutricionista.models.Diet
 import com.utn.nutricionista.models.MomentoComida
 
-class HomeExpandibleListAdapter(var context: Context, var listOfMomentos:ArrayList<MomentoComida>, var listOfTitulosComida: List<String>?): BaseExpandableListAdapter() {
+class HomeExpandibleListAdapter(var context: Context, var dietaConcreta: Diet, var listOfMomentos:ArrayList<MomentoComida>, var listOfTitulosComida: List<String>?): BaseExpandableListAdapter() {
 
     override fun getGroup(groupPosition: Int): Any {
         return listOfTitulosComida!![groupPosition]
@@ -45,6 +46,7 @@ class HomeExpandibleListAdapter(var context: Context, var listOfMomentos:ArrayLi
         cameraIcon.setOnClickListener{
             val intent = Intent(context, DetalleComidaActivity::class.java)
             intent.putExtra("dietaSeleccionada", listOfMomentos[groupPosition])
+            intent.putExtra("dietaConcreta", dietaConcreta)
             context.startActivity(intent)
         }
 
