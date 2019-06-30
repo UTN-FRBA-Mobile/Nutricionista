@@ -51,6 +51,7 @@ class HomeActivity : AppCompatActivity() {
         setContentView(R.layout.activity_home)
 
         toolbar = findViewById(R.id.toolbarHome)
+        title = "Dieta"
         setSupportActionBar(toolbar)
 
         appBarLayout = findViewById(R.id.app_bar_layout)
@@ -106,9 +107,22 @@ class HomeActivity : AppCompatActivity() {
         }
     }
 
-    fun buttonPressed(view: View) {
-        val intent = Intent(this, DietActivity::class.java)
-        startActivity(intent)
+    override fun setTitle(title: CharSequence) {
+        val tvTitle = findViewById<TextView>(R.id.title)
+
+        if (tvTitle != null) {
+            tvTitle.text = title
+        }
+    }
+
+
+    private fun init(){
+
+        val currentDate = LocalDateTime.now().toLocalDate()
+        val formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd")
+        val formatted = currentDate.format(formatter)
+        getDietaByDate(formatted)
+
     }
 
     private fun init(){
