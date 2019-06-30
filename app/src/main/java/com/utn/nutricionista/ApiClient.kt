@@ -9,6 +9,7 @@ import com.github.kittinunf.fuel.gson.responseObject
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
 import com.utn.nutricionista.models.Diet
+import com.utn.nutricionista.models.Message
 import com.utn.nutricionista.models.User
 import com.utn.nutricionista.models.WeightData
 import java.util.concurrent.Callable
@@ -61,4 +62,8 @@ object ApiClient {
     fun putWeight(payload: WeightData): Task<WeightData> = put("/weight/${payload.id}", payload)
 
     fun deleteWeight(id: String): Task<WeightData> = delete("/weight/$id")
+
+    fun getMessages(): Task<List<Message>> = get("/message")
+
+    fun postMessage(payload: Message): Task<Message> = post("/message", payload)
 }
