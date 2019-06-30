@@ -8,6 +8,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_weight">WeightActivity</string>
+    <string name="registro">Registro</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_login">Sign in</string>
     <string name="sign_in">Ingresar</string>
