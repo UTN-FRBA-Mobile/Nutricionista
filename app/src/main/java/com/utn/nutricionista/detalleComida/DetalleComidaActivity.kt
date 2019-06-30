@@ -95,17 +95,20 @@ class DetalleComidaActivity : AppCompatActivity(),
 
             updateDietaConcreta(dietaConcreta, dietaSeleccionada )
             imageView.setImageBitmap(BitmapFactory.decodeFile(currentPhotoPath))
-            imageView.setOnClickListener{
+            setOnClickFullScreen(imageView, currentPhotoPath)
+        }
+    }
 
-                val mBuilder = AlertDialog.Builder(this)
-                val mView = layoutInflater.inflate(R.layout.fullscreen_image, null)
-                val photoView = mView.findViewById<PhotoView>(R.id.fullscreenImage)
-                photoView.setImageBitmap(BitmapFactory.decodeFile(currentPhotoPath))
-                mBuilder.setView(mView)
-                val mDialog = mBuilder.create()
-                mDialog.show()
+    private fun setOnClickFullScreen(imageView: View, path: String){
+        imageView.setOnClickListener{
+            val mBuilder = AlertDialog.Builder(this)
+            val mView = layoutInflater.inflate(R.layout.fullscreen_image, null)
+            val photoView = mView.findViewById<PhotoView>(R.id.fullscreenImage)
+            photoView.setImageBitmap(BitmapFactory.decodeFile(path))
+            mBuilder.setView(mView)
+            val mDialog = mBuilder.create()
+            mDialog.show()
 
-            }
         }
     }
 
@@ -149,7 +152,7 @@ class DetalleComidaActivity : AppCompatActivity(),
         if(checkFile.exists()){
             val photoFile: String? = getExternalFilesDir(Environment.DIRECTORY_PICTURES+"/"+path)?.absolutePath
             val imageView = findViewById<ImageView>(R.id.comidaImage)
-
+            setOnClickFullScreen(imageView, photoFile!!)
             imageView.setImageBitmap(BitmapFactory.decodeFile(photoFile))
 
         }else {
