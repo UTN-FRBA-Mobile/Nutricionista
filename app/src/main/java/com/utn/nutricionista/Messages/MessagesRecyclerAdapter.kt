@@ -57,7 +57,7 @@ class MessagesRecyclerAdapter(var messages: List<Message>):  RecyclerView.Adapte
             view.itemUserName.text = message.sender + ":"
             view.itemUserName.setTypeface(null, Typeface.BOLD)
             view.itemText.text = message.text
-            view.itemDate.text = message.date.toString()
+            view.itemDate.text = message.getFormattedDate()
             when(message.status) {
                 MessageStatus.SENT -> view.itemStatusImage.setImageDrawable(
                     ContextCompat.getDrawable(

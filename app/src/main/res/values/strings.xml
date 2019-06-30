@@ -13,4 +13,6 @@
     <string name="sign_in">Ingresar</string>
     <string name="accept">Aceptar</string>
     <string name="cancel">Cancelar</string>
+    <string name="send">Enviar</string>
+    <string name="chat">Chat</string>
 </resources>
