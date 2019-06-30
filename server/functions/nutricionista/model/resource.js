@@ -12,7 +12,7 @@ class Resource {
     const filters = Object.entries(query);
     filters.push(['uid', uid]);
 
-    const dbQuery = filters.reduce((accQuery, [key, value]) => 
+    const dbQuery = filters.reduce((accQuery, [key, value]) =>
       accQuery.where(key, '==', value), this.collectionRef);
     const results = await dbQuery.get();
 

@@ -39,7 +39,7 @@ module.exports = (model) => (app) => {
 
     await instance.delete();
     delete instance.id;
-    
+
     return success(res, instance);
   }));
 };
