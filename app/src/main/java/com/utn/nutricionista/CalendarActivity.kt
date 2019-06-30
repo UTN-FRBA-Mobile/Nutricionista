@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import com.utn.nutricionista.Messages.MessagesActivity
 
 class CalendarActivity : AppCompatActivity() {
 
@@ -13,7 +14,7 @@ class CalendarActivity : AppCompatActivity() {
     }
 
     fun buttonPressed(view: View) {
-        val intent = Intent(this, MyProgressActivity::class.java)
+        val intent = Intent(this, MessagesActivity::class.java)
         startActivity(intent)
     }
 }
