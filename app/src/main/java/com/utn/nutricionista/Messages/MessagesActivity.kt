@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.utn.nutricionista.ApiClient
 import com.utn.nutricionista.R
+import com.utn.nutricionista.SessionManager
 import com.utn.nutricionista.models.Message
 import com.utn.nutricionista.models.MessageStatus
 import kotlinx.android.synthetic.main.activity_messages.*
@@ -92,7 +93,7 @@ class MessagesActivity : AppCompatActivity() {
     private fun getNewMessage(): Message {
         return Message(
             null,
-            "Diego", // change to user name when profile is ready
+            getCurrentUserName(),
             textfield.text.toString(),
             Date(),
             MessageStatus.SENDING,
@@ -108,5 +109,10 @@ class MessagesActivity : AppCompatActivity() {
         adapterMessages.messages = (newMessages).sortedBy { it.date }
         recyclerView.adapter = adapterMessages
         recyclerView.scrollToPosition(adapterMessages.messages.size - 1)
+    }
+
+    private fun getCurrentUserName(): String {
+        val name = SessionManager.currentUser?.displayName ?: ""
+        return name.take(20)
     }
 }
