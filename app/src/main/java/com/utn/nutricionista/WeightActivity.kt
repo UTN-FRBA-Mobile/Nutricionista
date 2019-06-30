@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.components.XAxis
@@ -123,9 +124,9 @@ class WeightActivity : AppCompatActivity() {
         dataSet.lineWidth = 1.8f
         dataSet.circleRadius = 4f
         dataSet.setCircleColor(Color.WHITE)
-        dataSet.highLightColor = R.color.chartHighlight
-        dataSet.color = R.color.chartColor
-        dataSet.fillColor = R.color.chartFillColor
+        dataSet.highLightColor = ContextCompat.getColor(this, R.color.chartHighlight)
+        dataSet.color = ContextCompat.getColor(this, R.color.chartColor)
+        dataSet.fillColor = ContextCompat.getColor(this, R.color.chartFillColor)
         dataSet.fillAlpha = 100
         dataSet.setDrawHorizontalHighlightIndicator(false)
         dataSet.fillFormatter = IFillFormatter { dataSet, dataProvider -> chart.getAxisLeft().getAxisMinimum() }
@@ -163,16 +164,16 @@ class WeightActivity : AppCompatActivity() {
         xAxis.textSize = 10f
         xAxis.setDrawAxisLine(false)
         xAxis.setDrawGridLines(false)
-        xAxis.textColor = R.color.colorPrimary
+        xAxis.textColor = ContextCompat.getColor(this, R.color.colorPrimary)
         xAxis.setCenterAxisLabels(false)
         xAxis.granularity = 30f
 
         val y = chart.axisLeft
         y.setLabelCount(6, false)
-        y.textColor = R.color.chartColor
+        y.textColor = ContextCompat.getColor(this, R.color.chartColor)
         y.setPosition(YAxis.YAxisLabelPosition.INSIDE_CHART)
         y.setDrawGridLines(false)
-        y.axisLineColor = R.color.white
+        y.axisLineColor = ContextCompat.getColor(this, R.color.white)
 
         chart.getAxisRight().setEnabled(false)
         chart.animateXY(2000, 2000)
