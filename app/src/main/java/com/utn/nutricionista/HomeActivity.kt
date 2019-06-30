@@ -171,6 +171,10 @@ class HomeActivity : AppCompatActivity() {
                 val intent = Intent(this, MessagesActivity::class.java)
                 startActivity(intent)
             }
+            R.id.peso ->{
+                val intent = Intent(this, WeightActivity::class.java)
+                startActivity(intent)
+            }
         }
         return super.onOptionsItemSelected(item)
     }
