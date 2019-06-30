@@ -7,15 +7,23 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.util.Log
+import android.view.View
 import android.widget.ImageView
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.github.chrisbanes.photoview.PhotoView
+import com.utn.nutricionista.ApiClient
 import com.utn.nutricionista.R
+import com.utn.nutricionista.models.Comida
 import com.utn.nutricionista.models.Diet
 import com.utn.nutricionista.models.MomentoComida
 import kotlinx.android.synthetic.main.activity_detalle_comida.*
+import kotlinx.android.synthetic.main.activity_detalle_comida.fab
+import kotlinx.android.synthetic.main.activity_weight.*
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
@@ -35,27 +43,37 @@ class DetalleComidaActivity : AppCompatActivity(),
         val dietaConcreta = getExtrasDietaConcreta()
         val dietaSeleccionada = getExtrasDietaSeleccionada()
         setContentView(R.layout.activity_detalle_comida)
-                supportFragmentManager.beginTransaction()
-            .replace(
-                R.id.dietaPropuestaFragmentContainer,
-                DetalleComidaFragment.newDietaInstance(dietaSeleccionada, DIETA_PREDEF, dietaConcreta)
-            )
-            .commit()
-        supportFragmentManager.beginTransaction()
-            .replace(
-                R.id.dietaExtraFragmentContainer,
-                DetalleComidaFragment.newDietaInstance(dietaSeleccionada, FUERA_DIETA_PREDEF, dietaConcreta)
-            )
-            .commit()
+
+        refreshDietaPredef(dietaConcreta, dietaSeleccionada.nombre)
+        refreshDietaExtras(dietaConcreta, dietaSeleccionada.nombre)
 
        /* TODO:
         toolbarDetalle!!.title = dietaSeleccionada.nombre.capitalize()
         setSupportActionBar(toolbarDetalle)*/
 
         takePictureIntent(dietaSeleccionada.foto)
-
+        fab.setOnClickListener { view -> openAddFoodRecord(view) }
     }
 
+
+    private fun openAddFoodRecord(view: View) {
+        InputFoodDialogFragment().show(this.supportFragmentManager,"inputFood")
+    }
+
+    fun saveNewFoodRecord(foodName : String) {
+        val nuevaComida = Comida(true, foodName )
+        val dietaConcreta = getExtrasDietaConcreta()
+        val dietaSeleccionada = getExtrasDietaSeleccionada()
+        dietaConcreta.addNewComida( dietaSeleccionada.nombre, nuevaComida )
+        ApiClient.putDieta(dietaConcreta).addOnSuccessListener {
+            val postedDieta = it
+            Log.d("SUCCESS", "Saved Id:${postedDieta.id} with fecha ${postedDieta.fecha}, Action: Add new food: ${nuevaComida.nombreComida}")
+        }.addOnFailureListener { e ->
+            Log.d("ERROR", "Insert failed with error ${e.message}}")
+        }
+
+        refreshDietaExtras(dietaConcreta, dietaSeleccionada.nombre)
+    }
 
     fun getExtrasDietaSeleccionada() : MomentoComida{
 
@@ -66,11 +84,16 @@ class DetalleComidaActivity : AppCompatActivity(),
         return intent.extras!!["dietaConcreta"]!! as Diet
     }
 
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        val dietaConcreta = getExtrasDietaConcreta()
+        val dietaSeleccionada = getExtrasDietaSeleccionada()
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
 
             val imageView = findViewById<ImageView>(R.id.comidaImage)
+
+            updateDietaConcreta(dietaConcreta, dietaSeleccionada )
             imageView.setImageBitmap(BitmapFactory.decodeFile(currentPhotoPath))
             imageView.setOnClickListener{
 
@@ -84,6 +107,38 @@ class DetalleComidaActivity : AppCompatActivity(),
 
             }
         }
+    }
+
+    private fun updateDietaConcreta(dietaConcreta: Diet, momento: MomentoComida){
+
+        dietaConcreta.updateFotoComida( momento.nombre, currentPhotoPath.split("/").last() )
+        ApiClient.putDieta(dietaConcreta).addOnSuccessListener {
+            val postedDieta = it
+            Log.d("SUCCESS", "Saved Id:${postedDieta.id} with fecha ${postedDieta.fecha}, Action: Updated foto path: ${momento.foto}")
+        }.addOnFailureListener { e ->
+            Log.d("ERROR", "Insert failed with error ${e.message}}")
+        }
+    }
+
+
+    private fun refreshDietaPredef(dietaConcreta: Diet, nombreMomento: String){
+        val momento = dietaConcreta.getMomento(nombreMomento)
+        supportFragmentManager.beginTransaction()
+            .replace(
+                R.id.dietaPropuestaFragmentContainer,
+                DetalleComidaFragment.newDietaInstance(momento, DIETA_PREDEF, dietaConcreta)
+            )
+            .commit()
+    }
+
+    private fun refreshDietaExtras(dietaConcreta: Diet, nombreMomento: String) {
+        val momento = dietaConcreta.getMomento(nombreMomento)
+        supportFragmentManager.beginTransaction()
+            .replace(
+                R.id.dietaExtraFragmentContainer,
+                DetalleComidaFragment.newDietaInstance(momento, FUERA_DIETA_PREDEF, dietaConcreta)
+            )
+            .commit()
     }
 
 
