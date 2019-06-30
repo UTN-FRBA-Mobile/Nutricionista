@@ -13,7 +13,8 @@ import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.ViewCompat
 import com.github.sundeepk.compactcalendarview.CompactCalendarView
-import com.utn.nutricionista.DetalleComida.DetalleComida
+import com.google.android.material.appbar.AppBarLayout
+import com.utn.nutricionista.Messages.MessagesActivity
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -183,7 +184,7 @@ class HomeActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId){
             R.id.chat ->{
-                val intent = Intent(this, MyProgressActivity::class.java)
+                val intent = Intent(this, MessagesActivity::class.java)
                 startActivity(intent)
             }
         }
