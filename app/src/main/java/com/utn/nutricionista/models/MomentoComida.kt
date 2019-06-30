@@ -7,16 +7,16 @@ data class MomentoComida (
 
     var nombre : String,
     var foto : String,
-    var predefinida : List<Comida>,
-    var extras : List<Comida>
+    var predefinida : MutableList<Comida>,
+    var extras : MutableList<Comida>
 
 ) : Parcelable {
     @Suppress("UNCHECKED_CAST")
     constructor(parcel: Parcel) : this(
         parcel.readString(),
         parcel.readString(),
-        parcel.readArrayList(Comida::class.java.classLoader) as List<Comida>,
-        parcel.readArrayList(Comida::class.java.classLoader) as List<Comida>
+        parcel.readArrayList(Comida::class.java.classLoader) as MutableList<Comida>,
+        parcel.readArrayList(Comida::class.java.classLoader) as MutableList<Comida>
     ) {
     }
 

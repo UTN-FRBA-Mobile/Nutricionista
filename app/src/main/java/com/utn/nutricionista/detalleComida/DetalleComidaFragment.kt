@@ -9,6 +9,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.utn.nutricionista.R
+import com.utn.nutricionista.models.Comida
+import com.utn.nutricionista.models.Diet
 import com.utn.nutricionista.models.MomentoComida
 
 /**
@@ -38,7 +40,7 @@ class DetalleComidaFragment : Fragment() {
 
             }
             FUERA_DIETA_PREDEF -> {
-                dietaRealArr = dietaRealArr.filter{ item -> item.nombreComida !in dietaPreDefArr.map { e->e.nombreComida } }
+                dietaRealArr = dietaRealArr.filter{ item -> item.nombreComida !in dietaPreDefArr.map { e->e.nombreComida } } as MutableList<Comida>
             }
             else ->{
             }
