@@ -5,4 +5,7 @@
     <color name="colorPrimaryLight">#EBD561</color>
     <color name="colorAccent">#FFBB3D</color>
     <color name="white">#FFFFFF</color>
+    <color name="chartHighlight">#F47575</color>
+    <color name="chartColor">#5C92A3</color>
+    <color name="chartFillColor">#67BFDB</color>
 </resources>

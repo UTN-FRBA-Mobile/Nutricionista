@@ -26,14 +26,13 @@ import com.utn.nutricionista.adapters.WeightDataAdapter
 import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.formatter.IFillFormatter
 import kotlinx.android.synthetic.main.fragment_weight.*
-import java.time.LocalDate
+import com.utn.nutricionista.R
 
 class WeightActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: RecyclerView.LayoutManager
     private lateinit var pesos : MutableList<Weight>
-    private lateinit var spinner : ProgressBar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -114,9 +113,9 @@ class WeightActivity : AppCompatActivity() {
         dataSet.lineWidth = 1.8f
         dataSet.circleRadius = 4f
         dataSet.setCircleColor(Color.WHITE)
-        dataSet.highLightColor = Color.rgb(244, 117, 117)
-        dataSet.color = Color.rgb(129, 162, 172)
-        dataSet.fillColor = Color.rgb(173, 216, 230)
+        dataSet.highLightColor = R.color.chartHighlight
+        dataSet.color = R.color.chartColor
+        dataSet.fillColor = R.color.chartFillColor
         dataSet.fillAlpha = 100
         dataSet.setDrawHorizontalHighlightIndicator(false)
         dataSet.fillFormatter = IFillFormatter { dataSet, dataProvider -> chart.getAxisLeft().getAxisMinimum() }
@@ -152,19 +151,18 @@ class WeightActivity : AppCompatActivity() {
         xAxis.valueFormatter = GridLabelDateFormatter(dayStart)
         xAxis.position = XAxis.XAxisPosition.TOP_INSIDE
         xAxis.textSize = 10f
-        xAxis.textColor = Color.BLUE
         xAxis.setDrawAxisLine(false)
         xAxis.setDrawGridLines(false)
-        xAxis.textColor = Color.rgb(255, 192, 56)
+        xAxis.textColor = R.color.colorPrimary
         xAxis.setCenterAxisLabels(false)
         xAxis.granularity = 30f
 
         val y = chart.axisLeft
         y.setLabelCount(6, false)
-        y.textColor = Color.BLUE
+        y.textColor = R.color.chartColor
         y.setPosition(YAxis.YAxisLabelPosition.INSIDE_CHART)
         y.setDrawGridLines(false)
-        y.axisLineColor = Color.WHITE
+        y.axisLineColor = R.color.white
 
         chart.getAxisRight().setEnabled(false)
         chart.animateXY(2000, 2000)
