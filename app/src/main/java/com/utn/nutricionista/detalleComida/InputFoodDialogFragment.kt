@@ -26,7 +26,7 @@ class InputFoodDialogFragment : DialogFragment() {
             foodName = view.findViewById(R.id.input_food_value) as EditText
 
             btnCancel = view.findViewById(R.id.btnInputFoodCancel) as Button
-            btnCancel.setOnClickListener { dialog.dismiss()}
+            btnCancel.setOnClickListener { dialog?.dismiss()}
             btnAccept = view.findViewById(R.id.btnInputFoodConfirm) as Button
             btnAccept.setOnClickListener { saveNewFoodRecord() }
 
@@ -38,7 +38,7 @@ class InputFoodDialogFragment : DialogFragment() {
     private fun saveNewFoodRecord() {
         if (foodName.text.isNotEmpty()) {
             (activity as DetalleComidaActivity).saveNewFoodRecord(foodName.text.toString())
-            dialog.dismiss()
+            dialog?.dismiss()
         }
     }
 
