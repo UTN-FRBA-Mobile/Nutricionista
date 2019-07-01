@@ -34,12 +34,14 @@ class WeightActivity : AppCompatActivity() {
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: RecyclerView.LayoutManager
     private lateinit var pesos : MutableList<Weight>
+    private lateinit var chart : LineChart
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_weight)
-
-
+        chart = findViewById(R.id.weight_chart)
+        chart.setNoDataText("Sin datos disponibles.")
+        chart.invalidate()
         fab.setOnClickListener { view -> openAddWeightRecord(view) }
 
         refreshWeightData()
@@ -95,11 +97,10 @@ class WeightActivity : AppCompatActivity() {
             entries.add(Entry((dayAdjusted).toFloat(), weightRecord.peso))
         }
 
-        val chart = configureChart(dayStart)
-
+        configureChart(dayStart)
         //Add Data
-        val lineData = configureDataSet(entries, chart!!)
-        chart!!.data = lineData
+        val lineData = configureDataSet(entries, chart)
+        chart.data = lineData
 
         // refresh the drawing
         chart.invalidate()
@@ -130,7 +131,6 @@ class WeightActivity : AppCompatActivity() {
     }
 
     private fun configureChart(dayStart: Int): LineChart? {
-        val chart = findViewById<LineChart>(R.id.weight_chart)
         chart.setViewPortOffsets(0F, 0F, 0F, 0F)
         chart.setBackgroundColor(Color.WHITE)
         // enable touch gestures
@@ -145,7 +145,6 @@ class WeightActivity : AppCompatActivity() {
 
         chart.isHighlightPerTapEnabled = true
         chart.legend.isEnabled = false
-        chart.setNoDataText("Sin datos disponibles.")
         chart.setDrawBorders(true)
 
         val xAxis = chart.xAxis
