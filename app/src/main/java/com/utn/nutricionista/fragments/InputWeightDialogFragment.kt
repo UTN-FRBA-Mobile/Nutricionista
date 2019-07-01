@@ -1,4 +1,4 @@
-package com.utn.nutricionista
+package com.utn.nutricionista.fragments
 
 import android.app.Dialog
 import android.os.Bundle
@@ -9,6 +9,8 @@ import android.app.DatePickerDialog
 import android.icu.util.Calendar
 import android.widget.Button
 import android.widget.EditText
+import com.utn.nutricionista.R
+import com.utn.nutricionista.activities.WeightActivity
 
 class InputWeightDialogFragment : DialogFragment(), DatePickerDialog.OnDateSetListener {
     private lateinit var date : EditText
@@ -54,7 +56,8 @@ class InputWeightDialogFragment : DialogFragment(), DatePickerDialog.OnDateSetLi
         // Do something with the date chosen by the user
         //+1 because january is zero
         val monthStr = (month + 1).toString().padStart(2, '0')
-        val selectedDate = "$year-$monthStr-$day"
+        val dayStr = day.toString().padStart(2,'0')
+        val selectedDate = "$year-$monthStr-$dayStr"
         date.setText(selectedDate)
     }
 }

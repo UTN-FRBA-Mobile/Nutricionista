@@ -1,4 +1,4 @@
-package com.utn.nutricionista.detalleComida
+package com.utn.nutricionista.fragments
 
 import android.app.AlertDialog
 import android.app.Dialog
@@ -7,6 +7,7 @@ import android.widget.Button
 import android.widget.EditText
 import androidx.fragment.app.DialogFragment
 import com.utn.nutricionista.R
+import com.utn.nutricionista.activities.DetalleComidaActivity
 
 
 class InputFoodDialogFragment : DialogFragment() {

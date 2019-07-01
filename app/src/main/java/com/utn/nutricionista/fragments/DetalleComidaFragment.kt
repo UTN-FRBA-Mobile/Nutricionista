@@ -1,4 +1,4 @@
-package com.utn.nutricionista.detalleComida
+package com.utn.nutricionista.fragments
 
 import android.content.Context
 import android.os.Bundle
@@ -13,7 +13,7 @@ import com.utn.nutricionista.models.Comida
 import com.utn.nutricionista.models.Diet
 import com.utn.nutricionista.models.MomentoComida
 import androidx.recyclerview.widget.DividerItemDecoration
-
+import com.utn.nutricionista.adapters.DetalleComidaAdapter
 
 
 /**

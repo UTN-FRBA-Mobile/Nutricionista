@@ -21,56 +21,56 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
         <activity
-                android:name=".WeightActivity"
+                android:name=".activities.WeightActivity"
                 android:label="@string/title_activity_weight">
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
-                    android:value=".CalendarActivity"/>
+                    android:value=".activities.CalendarActivity"/>
         </activity>
 
 
         <activity
-                android:name=".detalleComida.DetalleComidaActivity"
+                android:name=".activities.DetalleComidaActivity"
                 android:label="@string/registro">
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
-                    android:value=".CalendarActivity"/>
+                    android:value=".activities.CalendarActivity"/>
         </activity>
 
         <activity
-                android:name=".LoginActivity"
+                android:name=".activities.LoginActivity"
                 android:label="LoginActivity"
                 android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
-        <activity android:name=".CalendarActivity">
+        <activity android:name=".activities.CalendarActivity">
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
-                    android:value=".DietActivity"/>
+                    android:value=".activities.DietActivity"/>
         </activity>
         <activity android:name=".Messages.MessagesActivity"
                   android:label="@string/chat">
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
-                    android:value=".CalendarActivity"/>
+                    android:value=".activities.CalendarActivity"/>
         </activity>
-        <activity android:name=".DietActivity">
+        <activity android:name=".activities.DietActivity">
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
-                    android:value=".HomeActivity"/>
+                    android:value=".activities.HomeActivity"/>
         </activity>
-        <activity android:name=".HomeActivity"
+        <activity android:name=".activities.HomeActivity"
                   android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
-                    android:value=".MainActivity"/>
+                    android:value=".activities.MainActivity"/>
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity">
+        <activity android:name=".activities.MainActivity">
 
         </activity>
 

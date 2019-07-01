@@ -1,10 +1,11 @@
-package com.utn.nutricionista
+package com.utn.nutricionista.activities
 
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import com.utn.nutricionista.detalleComida.DetalleComidaActivity
+import com.utn.nutricionista.R
+import com.utn.nutricionista.SessionManager
 
 
 class MainActivity : AppCompatActivity() {

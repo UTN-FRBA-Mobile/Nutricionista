@@ -1,4 +1,4 @@
-package com.utn.nutricionista
+package com.utn.nutricionista.activities
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -9,11 +9,12 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.*
 import androidx.appcompat.widget.Toolbar
-import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import com.github.sundeepk.compactcalendarview.CompactCalendarView
 import com.google.android.material.appbar.AppBarLayout
+import com.utn.nutricionista.*
 import com.utn.nutricionista.Messages.MessagesActivity
+import com.utn.nutricionista.adapters.HomeExpandibleListAdapter
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -21,8 +22,6 @@ import kotlin.collections.HashMap
 
 import com.utn.nutricionista.models.MomentoComida
 import kotlinx.android.synthetic.main.activity_home.*
-import kotlinx.android.synthetic.main.fragment_weight.*
-import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -193,13 +192,10 @@ class HomeActivity : AppCompatActivity() {
                         }
                     }
                 }
-                this.expandableListView.visibility = View.VISIBLE
-                this.progressBarHome.visibility = View.GONE
+                aplicoLoader(false)
             }else{
                 Toast.makeText(this, "No se encontraron dietas para la fecha seleccionada.", Toast.LENGTH_LONG).show()
-                aplicoLoader()
-                compactCalendarView!!.setCurrentDate(Date("2019/07/01"))
-                getDietaByDate("2019/07/01")
+                this.progressBarHome.visibility = View.GONE
             }
 
         }.addOnFailureListener { e ->

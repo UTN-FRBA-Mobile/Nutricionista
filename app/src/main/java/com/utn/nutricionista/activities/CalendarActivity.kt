@@ -1,10 +1,11 @@
-package com.utn.nutricionista
+package com.utn.nutricionista.activities
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import com.utn.nutricionista.Messages.MessagesActivity
+import com.utn.nutricionista.R
 
 class CalendarActivity : AppCompatActivity() {
 

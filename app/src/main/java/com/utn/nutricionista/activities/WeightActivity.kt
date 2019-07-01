@@ -1,4 +1,4 @@
-package com.utn.nutricionista
+package com.utn.nutricionista.activities
 
 import android.graphics.Color
 import android.graphics.Rect
@@ -27,8 +27,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.utn.nutricionista.adapters.WeightDataAdapter
 import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.formatter.IFillFormatter
-import com.github.mikephil.charting.highlight.Highlight
-import com.github.mikephil.charting.listener.OnChartValueSelectedListener
+import com.utn.nutricionista.ApiClient
+import com.utn.nutricionista.fragments.InputWeightDialogFragment
 import kotlinx.android.synthetic.main.fragment_weight.*
 import com.utn.nutricionista.R
 

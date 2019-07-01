@@ -1,4 +1,4 @@
-package com.utn.nutricionista
+package com.utn.nutricionista.activities
 
 import android.content.Intent
 import android.os.Bundle
@@ -14,6 +14,7 @@ import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
+import com.utn.nutricionista.R
 import kotlinx.android.synthetic.main.activity_login.*
 
 
