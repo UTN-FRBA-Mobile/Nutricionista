@@ -7,10 +7,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.ExpandableListView
-import android.widget.ImageView
-import android.widget.RelativeLayout
-import android.widget.TextView
+import android.widget.*
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
@@ -25,6 +22,7 @@ import kotlin.collections.HashMap
 import com.utn.nutricionista.models.MomentoComida
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.fragment_weight.*
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -177,24 +175,35 @@ class HomeActivity : AppCompatActivity() {
                 }
 
             expandableListView = findViewById(R.id.home_expandable_list_view)
-            expandableListViewAdapter = HomeExpandibleListAdapter(
-                this,
-                dietas[0].momentos as ArrayList<MomentoComida>,
-                itemNameList[0]
-            )
+            if(itemNameList.size > 0) {
 
-            expandableListView.setAdapter(expandableListViewAdapter)
-            expandableListView.setOnGroupExpandListener { object : ExpandableListView.OnGroupExpandListener {
-                override fun onGroupExpand(groupPosition: Int) {
+                expandableListViewAdapter = HomeExpandibleListAdapter(
+                    this,
+                    dietas[0],
+                    dietas[0].momentos as ArrayList<MomentoComida>,
+                    itemNameList[0]
+                )
 
-                    if(latestExpandedPosition != -1 && groupPosition != latestExpandedPosition){
-                        expandableListView.collapseGroup(latestExpandedPosition)
+                expandableListView.setAdapter(expandableListViewAdapter)
+                expandableListView.setOnGroupExpandListener {
+                    object : ExpandableListView.OnGroupExpandListener {
+                        override fun onGroupExpand(groupPosition: Int) {
+
+                            if (latestExpandedPosition != -1 && groupPosition != latestExpandedPosition) {
+                                expandableListView.collapseGroup(latestExpandedPosition)
+                            }
+                            latestExpandedPosition = groupPosition
+                        }
                     }
-                    latestExpandedPosition = groupPosition
                 }
-            } }
-            this.expandableListView.visibility = View.VISIBLE
-            this.progressBarHome.visibility = View.GONE
+                this.expandableListView.visibility = View.VISIBLE
+                this.progressBarHome.visibility = View.GONE
+            }else{
+                Toast.makeText(this, "No se encontraron dietas para la fecha seleccionada.", Toast.LENGTH_LONG).show()
+                aplicoLoader()
+                compactCalendarView!!.setCurrentDate(Date("2019/07/01"))
+                getDietaByDate("2019/07/01")
+            }
 
         }.addOnFailureListener { e ->
             Log.d("FAILURE", "GASP! SOMETHING WENT WRONG: ${e.message}")
