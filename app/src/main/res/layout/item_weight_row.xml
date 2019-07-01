@@ -5,7 +5,8 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="10dp">
-        <androidx.cardview.widget.CardView
+        <com.google.android.material.card.MaterialCardView
+                style="@style/Widget.MaterialComponents.CardView"
                 xmlns:card_view="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/card_view"
                 android:layout_gravity="center"
@@ -41,5 +42,5 @@
                         android:layout_height="35dp"
                         android:id="@+id/weight_prev_compare"/>
             </LinearLayout>
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
 </LinearLayout>
