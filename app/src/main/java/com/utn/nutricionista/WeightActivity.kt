@@ -152,7 +152,7 @@ class WeightActivity : AppCompatActivity() {
         chart.setPinchZoom(false)
         chart.setDrawGridBackground(false)
         chart.setMaxHighlightDistance(300F)
-
+        chart.description.isEnabled = false;
         chart.isHighlightPerTapEnabled = true
         chart.legend.isEnabled = false
         chart.setDrawBorders(true)
