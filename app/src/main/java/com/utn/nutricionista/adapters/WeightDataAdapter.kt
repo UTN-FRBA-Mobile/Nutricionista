@@ -44,17 +44,16 @@ class WeightDataAdapter(private val myDataset: MutableList<Weight>, private val 
                 )
             }
 
-            holder.itemView.setOnClickListener { view ->
-
-                Snackbar.make(view, "Highlight Graph", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
-            }
+//            holder.itemView.setOnClickListener { view ->
+//                Snackbar.make(view, "Highlight Graph", Snackbar.LENGTH_LONG)
+//                    .setAction("Action", null).show()
+//            }
 
             holder.itemView.setOnLongClickListener { view ->
                 AlertDialog.Builder(holder.itemView.context, R.style.DialogTheme)
                     .setTitle("Eliminar registro")
                     .setMessage("¿Desea eliminar el registro?")
-                    .setPositiveButton("Ok") { dialog, which ->
+                    .setPositiveButton("Aceptar") { dialog, which ->
                         (context as WeightActivity).deleteWeight(getItem(position).id!!)
                         dialog.dismiss()
                     }

@@ -5,7 +5,7 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorPrimary"
+        android:background="@color/colorPrimaryLight"
         tools:context=".HomeActivity">
 
         <com.google.android.material.appbar.AppBarLayout
@@ -42,10 +42,10 @@
                                         android:layout_height="match_parent"
                                         android:paddingLeft="10dp"
                                         android:paddingRight="10dp"
-                                        app:compactCalendarBackgroundColor="?attr/colorPrimary"
+                                        app:compactCalendarBackgroundColor="@color/colorPrimaryLight"
                                         app:compactCalendarCurrentDayBackgroundColor="#FFC107"
-                                        app:compactCalendarCurrentSelectedDayBackgroundColor="#BBDEFB"
-                                        app:compactCalendarTextColor="#000"
+                                        app:compactCalendarCurrentSelectedDayBackgroundColor="@color/colorPrimary"
+                                        app:compactCalendarTextColor="@color/black"
                                         app:compactCalendarTextSize="12sp"/>
                         </LinearLayout>
 
@@ -81,7 +81,7 @@
                                                 android:ellipsize="end"
                                                 android:maxLines="1"
                                                 android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"
-                                                android:textColor="@android:color/black"/>
+                                                />
 
                                         <TextView
                                                 android:id="@+id/date_picker_text_view"
@@ -91,7 +91,7 @@
                                                 android:ellipsize="end"
                                                 android:maxLines="1"
                                                 android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Subtitle"
-                                                android:textColor="@android:color/black"/>
+                                                />
 
                                         <ImageView
                                                 android:id="@+id/date_picker_arrow"
@@ -121,7 +121,6 @@
                 android:scrollbars="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorPrimary"
                 android:orientation="vertical"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
@@ -130,8 +129,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:groupIndicator="@null"
-                        android:divider="@color/colorPrimary"
-                        android:dividerHeight="05dp"
                         android:id="@+id/home_expandable_list_view">
                 </ExpandableListView>
 

@@ -8,11 +8,13 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.utn.nutricionista.ApiClient
 import com.utn.nutricionista.R
 import com.utn.nutricionista.models.Comida
 import com.utn.nutricionista.models.Diet
 import com.utn.nutricionista.models.MomentoComida
+import androidx.recyclerview.widget.DividerItemDecoration
+
+
 
 /**
  * A fragment representing a list of Items.
@@ -65,10 +67,12 @@ class DetalleComidaFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         detalleComidaAdapter = DetalleComidaAdapter(listener)
         with(view as RecyclerView) {
             layoutManager = LinearLayoutManager(context)
             adapter = detalleComidaAdapter
+            view.addItemDecoration(DividerItemDecoration(view.context,1))
         }
     }
 
