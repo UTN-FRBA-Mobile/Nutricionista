@@ -27,7 +27,7 @@ class InputWeightDialogFragment : DialogFragment(), DatePickerDialog.OnDateSetLi
             date.setOnClickListener { showDatePickerDialog() }
 
             btnCancel = view.findViewById(R.id.btnInputWeightCancel) as Button
-            btnCancel.setOnClickListener { dialog.dismiss()}
+            btnCancel.setOnClickListener { dialog?.dismiss() }
             btnAccept = view.findViewById(R.id.btnInputWeightConfirm) as Button
             btnAccept.setOnClickListener { saveNewWeightRecord() }
 
@@ -39,7 +39,7 @@ class InputWeightDialogFragment : DialogFragment(), DatePickerDialog.OnDateSetLi
     private fun saveNewWeightRecord() {
         if (weight.text.isNotEmpty() && date.text.isNotEmpty()) {
             (activity as WeightActivity).saveNewWeightRecord(weight.text.toString().toFloat(), date.text.toString())
-            dialog.dismiss()
+            dialog?.dismiss()
         }
     }
 
