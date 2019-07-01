@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#FFBB3D</color>
+    <color name="colorPrimary">#FFE4B3</color>
     <color name="colorPrimaryDark">#EB9F41</color>
-    <color name="colorPrimaryLight">#EBD561</color>
-    <color name="colorAccent">#FFBB3D</color>
+    <color name="colorPrimaryLight">#FFAC48</color>
+    <color name="colorAccent">#FFAC48</color>
     <color name="white">#FFFFFF</color>
+    <color name="black">#505050</color>
     <color name="chartHighlight">#F47575</color>
     <color name="chartColor">#5C92A3</color>
     <color name="chartFillColor">#67BFDB</color>

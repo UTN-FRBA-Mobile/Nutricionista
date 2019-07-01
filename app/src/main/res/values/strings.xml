@@ -16,4 +16,5 @@
     <string name="cancel">Cancelar</string>
     <string name="send">Enviar</string>
     <string name="chat">Chat</string>
+    <string name="detalle_comida">Detalle comida</string>
 </resources>

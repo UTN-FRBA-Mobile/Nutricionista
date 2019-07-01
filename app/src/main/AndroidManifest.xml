@@ -28,6 +28,7 @@
                     android:value=".CalendarActivity"/>
         </activity>
 
+
         <activity
                 android:name=".detalleComida.DetalleComidaActivity"
                 android:label="@string/registro">
