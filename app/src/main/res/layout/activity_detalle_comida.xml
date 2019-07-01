@@ -26,10 +26,10 @@
         </com.google.android.material.appbar.AppBarLayout>
 
 
-
         <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:padding="4dp"
                 android:id="@+id/comidaImage"
                 android:layout_weight="1" app:srcCompat="@drawable/ic_launcher_foreground"/>
         <ScrollView
