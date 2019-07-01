@@ -63,6 +63,14 @@ data class Diet(
         }
     }
 
+    fun deleteComida(comida: Comida, momentoSelected: String){
+        momentos!!.forEach {
+                elem -> if(elem.nombre == momentoSelected){
+                        elem.extras.remove(comida)
+            }
+        }
+    }
+
     fun updateRealizado(momentoSelected: String, comidaSelected: String, realizada: Boolean){
         momentos!!.forEach {
             elem -> if(elem.nombre == momentoSelected){

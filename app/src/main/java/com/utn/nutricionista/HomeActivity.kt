@@ -23,6 +23,8 @@ import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
 import com.utn.nutricionista.models.MomentoComida
+import kotlinx.android.synthetic.main.activity_home.*
+import kotlinx.android.synthetic.main.fragment_weight.*
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -44,7 +46,14 @@ class HomeActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        this.progressBarHome.visibility = View.VISIBLE
         init()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        this.expandableListView.visibility = View.GONE
+        this.progressBarHome.visibility = View.VISIBLE
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,18 +74,20 @@ class HomeActivity : AppCompatActivity() {
         appBarLayout = findViewById(R.id.app_bar_layout)
         // Set up the CompactCalendarView
         compactCalendarView = findViewById(R.id.compactcalendar_view)
-        compactCalendarView!!.setCalendarBackgroundColor(ContextCompat.getColor(this, R.color.white))
-        compactCalendarView!!.setCurrentSelectedDayBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary))
+        compactCalendarView!!.setCalendarBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary))
+        compactCalendarView!!.setCurrentSelectedDayBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimaryLight))
         // Force English
         compactCalendarView!!.setLocale(TimeZone.getDefault(), /*Locale.getDefault()*/Locale.ENGLISH)
-
         compactCalendarView!!.setShouldDrawDaysHeader(true)
 
         compactCalendarView!!.setListener(object : CompactCalendarView.CompactCalendarViewListener {
             override fun onDayClick(dateClicked: Date) {
+                aplicoLoader()
                 val formatted = dateFormat.format(dateClicked)
                 setSubtitle(formatted)
                 getDietaByDate(formatted)
+                isExpanded = false
+                appBarLayout!!.setExpanded(isExpanded, true)
             }
 
             override fun onMonthScroll(firstDayOfNewMonth: Date) {
@@ -98,7 +109,6 @@ class HomeActivity : AppCompatActivity() {
             isExpanded = !isExpanded
             appBarLayout!!.setExpanded(isExpanded, true)
         }
-
     init()
 
     }
@@ -143,6 +153,16 @@ class HomeActivity : AppCompatActivity() {
     }
 
 
+    private fun aplicoLoader(activo: Boolean = true){
+        if(activo){
+            this.expandableListView.visibility = View.GONE
+            this.progressBarHome.visibility = View.VISIBLE
+        }else{
+            this.expandableListView.visibility = View.VISIBLE
+            this.progressBarHome.visibility = View.GONE
+        }
+    }
+
     private fun getDietaByDate(date: String) {
 
         ApiClient.getDietsByDate(date).addOnSuccessListener { dietas ->
@@ -171,7 +191,8 @@ class HomeActivity : AppCompatActivity() {
                     latestExpandedPosition = groupPosition
                 }
             } }
-
+            this.expandableListView.visibility = View.VISIBLE
+            this.progressBarHome.visibility = View.GONE
 
         }.addOnFailureListener { e ->
             Log.d("FAILURE", "GASP! SOMETHING WENT WRONG: ${e.message}")
