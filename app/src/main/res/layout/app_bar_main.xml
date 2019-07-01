@@ -76,7 +76,7 @@
                             android:ellipsize="end"
                             android:maxLines="1"
                             android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"
-                            android:textColor="@android:color/white"/>
+                            android:textColor="@android:color/black"/>
 
                     <TextView
                             android:id="@+id/date_picker_text_view"
@@ -86,7 +86,7 @@
                             android:ellipsize="end"
                             android:maxLines="1"
                             android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Subtitle"
-                            android:textColor="@android:color/white"/>
+                            android:textColor="@android:color/black"/>
 
                     <ImageView
                             android:id="@+id/date_picker_arrow"

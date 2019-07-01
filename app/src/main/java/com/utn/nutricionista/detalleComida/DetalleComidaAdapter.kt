@@ -59,6 +59,20 @@ class DetalleComidaAdapter(
             holder.itemView.statusComidaIcon.setOnClickListener{
                 checkEstadoComida(it)
             }
+        }else{
+            holder.itemView.setOnLongClickListener { view ->
+                AlertDialog.Builder(holder.itemView.context)
+                    .setTitle("Eliminar registro")
+                    .setMessage("¿Desea eliminar el registro?")
+                    .setPositiveButton(android.R.string.yes) { dialog, _ ->
+                        (view.context as DetalleComidaActivity).deleteComida(itemsDieta[position])
+                        dialog.dismiss()
+                    }
+                    .setNegativeButton(android.R.string.no, null)
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show()
+                return@setOnLongClickListener true
+            }
         }
 
     }

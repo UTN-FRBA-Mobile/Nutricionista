@@ -11,6 +11,8 @@ import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -33,25 +35,24 @@ import java.util.*
 class DetalleComidaActivity : AppCompatActivity(),
     DetalleComidaFragment.OnListFragmentInteractionListener {
 
+    lateinit var toolbar: Toolbar
     private val REQUEST_IMAGE_CAPTURE = 1
     private var currentPhotoPath: String = ""
     private val DIETA_PREDEF = 1
     private val FUERA_DIETA_PREDEF = 2
+    lateinit var dietaConcreta: Diet
+    lateinit var momentoConcreto: MomentoComida
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        val dietaSeleccionada = getIntentExtras()
+        dietaConcreta = getExtrasDietaConcreta()
+        momentoConcreto = getExtrasMomentoConcreto()
         setContentView(R.layout.activity_detalle_comida)
 
-        refreshDietaPredef(dietaConcreta, dietaSeleccionada.nombre)
-        refreshDietaExtras(dietaConcreta, dietaSeleccionada.nombre)
+        refreshDietaPredef(dietaConcreta, momentoConcreto.nombre)
+        refreshDietaExtras(dietaConcreta, momentoConcreto.nombre)
 
-       /* TODO:
-        toolbarDetalle!!.title = dietaSeleccionada.nombre.capitalize()
-        setSupportActionBar(toolbarDetalle)*/
-
-        takePictureIntent(dietaSeleccionada.foto)
+        takePictureIntent(momentoConcreto.foto)
         fab.setOnClickListener { view -> openAddFoodRecord(view) }
     }
 
@@ -62,9 +63,7 @@ class DetalleComidaActivity : AppCompatActivity(),
 
     fun saveNewFoodRecord(foodName : String) {
         val nuevaComida = Comida(true, foodName )
-        val dietaConcreta = getExtrasDietaConcreta()
-        val dietaSeleccionada = getExtrasDietaSeleccionada()
-        dietaConcreta.addNewComida( dietaSeleccionada.nombre, nuevaComida )
+        dietaConcreta.addNewComida( momentoConcreto.nombre, nuevaComida )
         ApiClient.putDieta(dietaConcreta).addOnSuccessListener {
             val postedDieta = it
             Log.d("SUCCESS", "Saved Id:${postedDieta.id} with fecha ${postedDieta.fecha}, Action: Add new food: ${nuevaComida.nombreComida}")
@@ -72,10 +71,22 @@ class DetalleComidaActivity : AppCompatActivity(),
             Log.d("ERROR", "Insert failed with error ${e.message}}")
         }
 
-        refreshDietaExtras(dietaConcreta, dietaSeleccionada.nombre)
+        refreshDietaExtras(dietaConcreta, momentoConcreto.nombre)
     }
 
-    fun getIntentExtras() : MomentoComida{
+    fun deleteComida(comida: Comida) {
+        dietaConcreta.deleteComida(comida, momentoConcreto.nombre )
+        ApiClient.putDieta(dietaConcreta).addOnSuccessListener {
+            val postedDieta = it
+            Log.d("SUCCESS", "Saved Id:${postedDieta.id} with fecha ${postedDieta.fecha}, Action: Delete new food: ${comida.nombreComida}")
+        }.addOnFailureListener { e ->
+            Log.d("ERROR", "Insert failed with error ${e.message}}")
+        }
+
+        refreshDietaExtras(dietaConcreta, momentoConcreto.nombre)
+    }
+
+    fun getExtrasMomentoConcreto() : MomentoComida{
 
         return intent.extras!!["dietaSeleccionada"]!! as MomentoComida
     }
@@ -87,13 +98,11 @@ class DetalleComidaActivity : AppCompatActivity(),
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        val dietaConcreta = getExtrasDietaConcreta()
-        val dietaSeleccionada = getExtrasDietaSeleccionada()
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
 
             val imageView = findViewById<ImageView>(R.id.comidaImage)
 
-            updateDietaConcreta(dietaConcreta, dietaSeleccionada )
+            updateDietaConcreta(dietaConcreta, momentoConcreto )
             imageView.setImageBitmap(BitmapFactory.decodeFile(currentPhotoPath))
             setOnClickFullScreen(imageView, currentPhotoPath)
         }
@@ -180,6 +189,7 @@ class DetalleComidaActivity : AppCompatActivity(),
             }
         }
     }
+
 
     @Throws(IOException::class)
     private fun createImageFile(): File {
