@@ -1,4 +1,4 @@
-package com.utn.nutricionista
+package com.utn.nutricionista.adapters
 
 import android.content.Context
 import android.content.Intent
@@ -10,7 +10,9 @@ import android.view.animation.AnimationUtils
 import android.widget.BaseExpandableListAdapter
 import android.widget.ImageView
 import android.widget.TextView
-import com.utn.nutricionista.detalleComida.DetalleComidaActivity
+import com.utn.nutricionista.R
+import com.utn.nutricionista.activities.DetalleComidaActivity
+import com.utn.nutricionista.models.Diet
 import com.utn.nutricionista.models.MomentoComida
 
 class HomeExpandibleListAdapter(var context: Context, var listOfMomentos:ArrayList<MomentoComida>, var listOfTitulosComida: List<String>?): BaseExpandableListAdapter() {

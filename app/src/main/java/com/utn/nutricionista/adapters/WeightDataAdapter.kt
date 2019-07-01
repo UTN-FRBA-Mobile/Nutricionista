@@ -4,13 +4,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.snackbar.Snackbar
 import com.utn.nutricionista.R
 import com.utn.nutricionista.models.Weight
 import kotlinx.android.synthetic.main.item_weight_row.view.*
 import android.content.DialogInterface
 import androidx.appcompat.app.AlertDialog
-import com.utn.nutricionista.ApiClient
+import com.utn.nutricionista.activities.WeightActivity
 
 
 class WeightDataAdapter(private val myDataset: MutableList<Weight>) :

@@ -1,4 +1,4 @@
-package com.utn.nutricionista.detalleComida
+package com.utn.nutricionista.activities
 
 import android.content.Intent
 import android.graphics.BitmapFactory
@@ -12,20 +12,17 @@ import android.view.View
 import android.widget.ImageView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
-import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.github.chrisbanes.photoview.PhotoView
 import com.utn.nutricionista.ApiClient
 import com.utn.nutricionista.R
+import com.utn.nutricionista.fragments.DetalleComidaFragment
+import com.utn.nutricionista.fragments.InputFoodDialogFragment
 import com.utn.nutricionista.models.Comida
 import com.utn.nutricionista.models.Diet
 import com.utn.nutricionista.models.MomentoComida
-import kotlinx.android.synthetic.main.activity_detalle_comida.*
 import kotlinx.android.synthetic.main.activity_detalle_comida.fab
-import kotlinx.android.synthetic.main.activity_weight.*
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
@@ -138,7 +135,11 @@ class DetalleComidaActivity : AppCompatActivity(),
         supportFragmentManager.beginTransaction()
             .replace(
                 R.id.dietaPropuestaFragmentContainer,
-                DetalleComidaFragment.newDietaInstance(momento, DIETA_PREDEF, dietaConcreta)
+                DetalleComidaFragment.newDietaInstance(
+                    momento,
+                    DIETA_PREDEF,
+                    dietaConcreta
+                )
             )
             .commit()
     }
@@ -148,7 +149,11 @@ class DetalleComidaActivity : AppCompatActivity(),
         supportFragmentManager.beginTransaction()
             .replace(
                 R.id.dietaExtraFragmentContainer,
-                DetalleComidaFragment.newDietaInstance(momento, FUERA_DIETA_PREDEF, dietaConcreta)
+                DetalleComidaFragment.newDietaInstance(
+                    momento,
+                    FUERA_DIETA_PREDEF,
+                    dietaConcreta
+                )
             )
             .commit()
     }

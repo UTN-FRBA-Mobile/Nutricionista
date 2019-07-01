@@ -1,4 +1,4 @@
-package com.utn.nutricionista.detalleComida
+package com.utn.nutricionista.adapters
 
 import android.app.AlertDialog
 import android.util.Log
@@ -6,11 +6,12 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
+import com.utn.nutricionista.ApiClient
 
 
-import com.utn.nutricionista.detalleComida.DetalleComidaFragment.OnListFragmentInteractionListener
+import com.utn.nutricionista.fragments.DetalleComidaFragment.OnListFragmentInteractionListener
 import com.utn.nutricionista.R
+import com.utn.nutricionista.activities.DetalleComidaActivity
 import com.utn.nutricionista.dummy.DummyContent.DummyItem
 import com.utn.nutricionista.models.Comida
 
