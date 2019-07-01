@@ -81,8 +81,8 @@ class HomeActivity : AppCompatActivity() {
         appBarLayout = findViewById(R.id.app_bar_layout)
         // Set up the CompactCalendarView
         compactCalendarView = findViewById(R.id.compactcalendar_view)
-        compactCalendarView!!.setCalendarBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary))
-        compactCalendarView!!.setCurrentSelectedDayBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimaryLight))
+        //compactCalendarView!!.setCalendarBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary))
+        //compactCalendarView!!.setCurrentSelectedDayBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimaryLight))
         // Force English
         compactCalendarView!!.setLocale(TimeZone.getDefault(), /*Locale.getDefault()*/Locale.ENGLISH)
         compactCalendarView!!.setShouldDrawDaysHeader(true)

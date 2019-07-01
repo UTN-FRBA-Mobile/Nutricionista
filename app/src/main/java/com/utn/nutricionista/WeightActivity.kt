@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.DividerItemDecoration
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.components.XAxis
@@ -26,10 +27,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.utn.nutricionista.adapters.WeightDataAdapter
 import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.formatter.IFillFormatter
+import com.github.mikephil.charting.highlight.Highlight
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 import kotlinx.android.synthetic.main.fragment_weight.*
 import com.utn.nutricionista.R
 
-class WeightActivity : AppCompatActivity() {
+class WeightActivity : AppCompatActivity(){
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: RecyclerView.LayoutManager
@@ -84,9 +87,10 @@ class WeightActivity : AppCompatActivity() {
         viewAdapter.notifyDataSetChanged()
 
         recyclerView = findViewById<RecyclerView>(R.id.weight_table).apply {
-            setHasFixedSize(false   )
+            setHasFixedSize(false)
             layoutManager = viewManager
             addItemDecoration(ItemOffsetDecoration(20))
+            addItemDecoration(DividerItemDecoration(this.context,1))
             adapter = viewAdapter
         }
     }
@@ -121,11 +125,11 @@ class WeightActivity : AppCompatActivity() {
         dataSet.mode = LineDataSet.Mode.CUBIC_BEZIER
         dataSet.cubicIntensity = 0.2f
         dataSet.setDrawFilled(true)
-        dataSet.setDrawCircles(false)
+        dataSet.setDrawCircles(true)
         dataSet.lineWidth = 1.8f
-        dataSet.circleRadius = 4f
-        dataSet.setCircleColor(Color.WHITE)
-        dataSet.highLightColor = ContextCompat.getColor(this, R.color.chartHighlight)
+        dataSet.circleRadius = 5f
+        dataSet.setCircleColor(ContextCompat.getColor(this,R.color.chartFillColor))
+        dataSet.highLightColor = ContextCompat.getColor(this, R.color.colorAccent)
         dataSet.color = ContextCompat.getColor(this, R.color.chartColor)
         dataSet.fillColor = ContextCompat.getColor(this, R.color.chartFillColor)
         dataSet.fillAlpha = 100
@@ -146,12 +150,12 @@ class WeightActivity : AppCompatActivity() {
         // enable touch gestures
         chart.setTouchEnabled(true)
         // enable scaling and dragging
-        chart.setDragEnabled(true)
+        chart.isDragEnabled = true
         chart.setScaleEnabled(true)
         // if disabled, scaling can be done on x- and y-axis separately
         chart.setPinchZoom(false)
         chart.setDrawGridBackground(false)
-        chart.setMaxHighlightDistance(300F)
+        chart.maxHighlightDistance = 300F
         chart.description.isEnabled = false;
         chart.isHighlightPerTapEnabled = true
         chart.legend.isEnabled = false
@@ -175,9 +179,9 @@ class WeightActivity : AppCompatActivity() {
         y.setDrawGridLines(false)
         y.axisLineColor = ContextCompat.getColor(this, R.color.white)
 
-        chart.getAxisRight().setEnabled(false)
+        chart.axisRight.isEnabled = false
         chart.animateXY(2000, 2000)
-        chart.getLegend().setEnabled(false)
+        chart.legend.isEnabled = false
         return chart
     }
 

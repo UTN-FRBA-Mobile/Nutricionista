@@ -5,6 +5,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/colorPrimaryLight"
         tools:context=".detalleComida.DetalleComidaActivity">
 
     <RelativeLayout android:layout_width="match_parent" android:layout_height="match_parent">
@@ -38,7 +39,7 @@
             <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:background="@color/colorPrimary"
+                    android:background="@color/colorPrimaryLight"
                     android:layout_height="wrap_content"
             >
                 <TextView
@@ -47,7 +48,7 @@
                         android:textSize="20sp" tools:text="@string/dieta_propuesta_txt"
                         android:paddingStart="10dp"
                         android:textStyle="bold"
-                        android:background="@color/colorPrimaryDark"
+                        android:background="@color/colorPrimary"
                         android:gravity="center_vertical"
                         android:paddingEnd="10dp" android:text="@string/dieta_propuesta_txt"/>
 
@@ -61,7 +62,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
-                        android:background="@color/colorPrimaryDark"
+                        android:background="@color/colorPrimary"
                         android:weightSum="5">
                     <TextView
                             android:text="@string/dieta_extra_txt"
