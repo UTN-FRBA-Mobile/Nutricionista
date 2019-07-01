@@ -22,14 +22,15 @@
             android:theme="@style/AppTheme">
         <activity
                 android:name=".WeightActivity"
-                android:label="@string/title_activity_weight"
-                android:theme="@style/AppTheme.NoActionBar">
+                android:label="@string/title_activity_weight">
+            <meta-data
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value=".CalendarActivity"/>
         </activity>
 
         <activity
                 android:name=".detalleComida.DetalleComidaActivity"
-                android:label="@string/registro"
-                android:theme="@style/AppTheme.NoActionBar">
+                android:label="@string/registro">
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
                     android:value=".CalendarActivity"/>

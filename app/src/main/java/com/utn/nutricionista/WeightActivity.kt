@@ -38,8 +38,8 @@ class WeightActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_weight)
-        setSupportActionBar(toolbar)
-        title = "Mi Peso"
+
+
         fab.setOnClickListener { view -> openAddWeightRecord(view) }
 
         refreshWeightData()
