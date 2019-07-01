@@ -168,6 +168,7 @@ class WeightActivity : AppCompatActivity() {
         xAxis.setCenterAxisLabels(false)
         xAxis.granularity = 30f
 
+
         val y = chart.axisLeft
         y.setLabelCount(6, false)
         y.textColor = ContextCompat.getColor(this, R.color.chartColor)

@@ -51,14 +51,14 @@ class WeightDataAdapter(private val myDataset: MutableList<Weight>) :
             }
 
             holder.itemView.setOnLongClickListener { view ->
-                AlertDialog.Builder(holder.itemView.context)
+                AlertDialog.Builder(holder.itemView.context, R.style.DialogTheme)
                     .setTitle("Eliminar registro")
-                    .setMessage("¿Seguro que desea eliminar el registro?")
-                    .setPositiveButton(android.R.string.yes) { dialog, which ->
-                        ApiClient.deleteWeight(getItem(position).id!!)
+                    .setMessage("¿Desea eliminar el registro?")
+                    .setPositiveButton("Ok") { dialog, which ->
+                        (context as WeightActivity).deleteWeight(getItem(position).id!!)
                         dialog.dismiss()
                     }
-                    .setNegativeButton(android.R.string.no, null)
+                    .setNegativeButton("Cancelar", null)
                     .setIcon(android.R.drawable.ic_dialog_alert)
                     .show()
                 return@setOnLongClickListener true
