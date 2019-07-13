@@ -31,15 +31,9 @@ class HomeActivity : AppCompatActivity() {
     var toolbar: Toolbar? = null
     private var appBarLayout: AppBarLayout? = null
 
-    //private val dateFormat = SimpleDateFormat("d MMMM yyyy", /*Locale.getDefault()*/Locale.ENGLISH)
     private val dateFormat = SimpleDateFormat("yyyy/MM/dd", /*Locale.getDefault()*/Locale.ENGLISH)
     private var compactCalendarView: CompactCalendarView? = null
     private var isExpanded = false
-
-    lateinit private var expandableListView: ExpandableListView
-    lateinit private var expandableListViewAdapter: HomeExpandibleListAdapter
-    var dietaPreDefArr = HashMap<String,List<String>>()
-    var latestExpandedPosition: Int = -1
 
     override fun onResume() {
         super.onResume()
@@ -49,7 +43,6 @@ class HomeActivity : AppCompatActivity() {
 
     override fun onPause() {
         super.onPause()
-        this.expandableListView.visibility = View.GONE
         this.progressBarHome.visibility = View.VISIBLE
     }
 
@@ -79,10 +72,10 @@ class HomeActivity : AppCompatActivity() {
 
         compactCalendarView!!.setListener(object : CompactCalendarView.CompactCalendarViewListener {
             override fun onDayClick(dateClicked: Date) {
-                aplicoLoader()
+                //aplicoLoader()
                 val formatted = dateFormat.format(dateClicked)
                 setSubtitle(formatted)
-//                getDietaByDate(formatted)
+                //getDietaByDate(formatted)
                 isExpanded = false
                 appBarLayout!!.setExpanded(isExpanded, true)
             }
@@ -107,7 +100,6 @@ class HomeActivity : AppCompatActivity() {
             appBarLayout!!.setExpanded(isExpanded, true)
         }
     init()
-
     }
 
     fun buttonPressed(view: View) {
@@ -139,9 +131,7 @@ class HomeActivity : AppCompatActivity() {
         }
     }
 
-
     private fun init(){
-
         val currentDate = LocalDateTime.now().toLocalDate()
         val formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd")
         val formatted = currentDate.format(formatter)
@@ -152,13 +142,10 @@ class HomeActivity : AppCompatActivity() {
         return datePickerTextView.text.toString()
     }
 
-
     fun aplicoLoader(activo: Boolean = true){
         if(activo){
-            this.expandableListView.visibility = View.GONE
             this.progressBarHome.visibility = View.VISIBLE
         }else{
-            this.expandableListView.visibility = View.VISIBLE
             this.progressBarHome.visibility = View.GONE
         }
     }
