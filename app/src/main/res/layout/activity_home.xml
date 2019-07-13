@@ -127,15 +127,11 @@
                 android:orientation="vertical"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-
-                <ExpandableListView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:groupIndicator="@null"
-                        android:id="@+id/home_expandable_list_view">
-                </ExpandableListView>
-
-
+                <fragment android:name="com.utn.nutricionista.fragments.HomeDietCollectionFragment"
+                          android:id="@+id/list"
+                          android:layout_weight="1"
+                          android:layout_width="match_parent"
+                          android:layout_height="match_parent" />
         </LinearLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

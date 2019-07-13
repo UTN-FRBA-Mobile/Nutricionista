@@ -82,7 +82,7 @@ class HomeActivity : AppCompatActivity() {
                 aplicoLoader()
                 val formatted = dateFormat.format(dateClicked)
                 setSubtitle(formatted)
-                getDietaByDate(formatted)
+//                getDietaByDate(formatted)
                 isExpanded = false
                 appBarLayout!!.setExpanded(isExpanded, true)
             }
@@ -145,12 +145,15 @@ class HomeActivity : AppCompatActivity() {
         val currentDate = LocalDateTime.now().toLocalDate()
         val formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd")
         val formatted = currentDate.format(formatter)
-        getDietaByDate(formatted)
+    }
 
+    fun getSelectedDate() : String {
+        val datePickerTextView = findViewById<TextView>(R.id.date_picker_text_view)
+        return datePickerTextView.text.toString()
     }
 
 
-    private fun aplicoLoader(activo: Boolean = true){
+    fun aplicoLoader(activo: Boolean = true){
         if(activo){
             this.expandableListView.visibility = View.GONE
             this.progressBarHome.visibility = View.VISIBLE
@@ -158,50 +161,6 @@ class HomeActivity : AppCompatActivity() {
             this.expandableListView.visibility = View.VISIBLE
             this.progressBarHome.visibility = View.GONE
         }
-    }
-
-    private fun getDietaByDate(date: String) {
-
-        ApiClient.getDietsByDate(date).addOnSuccessListener { dietas ->
-            val itemNameList  =
-                dietas.map{d ->
-                    d.momentos?.map { m ->
-                        m.nombre.capitalize()
-                    }
-                }
-
-            expandableListView = findViewById(R.id.home_expandable_list_view)
-            if(itemNameList.size > 0) {
-
-                expandableListViewAdapter = HomeExpandibleListAdapter(
-                    this,
-                    dietas[0],
-                    dietas[0].momentos as ArrayList<MomentoComida>,
-                    itemNameList[0]
-                )
-
-                expandableListView.setAdapter(expandableListViewAdapter)
-                expandableListView.setOnGroupExpandListener {
-                    object : ExpandableListView.OnGroupExpandListener {
-                        override fun onGroupExpand(groupPosition: Int) {
-
-                            if (latestExpandedPosition != -1 && groupPosition != latestExpandedPosition) {
-                                expandableListView.collapseGroup(latestExpandedPosition)
-                            }
-                            latestExpandedPosition = groupPosition
-                        }
-                    }
-                }
-                aplicoLoader(false)
-            }else{
-                Toast.makeText(this, "No se encontraron dietas para la fecha seleccionada.", Toast.LENGTH_LONG).show()
-                this.progressBarHome.visibility = View.GONE
-            }
-
-        }.addOnFailureListener { e ->
-            Log.d("FAILURE", "GASP! SOMETHING WENT WRONG: ${e.message}")
-        }
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -222,8 +181,5 @@ class HomeActivity : AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
-
-
-
-
 }
+
