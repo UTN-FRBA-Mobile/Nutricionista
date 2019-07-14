@@ -39,7 +39,8 @@ class HomeDietFragment : Fragment() {
 
         arguments?.takeIf { it.containsKey(ARG_OBJECT) }?.apply {
             (activity as HomeActivity).aplicoLoader(true)
-            val selectedDate = (activity as HomeActivity).getSelectedDate()
+            (activity as HomeActivity).setNextSelectedDate()
+            val selectedDate: String = (activity as HomeActivity).getSelectedDateStr()
             getDietaByDate(selectedDate)
         }
 

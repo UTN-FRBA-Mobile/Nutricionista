@@ -10,11 +10,14 @@ import android.view.View
 import android.widget.*
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.ViewCompat
+import androidx.viewpager.widget.ViewPager
 import com.github.sundeepk.compactcalendarview.CompactCalendarView
 import com.google.android.material.appbar.AppBarLayout
 import com.utn.nutricionista.*
 import com.utn.nutricionista.Messages.MessagesActivity
 import com.utn.nutricionista.adapters.HomeExpandibleListAdapter
+import com.utn.nutricionista.dummy.OnSwipeTouchListener
+import com.utn.nutricionista.fragments.HomeDietFragment
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -22,6 +25,7 @@ import kotlin.collections.HashMap
 
 import com.utn.nutricionista.models.MomentoComida
 import kotlinx.android.synthetic.main.activity_home.*
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -135,11 +139,45 @@ class HomeActivity : AppCompatActivity() {
         val currentDate = LocalDateTime.now().toLocalDate()
         val formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd")
         val formatted = currentDate.format(formatter)
+
+        val fragment = findViewById<View>(R.id.home_recycler_view )
+        fragment.setOnTouchListener(OnSwipeTouchListener(this) {
+            @Override
+            public void onSwipeLeft() {
+                // Whatever
+            }
+        });
+
     }
 
-    fun getSelectedDate() : String {
+    fun getSelectedDate() : LocalDate {
         val datePickerTextView = findViewById<TextView>(R.id.date_picker_text_view)
-        return datePickerTextView.text.toString()
+        val string = datePickerTextView.text.toString()
+        val date = LocalDate.parse(string, DateTimeFormatter.ofPattern("yyyy/MM/dd"))
+
+        return date
+    }
+
+    fun setNextSelectedDate() {
+        val date =getSelectedDate()
+        val nextDay: LocalDate = date.plusDays(1)
+        val localDateStr: String = formatStringLocalDate("yyyy/MM/dd", nextDay)
+        setCurrentDate(Date(localDateStr))
+
+    }
+
+    fun setPreviousSelectedDate() {
+        val date =getSelectedDate()
+        val prevDay: LocalDate = date.plusDays(-1)
+        val localDateStr: String = formatStringLocalDate("yyyy/MM/dd", prevDay)
+        setCurrentDate(Date(localDateStr))
+
+    }
+
+    fun getSelectedDateStr(): String {
+            val date = getSelectedDate()
+            val localDateStr: String = formatStringLocalDate("yyyy/MM/dd", date)
+            return localDateStr
     }
 
     fun aplicoLoader(activo: Boolean = true){
@@ -148,6 +186,12 @@ class HomeActivity : AppCompatActivity() {
         }else{
             this.progressBarHome.visibility = View.GONE
         }
+    }
+
+    fun formatStringLocalDate(formato: String, localDate: LocalDate): String{
+        val formatter = DateTimeFormatter.ofPattern(formato)
+        val formatted = localDate.format(formatter)
+        return formatted
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
