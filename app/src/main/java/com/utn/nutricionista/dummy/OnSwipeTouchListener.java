@@ -1,23 +1,30 @@
 package com.utn.nutricionista.dummy;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.GestureDetector;
 import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
+import android.widget.Toast;
 
 public class OnSwipeTouchListener implements OnTouchListener {
+
     private final GestureDetector gestureDetector;
+    private final Context aux;
 
     public OnSwipeTouchListener(Context context) {
         gestureDetector = new GestureDetector(context, new GestureListener());
+        aux = context;
     }
 
     public void onSwipeLeft() {
+
     }
 
     public void onSwipeRight() {
+
     }
 
     public boolean onTouch(View v, MotionEvent event) {
@@ -26,7 +33,7 @@ public class OnSwipeTouchListener implements OnTouchListener {
 
     private final class GestureListener extends SimpleOnGestureListener {
 
-        private static final int SWIPE_DISTANCE_THRESHOLD = 100;
+        private static final int SWIPE_DISTANCE_THRESHOLD = 500;
         private static final int SWIPE_VELOCITY_THRESHOLD = 100;
 
         @Override
@@ -40,9 +47,9 @@ public class OnSwipeTouchListener implements OnTouchListener {
             float distanceY = e2.getY() - e1.getY();
             if (Math.abs(distanceX) > Math.abs(distanceY) && Math.abs(distanceX) > SWIPE_DISTANCE_THRESHOLD && Math.abs(velocityX) > SWIPE_VELOCITY_THRESHOLD) {
                 if (distanceX > 0)
-                    onSwipeRight();
-                else
                     onSwipeLeft();
+                else
+                    onSwipeRight();
                 return true;
             }
             return false;

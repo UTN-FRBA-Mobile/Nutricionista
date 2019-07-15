@@ -26,6 +26,7 @@ class HomeDietFragment : Fragment() {
     private lateinit var expandableListView: ExpandableListView
     private lateinit var expandableListViewAdapter: HomeExpandibleListAdapter
     var latestExpandedPosition: Int = -1
+    var initialFlag: Boolean = true
 
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
@@ -35,12 +36,11 @@ class HomeDietFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         expandableListView = view.findViewById(R.id.home_expandable_list_view)
-        this.expandableListView.visibility = View.GONE
+        //this.expandableListView.visibility = View.GONE
 
-        arguments?.takeIf { it.containsKey(ARG_OBJECT) }?.apply {
-            (activity as HomeActivity).aplicoLoader(true)
-            (activity as HomeActivity).setNextSelectedDate()
+        arguments?.takeIf { it.containsKey(ARG_OBJECT) && initialFlag }?.apply {
             val selectedDate: String = (activity as HomeActivity).getSelectedDateStr()
+            initialFlag = false
             getDietaByDate(selectedDate)
         }
 
@@ -56,7 +56,7 @@ class HomeDietFragment : Fragment() {
         })
     }
 
-    private fun getDietaByDate(date: String) {
+    fun getDietaByDate(date: String) {
         this.expandableListView.visibility = View.GONE
         ApiClient.getDietsByDate(date).addOnSuccessListener { dietas ->
             val itemNameList  =
@@ -93,6 +93,7 @@ class HomeDietFragment : Fragment() {
             }
 
         }.addOnFailureListener { e ->
+            Toast.makeText(this.context!!, "No se encontraron dietas para la fecha seleccionada.", Toast.LENGTH_LONG).show()
             Log.d("FAILURE", "GASP! SOMETHING WENT WRONG: ${e.message}")
         }
     }

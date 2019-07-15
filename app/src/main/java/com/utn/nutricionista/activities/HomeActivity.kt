@@ -35,6 +35,10 @@ class HomeActivity : AppCompatActivity() {
     var toolbar: Toolbar? = null
     private var appBarLayout: AppBarLayout? = null
 
+    private lateinit var expandableListView: ExpandableListView
+    private lateinit var expandableListViewAdapter: HomeExpandibleListAdapter
+    var latestExpandedPosition: Int = -1
+
     private val dateFormat = SimpleDateFormat("yyyy/MM/dd", /*Locale.getDefault()*/Locale.ENGLISH)
     private var compactCalendarView: CompactCalendarView? = null
     private var isExpanded = false
@@ -76,7 +80,7 @@ class HomeActivity : AppCompatActivity() {
 
         compactCalendarView!!.setListener(object : CompactCalendarView.CompactCalendarViewListener {
             override fun onDayClick(dateClicked: Date) {
-                //aplicoLoader()
+                aplicoLoader()
                 val formatted = dateFormat.format(dateClicked)
                 setSubtitle(formatted)
                 //getDietaByDate(formatted)
@@ -140,13 +144,16 @@ class HomeActivity : AppCompatActivity() {
         val formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd")
         val formatted = currentDate.format(formatter)
 
-        val fragment = findViewById<View>(R.id.home_recycler_view )
-        fragment.setOnTouchListener(OnSwipeTouchListener(this) {
-            @Override
-            public void onSwipeLeft() {
-                // Whatever
+        val fragment = findViewById<View>(R.id.pager)
+        fragment.setOnTouchListener(object: OnSwipeTouchListener(this){
+            override fun onSwipeLeft() {
+                setPreviousSelectedDate()
             }
-        });
+
+            override fun onSwipeRight() {
+                setNextSelectedDate()
+            }
+        })
 
     }
 
@@ -212,5 +219,47 @@ class HomeActivity : AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
+
+    fun getDietaByDate2(date: String) {
+        this.expandableListView.visibility = View.GONE
+        ApiClient.getDietsByDate(date).addOnSuccessListener { dietas ->
+            val itemNameList  =
+                dietas.map{d ->
+                    d.momentos?.map { m ->
+                        m.nombre.capitalize()
+                    }
+                }
+
+            //expandableListView = view!!.findViewById(R.id.home_expandable_list_view)
+            if(itemNameList.isNotEmpty()) {
+
+                expandableListViewAdapter = HomeExpandibleListAdapter(
+                    this@HomeActivity,
+                    dietas[0],
+                    dietas[0].momentos as ArrayList<MomentoComida>,
+                    itemNameList[0]
+                )
+
+                expandableListView.setAdapter(expandableListViewAdapter)
+                expandableListView.setOnGroupExpandListener {
+                    ExpandableListView.OnGroupExpandListener { groupPosition ->
+                        if (latestExpandedPosition != -1 && groupPosition != latestExpandedPosition) {
+                            expandableListView.collapseGroup(latestExpandedPosition)
+                        }
+                        latestExpandedPosition = groupPosition
+                    }
+                }
+                this.expandableListView.visibility = View.VISIBLE
+                aplicoLoader(false)
+            }else{
+                Toast.makeText(this@HomeActivity, "No se encontraron dietas para la fecha seleccionada.", Toast.LENGTH_LONG).show()
+                aplicoLoader(false)
+            }
+
+        }.addOnFailureListener { e ->
+            Log.d("FAILURE", "GASP! SOMETHING WENT WRONG: ${e.message}")
+        }
+    }
+
 }
 
