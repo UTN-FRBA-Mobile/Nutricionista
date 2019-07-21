@@ -4,9 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
+import android.view.*
 import android.widget.*
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.ViewCompat
@@ -22,11 +20,71 @@ import kotlin.collections.HashMap
 
 import com.utn.nutricionista.models.MomentoComida
 import kotlinx.android.synthetic.main.activity_home.*
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 
-class HomeActivity : AppCompatActivity() {
+class HomeActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
+    override fun onSingleTapUp(e: MotionEvent?): Boolean {
+        return false
+    }
+
+    override fun onDown(e: MotionEvent?): Boolean {
+        return false
+    }
+
+    private val SWIPE_THRESHOLD = 100
+    private val SWIPE_VELOCITY_THRESHOLD = 100
+
+    private var gestureDetector: GestureDetector? = null
+
+    override fun onFling(e1: MotionEvent?, e2: MotionEvent?, velocityX: Float, velocityY: Float): Boolean {
+        var result = false
+        try {
+            val diffY = (e2?.y ?: 0.0.toFloat()) - (e1?.y ?: 0.0.toFloat())
+            val diffX = (e2?.x ?: 0.0.toFloat()) - (e1?.x ?: 0.0.toFloat())
+            if (Math.abs(diffX) > Math.abs(diffY)) {
+                if (Math.abs(diffX) > SWIPE_THRESHOLD && Math.abs(velocityX) > SWIPE_VELOCITY_THRESHOLD) {
+                    if (diffX > 0) {
+                        onSwipeRight()
+                    } else {
+                        onSwipeLeft()
+                    }
+                    result = true
+                }
+            }
+        } catch (exception: Exception) {
+            exception.printStackTrace()
+        }
+
+        return result
+    }
+
+    override fun onTouchEvent(event: MotionEvent?): Boolean {
+        gestureDetector?.onTouchEvent(event)
+        return super.onTouchEvent(event)
+    }
+
+    fun onSwipeRight() {
+        Toast.makeText(this, "swipe right", Toast.LENGTH_LONG).show()
+        setPreviousSelectedDate()
+    }
+
+    fun onSwipeLeft() {
+        Toast.makeText(this, "swipe left", Toast.LENGTH_LONG).show()
+        setNextSelectedDate()
+    }
+
+    override fun onScroll(e1: MotionEvent?, e2: MotionEvent?, distanceX: Float, distanceY: Float): Boolean {
+        return false
+    }
+
+    override fun onLongPress(e: MotionEvent?) {
+    }
+
+    override fun onShowPress(e: MotionEvent?) {
+    }
 
     var toolbar: Toolbar? = null
     private var appBarLayout: AppBarLayout? = null
@@ -55,7 +113,7 @@ class HomeActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        gestureDetector = GestureDetector(this, this)
         if (SessionManager.currentUser == null) {
             // Not signed in, launch the Sign In activity
             startActivity(Intent(this, LoginActivity::class.java))
@@ -79,10 +137,7 @@ class HomeActivity : AppCompatActivity() {
 
         compactCalendarView!!.setListener(object : CompactCalendarView.CompactCalendarViewListener {
             override fun onDayClick(dateClicked: Date) {
-                aplicoLoader()
-                val formatted = dateFormat.format(dateClicked)
-                setSubtitle(formatted)
-                getDietaByDate(formatted)
+                getNewDate(dateClicked)
                 isExpanded = false
                 appBarLayout!!.setExpanded(isExpanded, true)
             }
@@ -108,6 +163,13 @@ class HomeActivity : AppCompatActivity() {
         }
     init()
 
+    }
+
+    private fun getNewDate(dateClicked: Date) {
+        aplicoLoader()
+        val formatted = dateFormat.format(dateClicked)
+        setSubtitle(formatted)
+        getDietaByDate(formatted)
     }
 
     fun buttonPressed(view: View) {
@@ -224,6 +286,40 @@ class HomeActivity : AppCompatActivity() {
     }
 
 
+    fun getSelectedDate() : LocalDate {
+        val datePickerTextView = findViewById<TextView>(R.id.date_picker_text_view)
+        val string = datePickerTextView.text.toString()
+        val date = LocalDate.parse(string, DateTimeFormatter.ofPattern("yyyy/MM/dd"))
 
+        return date
+    }
+
+    fun setNextSelectedDate() {
+        val date =getSelectedDate()
+        val nextDay: LocalDate = date.plusDays(1)
+        val localDateStr: String = formatStringLocalDate("yyyy/MM/dd", nextDay)
+        setCurrentDate(Date(localDateStr))
+        getNewDate(Date(localDateStr))
+    }
+
+    fun setPreviousSelectedDate() {
+        val date =getSelectedDate()
+        val prevDay: LocalDate = date.plusDays(-1)
+        val localDateStr: String = formatStringLocalDate("yyyy/MM/dd", prevDay)
+        setCurrentDate(Date(localDateStr))
+        getNewDate(Date(localDateStr))
+    }
+
+    fun getSelectedDateStr(): String {
+        val date = getSelectedDate()
+        val localDateStr: String = formatStringLocalDate("yyyy/MM/dd", date)
+        return localDateStr
+    }
+
+    fun formatStringLocalDate(formato: String, localDate: LocalDate): String{
+        val formatter = DateTimeFormatter.ofPattern(formato)
+        val formatted = localDate.format(formatter)
+        return formatted
+    }
 
 }
