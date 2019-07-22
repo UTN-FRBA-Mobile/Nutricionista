@@ -9,6 +9,8 @@ import android.widget.*
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.ViewCompat
 import com.github.sundeepk.compactcalendarview.CompactCalendarView
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import com.google.android.material.appbar.AppBarLayout
 import com.utn.nutricionista.*
 import com.utn.nutricionista.Messages.MessagesActivity
@@ -16,13 +18,12 @@ import com.utn.nutricionista.adapters.HomeExpandibleListAdapter
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
-import kotlin.collections.HashMap
-
 import com.utn.nutricionista.models.MomentoComida
 import kotlinx.android.synthetic.main.activity_home.*
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import android.widget.LinearLayout
 
 
 class HomeActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
@@ -41,6 +42,10 @@ class HomeActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
     private lateinit var expandableListView: ExpandableListView
     private lateinit var expandableListViewAdapter: HomeExpandibleListAdapter
     var latestExpandedPosition: Int = -1
+
+    private var mAnimator: LinearLayout? = null
+    private var mLeftAnim: Animation? = null
+    private var mRightAnim: Animation? = null
 
     override fun onResume() {
         super.onResume()
@@ -80,6 +85,7 @@ class HomeActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
 
         compactCalendarView!!.setListener(object : CompactCalendarView.CompactCalendarViewListener {
             override fun onDayClick(dateClicked: Date) {
+                aplicoLoader()
                 getNewDate(dateClicked)
                 isExpanded = false
                 appBarLayout!!.setExpanded(isExpanded, true)
@@ -89,6 +95,11 @@ class HomeActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
                 setSubtitle(dateFormat.format(firstDayOfNewMonth))
             }
         })
+
+        // Set Animations
+        mAnimator = findViewById(R.id.home_recycler_view)
+        mLeftAnim = AnimationUtils.loadAnimation(this, R.anim.slide_in_left)
+        mRightAnim = AnimationUtils.loadAnimation(this, R.anim.slide_in_right)
 
         // Set current date to today
         setCurrentDate(Date())
@@ -162,7 +173,7 @@ class HomeActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
     //region Date Selection
 
     private fun getNewDate(dateClicked: Date) {
-        aplicoLoader()
+        //aplicoLoader()
         val formatted = dateFormat.format(dateClicked)
         setSubtitle(formatted)
         getDietaByDate(formatted)
@@ -218,6 +229,7 @@ class HomeActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
                 aplicoLoader(false)
             }else{
                 Toast.makeText(this, "No se encontraron dietas para la fecha seleccionada.", Toast.LENGTH_LONG).show()
+                this.expandableListView.visibility = View.GONE
                 this.progressBarHome.visibility = View.GONE
             }
 
@@ -282,9 +294,9 @@ class HomeActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
             if (Math.abs(diffX) > Math.abs(diffY)) {
                 if (Math.abs(diffX) > SWIPE_THRESHOLD && Math.abs(velocityX) > SWIPE_VELOCITY_THRESHOLD) {
                     if (diffX > 0) {
-                        onSwipeRight()
-                    } else {
                         onSwipeLeft()
+                    } else {
+                        onSwipeRight()
                     }
                     result = true
                 }
@@ -301,11 +313,13 @@ class HomeActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
         return super.onTouchEvent(event)
     }
 
-    fun onSwipeRight() {
+    fun onSwipeLeft() {
+        mAnimator!!.startAnimation(mLeftAnim)
         setPreviousSelectedDate()
     }
 
-    fun onSwipeLeft() {
+    fun onSwipeRight() {
+        mAnimator!!.startAnimation(mRightAnim)
         setNextSelectedDate()
     }
 
