@@ -25,7 +25,6 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import android.widget.LinearLayout
 
-
 class HomeActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
     private val SWIPE_THRESHOLD = 100
     private val SWIPE_VELOCITY_THRESHOLD = 100
@@ -100,6 +99,27 @@ class HomeActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
         mAnimator = findViewById(R.id.home_recycler_view)
         mLeftAnim = AnimationUtils.loadAnimation(this, R.anim.slide_in_left)
         mRightAnim = AnimationUtils.loadAnimation(this, R.anim.slide_in_right)
+
+        mLeftAnim!!.setAnimationListener(object : Animation.AnimationListener {
+            override fun onAnimationStart(animation: Animation) { }
+
+            override fun onAnimationEnd(animation: Animation) {
+                expandableListView.visibility = View.GONE
+            }
+
+            override fun onAnimationRepeat(animation: Animation) { }
+        })
+
+        mRightAnim!!.setAnimationListener(object : Animation.AnimationListener {
+            override fun onAnimationStart(animation: Animation) { }
+
+            override fun onAnimationEnd(animation: Animation) {
+                expandableListView.visibility = View.GONE
+            }
+
+            override fun onAnimationRepeat(animation: Animation) { }
+        })
+
 
         // Set current date to today
         setCurrentDate(Date())
