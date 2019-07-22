@@ -26,65 +26,9 @@ import java.time.format.DateTimeFormatter
 
 
 class HomeActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
-    override fun onSingleTapUp(e: MotionEvent?): Boolean {
-        return false
-    }
-
-    override fun onDown(e: MotionEvent?): Boolean {
-        return false
-    }
-
     private val SWIPE_THRESHOLD = 100
     private val SWIPE_VELOCITY_THRESHOLD = 100
-
     private var gestureDetector: GestureDetector? = null
-
-    override fun onFling(e1: MotionEvent?, e2: MotionEvent?, velocityX: Float, velocityY: Float): Boolean {
-        var result = false
-        try {
-            val diffY = (e2?.y ?: 0.0.toFloat()) - (e1?.y ?: 0.0.toFloat())
-            val diffX = (e2?.x ?: 0.0.toFloat()) - (e1?.x ?: 0.0.toFloat())
-            if (Math.abs(diffX) > Math.abs(diffY)) {
-                if (Math.abs(diffX) > SWIPE_THRESHOLD && Math.abs(velocityX) > SWIPE_VELOCITY_THRESHOLD) {
-                    if (diffX > 0) {
-                        onSwipeRight()
-                    } else {
-                        onSwipeLeft()
-                    }
-                    result = true
-                }
-            }
-        } catch (exception: Exception) {
-            exception.printStackTrace()
-        }
-
-        return result
-    }
-
-    override fun onTouchEvent(event: MotionEvent?): Boolean {
-        gestureDetector?.onTouchEvent(event)
-        return super.onTouchEvent(event)
-    }
-
-    fun onSwipeRight() {
-        Toast.makeText(this, "swipe right", Toast.LENGTH_LONG).show()
-        setPreviousSelectedDate()
-    }
-
-    fun onSwipeLeft() {
-        Toast.makeText(this, "swipe left", Toast.LENGTH_LONG).show()
-        setNextSelectedDate()
-    }
-
-    override fun onScroll(e1: MotionEvent?, e2: MotionEvent?, distanceX: Float, distanceY: Float): Boolean {
-        return false
-    }
-
-    override fun onLongPress(e: MotionEvent?) {
-    }
-
-    override fun onShowPress(e: MotionEvent?) {
-    }
 
     var toolbar: Toolbar? = null
     private var appBarLayout: AppBarLayout? = null
@@ -93,17 +37,8 @@ class HomeActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
     private var compactCalendarView: CompactCalendarView? = null
     private var isExpanded = false
 
-
-
-
-
-
-
-
-
-    lateinit private var expandableListView: ExpandableListView
-    lateinit private var expandableListViewAdapter: HomeExpandibleListAdapter
-    var dietaPreDefArr = HashMap<String,List<String>>()
+    private lateinit var expandableListView: ExpandableListView
+    private lateinit var expandableListViewAdapter: HomeExpandibleListAdapter
     var latestExpandedPosition: Int = -1
 
     override fun onResume() {
@@ -172,18 +107,65 @@ class HomeActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
 
     }
 
+    fun buttonPressed(view: View) {
+        val intent = Intent(this, DietActivity::class.java)
+        startActivity(intent)
+    }
+
+    override fun setTitle(title: CharSequence) {
+        val tvTitle = findViewById<TextView>(R.id.title)
+
+        if (tvTitle != null) {
+            tvTitle.text = title
+        }
+    }
+
+    private fun init(){
+
+        val currentDate = LocalDateTime.now().toLocalDate()
+        val formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd")
+        val formatted = currentDate.format(formatter)
+        getDietaByDate(formatted)
+
+    }
+
+    private fun aplicoLoader(activo: Boolean = true){
+        if(activo){
+            this.expandableListView.visibility = View.GONE
+            this.progressBarHome.visibility = View.VISIBLE
+        }else{
+            this.expandableListView.visibility = View.VISIBLE
+            this.progressBarHome.visibility = View.GONE
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.manu_home, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId){
+            R.id.chat ->{
+                val intent = Intent(this, MessagesActivity::class.java)
+                startActivity(intent)
+            }
+            R.id.peso ->{
+                val intent = Intent(this, WeightActivity::class.java)
+                startActivity(intent)
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    //region Date Selection
+
     private fun getNewDate(dateClicked: Date) {
         aplicoLoader()
         val formatted = dateFormat.format(dateClicked)
         setSubtitle(formatted)
         getDietaByDate(formatted)
     }
-
-    fun buttonPressed(view: View) {
-        val intent = Intent(this, DietActivity::class.java)
-        startActivity(intent)
-    }
-
 
     private fun setCurrentDate(date: Date) {
         setSubtitle(dateFormat.format(date))
@@ -197,36 +179,6 @@ class HomeActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
 
         if (datePickerTextView != null) {
             datePickerTextView.text = subtitle
-        }
-    }
-
-    override fun setTitle(title: CharSequence) {
-        val tvTitle = findViewById<TextView>(R.id.title)
-
-        if (tvTitle != null) {
-            tvTitle.text = title
-        }
-    }
-
-
-    private fun init(){
-
-        val currentDate = LocalDateTime.now().toLocalDate()
-        val formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd")
-        val formatted = currentDate.format(formatter)
-        getDietaByDate(formatted)
-
-    }
-
-    private fun init(){
-
-    private fun aplicoLoader(activo: Boolean = true){
-        if(activo){
-            this.expandableListView.visibility = View.GONE
-            this.progressBarHome.visibility = View.VISIBLE
-        }else{
-            this.expandableListView.visibility = View.VISIBLE
-            this.progressBarHome.visibility = View.GONE
         }
     }
 
@@ -274,26 +226,6 @@ class HomeActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
 
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.manu_home, menu)
-        return super.onCreateOptionsMenu(menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item?.itemId){
-            R.id.chat ->{
-                val intent = Intent(this, MessagesActivity::class.java)
-                startActivity(intent)
-            }
-            R.id.peso ->{
-                val intent = Intent(this, WeightActivity::class.java)
-                startActivity(intent)
-            }
-        }
-        return super.onOptionsItemSelected(item)
-    }
-
-
     fun getSelectedDate() : LocalDate {
         val datePickerTextView = findViewById<TextView>(R.id.date_picker_text_view)
         val string = datePickerTextView.text.toString()
@@ -330,4 +262,60 @@ class HomeActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
         return formatted
     }
 
+    //endregion
+
+    //region Gesture Listener
+    override fun onSingleTapUp(e: MotionEvent?): Boolean {
+        return false
+    }
+
+    override fun onDown(e: MotionEvent?): Boolean {
+        return false
+    }
+
+    override fun onFling(e1: MotionEvent?, e2: MotionEvent?, velocityX: Float, velocityY: Float): Boolean {
+        var result = false
+        try {
+            val diffY = (e2?.y ?: 0.0.toFloat()) - (e1?.y ?: 0.0.toFloat())
+            val diffX = (e2?.x ?: 0.0.toFloat()) - (e1?.x ?: 0.0.toFloat())
+            if (Math.abs(diffX) > Math.abs(diffY)) {
+                if (Math.abs(diffX) > SWIPE_THRESHOLD && Math.abs(velocityX) > SWIPE_VELOCITY_THRESHOLD) {
+                    if (diffX > 0) {
+                        onSwipeRight()
+                    } else {
+                        onSwipeLeft()
+                    }
+                    result = true
+                }
+            }
+        } catch (exception: Exception) {
+            exception.printStackTrace()
+        }
+
+        return result
+    }
+
+    override fun onTouchEvent(event: MotionEvent?): Boolean {
+        gestureDetector?.onTouchEvent(event)
+        return super.onTouchEvent(event)
+    }
+
+    fun onSwipeRight() {
+        setPreviousSelectedDate()
+    }
+
+    fun onSwipeLeft() {
+        setNextSelectedDate()
+    }
+
+    override fun onScroll(e1: MotionEvent?, e2: MotionEvent?, distanceX: Float, distanceY: Float): Boolean {
+        return false
+    }
+
+    override fun onLongPress(e: MotionEvent?) {
+    }
+
+    override fun onShowPress(e: MotionEvent?) {
+    }
+    //endregion
 }
