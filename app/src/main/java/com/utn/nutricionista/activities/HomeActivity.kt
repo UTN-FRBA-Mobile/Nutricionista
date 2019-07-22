@@ -9,8 +9,8 @@ import android.widget.*
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.ViewCompat
 import com.github.sundeepk.compactcalendarview.CompactCalendarView
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import com.google.android.material.appbar.AppBarLayout
 import com.utn.nutricionista.*
 import com.utn.nutricionista.Messages.MessagesActivity
@@ -74,6 +74,31 @@ class HomeActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
         setSupportActionBar(toolbar)
 
         appBarLayout = findViewById(R.id.app_bar_layout)
+
+        setUpCalendar()
+
+        // Set Animations
+        setUpAnimations()
+
+        // Set current date to today
+        setCurrentDate(Date())
+
+        val arrow = findViewById<ImageView>(R.id.date_picker_arrow)
+
+        val datePickerButton = findViewById<RelativeLayout>(R.id.date_picker_button)
+
+        datePickerButton.setOnClickListener { v ->
+            val rotation = (if (isExpanded) 0 else 180).toFloat()
+            ViewCompat.animate(arrow).rotation(rotation).start()
+
+            isExpanded = !isExpanded
+            appBarLayout!!.setExpanded(isExpanded, true)
+        }
+    init()
+
+    }
+
+    private fun setUpCalendar() {
         // Set up the CompactCalendarView
         compactCalendarView = findViewById(R.id.compactcalendar_view)
         //compactCalendarView!!.setCalendarBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary))
@@ -94,8 +119,9 @@ class HomeActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
                 setSubtitle(dateFormat.format(firstDayOfNewMonth))
             }
         })
+    }
 
-        // Set Animations
+    private fun setUpAnimations() {
         mAnimator = findViewById(R.id.home_recycler_view)
         mLeftAnim = AnimationUtils.loadAnimation(this, R.anim.slide_in_left)
         mRightAnim = AnimationUtils.loadAnimation(this, R.anim.slide_in_right)
@@ -119,24 +145,6 @@ class HomeActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
 
             override fun onAnimationRepeat(animation: Animation) { }
         })
-
-
-        // Set current date to today
-        setCurrentDate(Date())
-
-        val arrow = findViewById<ImageView>(R.id.date_picker_arrow)
-
-        val datePickerButton = findViewById<RelativeLayout>(R.id.date_picker_button)
-
-        datePickerButton.setOnClickListener { v ->
-            val rotation = (if (isExpanded) 0 else 180).toFloat()
-            ViewCompat.animate(arrow).rotation(rotation).start()
-
-            isExpanded = !isExpanded
-            appBarLayout!!.setExpanded(isExpanded, true)
-        }
-    init()
-
     }
 
     fun buttonPressed(view: View) {
