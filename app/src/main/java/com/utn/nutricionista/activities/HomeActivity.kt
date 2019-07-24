@@ -344,11 +344,37 @@ class HomeActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
     fun onSwipeLeft() {
         mAnimator!!.startAnimation(mLeftAnim)
         setPreviousSelectedDate()
+        mLeftAnim!!.setAnimationListener(object : Animation.AnimationListener {
+            override fun onAnimationStart(p0: Animation?) {
+//                not implemented
+            }
+
+            override fun onAnimationRepeat(p0: Animation?) {
+//                not implemented
+            }
+
+            override fun onAnimationEnd(p0: Animation?) {
+                aplicoLoader()
+            }
+        })
     }
 
     fun onSwipeRight() {
         mAnimator!!.startAnimation(mRightAnim)
         setNextSelectedDate()
+        mRightAnim!!.setAnimationListener(object : Animation.AnimationListener {
+            override fun onAnimationStart(p0: Animation?) {
+//                not implemented
+            }
+
+            override fun onAnimationRepeat(p0: Animation?) {
+//                not implemented
+            }
+
+            override fun onAnimationEnd(p0: Animation?) {
+                aplicoLoader()
+            }
+        })
     }
 
     override fun onScroll(e1: MotionEvent?, e2: MotionEvent?, distanceX: Float, distanceY: Float): Boolean {
