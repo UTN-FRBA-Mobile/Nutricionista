@@ -1,5 +1,6 @@
 package com.utn.nutricionista.adapters
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,12 +8,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.utn.nutricionista.R
 import com.utn.nutricionista.models.Weight
 import kotlinx.android.synthetic.main.item_weight_row.view.*
-import android.content.DialogInterface
 import androidx.appcompat.app.AlertDialog
 import com.utn.nutricionista.activities.WeightActivity
 
 
-class WeightDataAdapter(private val myDataset: MutableList<Weight>) :
+class WeightDataAdapter(private val myDataset: MutableList<Weight>, private val context : Context) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val TYPE_HEADER = 0

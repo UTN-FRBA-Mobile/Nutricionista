@@ -1,7 +1,8 @@
 package com.utn.nutricionista
 
-import android.util.Log
 import com.github.kittinunf.fuel.Fuel
+import com.github.kittinunf.fuel.core.Parameters
+import com.github.kittinunf.fuel.core.Request
 import com.github.kittinunf.fuel.core.extensions.authentication
 import com.github.kittinunf.fuel.gson.jsonBody
 import com.github.kittinunf.fuel.gson.responseObject
@@ -11,6 +12,7 @@ import com.utn.nutricionista.models.Diet
 import com.utn.nutricionista.models.Message
 import com.utn.nutricionista.models.User
 import com.utn.nutricionista.models.Weight
+import java.util.*
 import java.util.concurrent.Callable
 import java.util.concurrent.Executors
 
@@ -39,19 +41,7 @@ object ApiClient {
 
     inline fun <reified T : Any> get(path: String, queryParams: Parameters? = null): Task<T> = authenticatedRequest(Fuel::get, path, queryParams = queryParams)
 
-    inline fun delete(path: String, id : String) {
-        withIdToken {
-            Log.d("SUCCESS", it)
-            Fuel.delete(url(path))
-                .authentication()
-                .bearer(it)
-                .parameters = List<Pair<String,Any?>>(1) { Pair("id", id) }
-        }
-    }
-
-    fun getUser(): Task<User> {
-        return get("/user")
-    }
+    inline fun <reified T : Any> post(path: String, payload: T, queryParams: Parameters? = null): Task<T> = authenticatedRequest(Fuel::post, path, payload, queryParams)
 
     inline fun <reified T : Any> put(path: String, payload: T, queryParams: Parameters? = null): Task<T> = authenticatedRequest(Fuel::put, path, payload, queryParams)
 
@@ -62,21 +52,27 @@ object ApiClient {
 
     fun getDiets(): Task<List<Diet>> = get("/diet")
 
-    fun getDietsByDate(date: String): Task<List<Diet>> = get("/diet", listOf(Pair("date", date)))
+    fun getDietsByDate(date: String): Task<List<Diet>> = get("/diet", listOf(Pair("fecha", date)))
 
-    fun getWeights(): Task<Weight> {
-        return get("/weight")
+    fun postDiet(diet: Diet): Task<Diet> = post("/diet", diet)
+
+    fun putDieta(payload: Diet): Task<Diet> = put("/diet/${payload.id}", payload)
+
+    fun postMessage(message: Message): Task<Message> {
+        return post("/message", message)
     }
 
-    fun getWeight(id: String): Task<Weight> {
-        return get("/weight/$id")
+    fun getMessages(): Task<List<Message>> {
+        return get("/message")
     }
 
-    fun postWeight(payload: Weight): Task<Weight> {
-        return post("/weight", payload)
-    }
+    fun getWeights(): Task<List<Weight>>  = get("/weight")
 
-    fun deleteWeight(id: String) {
-        delete("/weight/delete", id)
-    }
+    fun getWeight(id: String): Task<Weight> = get("/weight/$id")
+
+    fun postWeight(payload: Weight): Task<Weight> = post("/weight", payload)
+
+    fun putWeight(payload: Weight): Task<Weight> = put("/weight/${payload.id}", payload)
+
+    fun deleteWeight(id: String): Task<Weight> = delete("/weight/$id")
 }

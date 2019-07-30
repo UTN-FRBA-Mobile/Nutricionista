@@ -33,7 +33,8 @@ class HomeActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
     var toolbar: Toolbar? = null
     private var appBarLayout: AppBarLayout? = null
 
-    private val dateFormat = SimpleDateFormat("d MMMM yyyy", /*Locale.getDefault()*/Locale.ENGLISH)
+    //private val dateFormat = SimpleDateFormat("d MMMM yyyy", /*Locale.getDefault()*/Locale.ENGLISH)
+    private val dateFormat = SimpleDateFormat("yyyy/MM/dd", /*Locale.getDefault()*/Locale.ENGLISH)
     private var compactCalendarView: CompactCalendarView? = null
     private var isExpanded = false
 

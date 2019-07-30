@@ -1,6 +1,11 @@
 package com.utn.nutricionista.models
 
-data class Diet(val uid: String? = null,
+import android.os.Parcel
+import android.os.Parcelable
+
+data class Diet(
+                val id: String,
+                val uid: String? = null,
                 val fecha: String,
                 var momentos : List<MomentoComida>? = null
 ): Parcelable {

@@ -2,7 +2,6 @@ package com.utn.nutricionista.activities
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.utn.nutricionista.R
@@ -20,12 +19,6 @@ class MainActivity : AppCompatActivity() {
             finish()
             return
         }
-
-     /*   ApiClient.postDiet(Diet(fecha = "10/13")).addOnSuccessListener {
-            Log.d("SUCCESS", "SWEET, SWEET SUCCESS!")
-        }.addOnFailureListener { e ->
-            Log.d("FAILURE", "GASP! SOMETHING WENT WRONG: ${e.message}")
-        }*/
 
     }
 

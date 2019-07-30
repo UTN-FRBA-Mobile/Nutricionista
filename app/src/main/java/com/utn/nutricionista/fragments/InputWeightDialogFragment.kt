@@ -7,6 +7,7 @@ import androidx.appcompat.app.AlertDialog
 import android.widget.DatePicker
 import android.app.DatePickerDialog
 import android.icu.util.Calendar
+import android.widget.Button
 import android.widget.EditText
 import com.utn.nutricionista.R
 import com.utn.nutricionista.activities.WeightActivity
@@ -23,6 +24,7 @@ class InputWeightDialogFragment : DialogFragment(), DatePickerDialog.OnDateSetLi
             val builder = AlertDialog.Builder(it)
             val view = activity!!.layoutInflater.inflate(R.layout.fragment_input_weight_dialog,null,false)
             builder.setView(view)
+                .setTitle("Nuevo registro")
 
             weight = view.findViewById(R.id.input_weight_value) as EditText
             date = view.findViewById(R.id.input_weight_date) as EditText

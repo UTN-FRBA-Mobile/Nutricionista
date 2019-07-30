@@ -1,4 +1,5 @@
 package com.utn.nutricionista.models
+import java.time.LocalDate
 
 class Weight(var id:  String?,
              var uid : String? = null,
